@@ -21,5 +21,5 @@ public:
 
 	void update(Vector2i mousePos);
 	void draw(RenderWindow& window);
-	const bool isPressed();
+	bool checkForClick();
 };

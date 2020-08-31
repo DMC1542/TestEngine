@@ -1,2 +1,43 @@
-﻿  MenuState.cpp
+﻿  Button.cpp
+C:\Users\crisc\Desktop\CodeProjects\GameEngine\Button.cpp(6,32): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\crisc\Desktop\CodeProjects\GameEngine\Button.cpp(6,29): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\crisc\Desktop\CodeProjects\GameEngine\Button.cpp(7,32): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\crisc\Desktop\CodeProjects\GameEngine\Button.cpp(7,25): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\crisc\Desktop\CodeProjects\GameEngine\Button.cpp(46,68): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\crisc\Desktop\CodeProjects\GameEngine\Button.cpp(46,56): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+          and
+          [
+              T=float
+          ]
+  MenuState.cpp
+  main.cpp
+  Generating Code...
   GameEngine.vcxproj -> C:\Users\crisc\Desktop\CodeProjects\GameEngine\Debug\GameEngine.exe

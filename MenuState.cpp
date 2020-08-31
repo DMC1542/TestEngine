@@ -43,10 +43,12 @@ void MenuState::handleInput()
 		}
 		else if (event.type == Event::MouseButtonReleased)
 		{
-			std::cout << startButton->isPressed() << std::endl;
-			if (startButton->isPressed())
+			//We have a mouse click. Let's see if that triggers our buttons
+			updateMousePositions();
+
+			if (startButton->checkForClick())
 			{
-				//start. testing it by popping state tho
+				std::cout << "Start Button Pressed"<< std::endl;
 				game->popState();
 				break;
 			}

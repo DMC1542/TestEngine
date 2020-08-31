@@ -3,7 +3,6 @@
 
 Button::Button(int x, int y, int width, int height, std::string text)
 {
-	
 	shape.setPosition(Vector2f(x, y));
 	shape.setSize(Vector2f(width, height));
 	shape.setFillColor(idleColor);
@@ -91,9 +90,14 @@ void Button::draw(RenderWindow& window)
 	window.draw(text);
 }
 
-bool const Button::isPressed()
+bool Button::checkForClick()
 {
-	if (buttonState == BTN_PRESSED)
+	/*
+	This is called when left mouse click is released by a gamestate.
+	It will check if the button is currently being pressed. If so, 
+	return true and signify that there is an action to be executed.
+	*/
+	if(buttonState == BTN_PRESSED)
 	{
 		return true;
 	}
