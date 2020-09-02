@@ -11,7 +11,7 @@ public:
 	Sprite sprite;
 	Texture texture;
 	Button* startButton;
-	Vector2i mousePosWindow, mousePosScreen;
+	Button* optionsButton;
 
 	MenuState(Game* g);
 	~MenuState();

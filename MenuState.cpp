@@ -1,4 +1,5 @@
 #include "MenuState.h"
+#include "OptionsState.h"
 #include <iostream>
 
 using namespace sf;
@@ -12,11 +13,13 @@ MenuState::MenuState(Game* g)
 	sprite.setTexture(texture);
 
 	startButton = new Button(500, 500, 250, 100, "Testing text");
+	optionsButton = new Button(1000, 500, 250, 100, "Options Menu");
 }
 
 MenuState::~MenuState()
 {
 	delete &startButton;
+	delete &optionsButton;
 }
 
 void MenuState::handleInput()
@@ -48,8 +51,25 @@ void MenuState::handleInput()
 
 			if (startButton->checkForClick())
 			{
-				std::cout << "Start Button Pressed"<< std::endl;
+				//This is where I will code the button behavior.
+
+				std::cout << "Start Button Pressed" << std::endl;
+				std::cout << "Pretending to start the game." << std::endl;
+
 				game->popState();
+				//game->pushState(new GameState(&game));
+
+				break;
+			}
+			if (optionsButton->checkForClick())
+			{
+				//optionsButton selected. Loading options menu
+
+				std::cout << "Options Button Pressed" << std::endl;
+				std::cout << "Pretending to load options menu." << std::endl;
+
+				game->pushState(new OptionsState(game));
+
 				break;
 			}
 		}
@@ -60,6 +80,7 @@ void MenuState::draw()
 {
 	game->window.draw(sprite);
 	startButton->draw(game->window);
+	optionsButton->draw(game->window);
 }
 
 void MenuState::update()
@@ -67,6 +88,7 @@ void MenuState::update()
 	updateMousePositions();
 
 	startButton->update(mousePosWindow);
+	optionsButton->update(mousePosWindow);
 }
 
 void MenuState::updateMousePositions()
