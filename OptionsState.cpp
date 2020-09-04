@@ -14,6 +14,7 @@ OptionsState::OptionsState(Game* g)
 
 	mapSizeXField.location = Vector2f(500, 100);
 
+	focusedTextElement = &mapSizeXField;
 	textFocused = false;
 }
 
@@ -36,6 +37,9 @@ void OptionsState::handleInput()
 			//While we're at it, unless other set, presume text is not highlighted.
 			textFocused = false;
 
+			//In case there was a previously selected field, reset color
+			focusedTextElement->text.setFillColor(Color::White);
+
 			if (exitButton->checkForClick())
 			{
 				//This is where I will code the button behavior.
@@ -48,9 +52,11 @@ void OptionsState::handleInput()
 			}
 			else if (mapSizeXField.checkForClick(mousePosWindow))
 			{
-				std::cout << "Triggered text element" << std::endl;
 				textFocused = true;
 				focusedTextElement = &mapSizeXField;
+
+				//Set the color to blue to indicate focus.
+				focusedTextElement->text.setFillColor(Color::Blue);
 			}
 		}
 		//else if (event.type == Event::KeyPressed && event.key.code != Keyboard::BackSpace) 
@@ -63,6 +69,9 @@ void OptionsState::handleInput()
 				{
 					//Escape key.
 					textFocused = false;
+
+					//Reset color
+					focusedTextElement->text.setFillColor(Color::White);
 				}
 				else if (event.text.unicode == 8)
 				{
