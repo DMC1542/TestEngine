@@ -16,6 +16,9 @@
     <ClCompile Include="OptionsState.cpp">
       <Filter>Cpps</Filter>
     </ClCompile>
+    <ClCompile Include="TextElement.cpp">
+      <Filter>Cpps</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
@@ -42,6 +45,9 @@
       <Filter>Resources</Filter>
     </ClInclude>
     <ClInclude Include="OptionsState.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="TextElement.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>

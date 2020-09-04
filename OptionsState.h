@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include "GameState.h"
 #include "Button.h"
+#include "TextElement.h"
 
 using namespace sf;
 
@@ -12,6 +13,10 @@ public:
 	Texture backgroundTexture;
 	Sprite backgroundSprite;
 	Button* exitButton;
+	TextElement mapSizeXField;
+	TextElement* focusedTextElement;
+
+	bool textFocused;
 
 	OptionsState(Game* g);
 	~OptionsState();
