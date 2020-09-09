@@ -63,11 +63,12 @@ void OptionsState::handleInput()
 		
 		else if (event.type == sf::Event::TextEntered)
 		{
+			std::cout << "Key unicode: " << event.text.unicode << std::endl;
 			if (textFocused)
 			{
-				if (event.text.unicode == 7)
+				if (event.text.unicode == 27 || event.text.unicode == 13)
 				{
-					//Escape key.
+					//Escape key or Enter key pressed.
 					textFocused = false;
 
 					//Reset color
