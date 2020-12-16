@@ -14,10 +14,10 @@ public:
 	void draw(RenderWindow& window);
 	void setCharCap(int num);
 	void setFocused(bool focused);
-	void setPrefix(String text);
+	void setPrefix(std::string text);
 	void setLocation(Vector2f loc);
 	void setIntLock(bool lock);
-	String getText();
+	std::string getText();
 
 private: 
 	Font font;

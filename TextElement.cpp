@@ -65,8 +65,10 @@ void TextElement::removeLetter()
 {
 	//A backwards way of setting the string to itself minus one character,
 	//or its length - 1
-	if (textBody.getString().getSize() > 0)
-		textBody.setString(textBody.getString().substring(0, textBody.getString().getSize() - 1));
+	String string = textBody.getString();
+
+	if (string.getSize() > 0)
+		textBody.setString(string.substring(0, string.getSize() - 1));
 }
 
 void TextElement::update()
@@ -75,13 +77,9 @@ void TextElement::update()
 	rect.setSize(sf::Vector2f(textBody.getGlobalBounds().width, 40));
 
 	if (isFocused)
-	{
 		textBody.setFillColor(Color::Blue);
-	}
 	else
-	{
 		textBody.setFillColor(Color::White);
-	}
 }
 
 void TextElement::draw(RenderWindow& window)
@@ -102,9 +100,10 @@ void TextElement::setFocused(bool focused)
 	isFocused = focused;
 }
 
-void TextElement::setPrefix(String text)
+void TextElement::setPrefix(std::string text)
 {
 	textPrefix.setString(text);
+	rect.setPosition(location.x + textPrefix.getGlobalBounds().width, location.y);
 }
 
 void TextElement::setLocation(Vector2f loc)
@@ -121,7 +120,7 @@ void TextElement::setIntLock(bool lock)
 	intLock = lock;
 }
 
-String TextElement::getText()
+std::string TextElement::getText()
 {
 	return textBody.getString();
 }

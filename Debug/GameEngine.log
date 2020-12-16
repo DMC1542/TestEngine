@@ -1,6 +1,4 @@
-﻿  MenuState.cpp
-  OptionsState.cpp
-  TextElement.cpp
+﻿  TextElement.cpp
 C:\Users\crisc\Desktop\CodeProjects\GameEngine\TextElement.cpp(34,71): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
           with
           [
@@ -38,5 +36,4 @@ C:\Users\crisc\Desktop\CodeProjects\GameEngine\TextElement.cpp(35,58): warning C
               T=float
           ]
 C:\Users\crisc\Desktop\CodeProjects\GameEngine\TextElement.cpp(49,15): warning C4018: '<=': signed/unsigned mismatch
-  Generating Code...
   GameEngine.vcxproj -> C:\Users\crisc\Desktop\CodeProjects\GameEngine\Debug\GameEngine.exe

@@ -15,6 +15,7 @@ public:
 	Button* exitButton;
 	TextElement mapSizeXField;
 	TextElement* focusedTextElement;
+	std::map<std::string, TextElement*> elementMap;
 
 	bool textFocused;
 
@@ -25,9 +26,7 @@ public:
 	void handleInput();
 	void update();
 
-	void updateMousePositions();
-	void setupTextElements();
-
 private:
-	void initializeElements();
+	void setupTextElements();
+	void updateMousePositions();
 };

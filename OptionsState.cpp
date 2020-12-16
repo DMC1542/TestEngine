@@ -14,12 +14,18 @@ OptionsState::OptionsState(Game* g)
 
 	setupTextElements();
 
-	focusedTextElement = &mapSizeXField;
+	focusedTextElement = elementMap["mapSizeX"];
 	textFocused = false;
 }
 
 OptionsState::~OptionsState()
 {
+	std::map<std::string, TextElement*>::iterator it;
+	for (it = elementMap.begin(); it != elementMap.end(); it++)
+	{
+		delete it->second;
+	}
+
 	delete &exitButton;
 }
 
@@ -50,17 +56,20 @@ void OptionsState::handleInput()
 				game->popState();
 				break;
 			}
-			else if (mapSizeXField.checkForClick(mousePosWindow))
-			{
-				textFocused = true;
-				focusedTextElement = &mapSizeXField;
-
-				//Set the color to blue to indicate focus.
-				focusedTextElement->setFocused(true);
-			}
-		}
-		//else if (event.type == Event::KeyPressed && event.key.code != Keyboard::BackSpace) 
 		
+			std::map<std::string, TextElement*>::iterator it;
+			for (it = elementMap.begin(); it != elementMap.end(); it++)
+			{
+				if (it->second->checkForClick(mousePosWindow))
+				{
+					textFocused = true;
+					focusedTextElement = it->second;
+
+					//Set the color to blue to indicate focus.
+					focusedTextElement->setFocused(true);
+				}
+			}
+		}		
 		else if (event.type == sf::Event::TextEntered)
 		{
 			std::cout << "Key unicode: " << event.text.unicode << std::endl;
@@ -90,7 +99,14 @@ void OptionsState::update()
 {
 	updateMousePositions();
 	exitButton->update(mousePosWindow);
+
 	mapSizeXField.update();
+
+	std::map<std::string, TextElement*>::iterator it;
+	for (it = elementMap.begin(); it != elementMap.end(); it++)
+	{
+		it->second->update();
+	}
 }
 
 void OptionsState::draw()
@@ -99,7 +115,11 @@ void OptionsState::draw()
 	exitButton->draw(game->window);
 
 	//Drawing Textfields
-	mapSizeXField.draw(game->window);
+	std::map<std::string, TextElement*>::iterator it;
+	for (it = elementMap.begin(); it != elementMap.end(); it++)
+	{
+		it->second->draw(game->window);
+	}
 }
 
 void OptionsState::updateMousePositions()
@@ -110,7 +130,13 @@ void OptionsState::updateMousePositions()
 
 void OptionsState::setupTextElements()
 {
-	//Do all text field instantiation here.
-	mapSizeXField.setCharCap(5);
-	mapSizeXField.setIntLock(true);
+	// Do all text field instantiation here.
+	elementMap["mapSizeX"] = new TextElement();
+	elementMap["mapSizeY"] = new TextElement();
+
+	elementMap["mapSizeY"]->setLocation(Vector2f(200, 200));
+	elementMap["mapSizeY"]->setCharCap(5);
+	elementMap["mapSizeY"]->setIntLock(true);
+	elementMap["mapSizeY"]->setPrefix("Map Size Y: ");
+
 }
