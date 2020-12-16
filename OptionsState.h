@@ -26,4 +26,8 @@ public:
 	void update();
 
 	void updateMousePositions();
+	void setupTextElements();
+
+private:
+	void initializeElements();
 };

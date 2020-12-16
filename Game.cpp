@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "GameState.h"
+#include "SettingsHandler.h"
 #include <iostream>
 
 using namespace sf;
@@ -8,7 +9,13 @@ Game::Game()
 {
 	//Eventually will instantiate to the resolution specified in a config file
 	//Figure out how to do fullscreen windowed / borderless fullscreen
-	window.create(VideoMode(1920, 1080), "Game", Style::Fullscreen);
+	SettingsHandler sHandler;
+	sHandler.getSettings();
+	int resX = sHandler.settings["resX"];
+	int resY = sHandler.settings["resY"];
+
+	auto fullscreen = sHandler.settings["fullscreen"] == 1 ? Style::Fullscreen : Style::Default;
+	window.create(VideoMode(resX, resY), "Game", fullscreen);
 }
 
 Game::~Game()

@@ -9,10 +9,10 @@ OptionsState::OptionsState(Game* g)
 
 	backgroundTexture.loadFromFile("graphics/OptionsMenu/naturePixelated.png");
 	backgroundSprite.setTexture(backgroundTexture);
-
+	
 	exitButton = new Button(1200, 500, 250, 100, "Exit");
 
-	mapSizeXField.location = Vector2f(500, 100);
+	setupTextElements();
 
 	focusedTextElement = &mapSizeXField;
 	textFocused = false;
@@ -38,7 +38,7 @@ void OptionsState::handleInput()
 			textFocused = false;
 
 			//In case there was a previously selected field, reset color
-			focusedTextElement->text.setFillColor(Color::White);
+			focusedTextElement->setFocused(false);
 
 			if (exitButton->checkForClick())
 			{
@@ -56,7 +56,7 @@ void OptionsState::handleInput()
 				focusedTextElement = &mapSizeXField;
 
 				//Set the color to blue to indicate focus.
-				focusedTextElement->text.setFillColor(Color::Blue);
+				focusedTextElement->setFocused(true);
 			}
 		}
 		//else if (event.type == Event::KeyPressed && event.key.code != Keyboard::BackSpace) 
@@ -70,9 +70,7 @@ void OptionsState::handleInput()
 				{
 					//Escape key or Enter key pressed.
 					textFocused = false;
-
-					//Reset color
-					focusedTextElement->text.setFillColor(Color::White);
+					focusedTextElement->setFocused(false);
 				}
 				else if (event.text.unicode == 8)
 				{
@@ -101,11 +99,18 @@ void OptionsState::draw()
 	exitButton->draw(game->window);
 
 	//Drawing Textfields
-	game->window.draw(mapSizeXField.text);
+	mapSizeXField.draw(game->window);
 }
 
 void OptionsState::updateMousePositions()
 {
 	mousePosWindow = Mouse::getPosition(game->window);
 	mousePosWindow = Mouse::getPosition();
+}
+
+void OptionsState::setupTextElements()
+{
+	//Do all text field instantiation here.
+	mapSizeXField.setCharCap(5);
+	mapSizeXField.setIntLock(true);
 }

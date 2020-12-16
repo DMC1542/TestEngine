@@ -1,19 +1,29 @@
 #pragma once
-#include <SFML/Graphics/Text.hpp>
-#include <SFML/Graphics/Font.hpp>
+#include <SFML/Graphics.hpp>
 
 using namespace sf;
 
 class TextElement
 {
 public:
-	Font font;
-	Text text;
-	Vector2f location;
-
 	TextElement();
 	bool checkForClick(Vector2i mousePos);
 	void addLetter(Uint32 unicodeValue);
 	void removeLetter();
 	void update();
+	void draw(RenderWindow& window);
+	void setCharCap(int num);
+	void setFocused(bool focused);
+	void setPrefix(String text);
+	void setLocation(Vector2f loc);
+	void setIntLock(bool lock);
+	String getText();
+
+private: 
+	Font font;
+	Text textPrefix, textBody;
+	Vector2f location;
+	RectangleShape rect;
+	int charCap;
+	bool isFocused, intLock;
 };
