@@ -7,6 +7,12 @@ TextElement::TextElement()
 	// Set default location
 	location = Vector2f(0, 0);
 
+	// Set default char cap
+	charCap = 15;
+
+	// Set default background
+	displayBackground = false;
+
 	// set default flags
 	isFocused = false;
 	intLock = false;
@@ -21,12 +27,14 @@ TextElement::TextElement()
 	textBody.setString("Empty.");
 	textBody.setPosition(location.x + textPrefix.getGlobalBounds().width, location.y);
 
-	rect.setFillColor(Color(0, 0, 0, 128));
-	rect.setPosition(location.x + textPrefix.getGlobalBounds().width, location.y);
-	rect.setSize(sf::Vector2f(textBody.getGlobalBounds().width, 40));
+	inputRect.setFillColor(Color(0, 0, 0, 128));
+	inputRect.setPosition(location.x + textPrefix.getGlobalBounds().width, location.y);
+	inputRect.setSize(sf::Vector2f(textBody.getGlobalBounds().width, 40));
 
-	// Set default char cap
-	charCap = 15;
+	backgroundRect.setFillColor(Color(0, 0, 0, 128));
+	backgroundRect.setPosition(location);
+	backgroundRect.setSize(sf::Vector2f(
+		textPrefix.getGlobalBounds().width + textBody.getGlobalBounds().width, 40));
 }
 
 bool TextElement::checkForClick(Vector2i mousePos)
@@ -74,7 +82,13 @@ void TextElement::removeLetter()
 void TextElement::update()
 {
 	textBody.setPosition(location.x + textPrefix.getGlobalBounds().width, location.y);
-	rect.setSize(sf::Vector2f(textBody.getGlobalBounds().width, 40));
+	
+	inputRect.setSize(sf::Vector2f(textBody.getGlobalBounds().width, 40));
+	inputRect.setPosition(location.x + textPrefix.getGlobalBounds().width, location.y);
+
+	backgroundRect.setSize(sf::Vector2f(
+		textPrefix.getGlobalBounds().width + textBody.getGlobalBounds().width, 40));
+	backgroundRect.setPosition(location);
 
 	if (isFocused)
 		textBody.setFillColor(Color::Blue);
@@ -84,8 +98,14 @@ void TextElement::update()
 
 void TextElement::draw(RenderWindow& window)
 {
-	if (isFocused)
-		window.draw(rect);
+	if (displayBackground)
+		window.draw(backgroundRect);
+	else
+	{
+		if (isFocused)
+			window.draw(inputRect);
+	}
+
 	window.draw(textPrefix);
 	window.draw(textBody);
 }
@@ -93,6 +113,11 @@ void TextElement::draw(RenderWindow& window)
 void TextElement::setCharCap(int num)
 {
 	charCap = num;
+	
+	if (charCap <= textBody.getString().getSize())
+	{
+		textBody.setString(textBody.getString().substring(0, 5));
+	}
 }
 
 void TextElement::setFocused(bool focused)
@@ -103,7 +128,7 @@ void TextElement::setFocused(bool focused)
 void TextElement::setPrefix(std::string text)
 {
 	textPrefix.setString(text);
-	rect.setPosition(location.x + textPrefix.getGlobalBounds().width, location.y);
+	inputRect.setPosition(location.x + textPrefix.getGlobalBounds().width, location.y);
 }
 
 void TextElement::setLocation(Vector2f loc)
@@ -111,13 +136,18 @@ void TextElement::setLocation(Vector2f loc)
 	location = loc;
 	textPrefix.setPosition(location);
 	textBody.setPosition(location.x + textPrefix.getGlobalBounds().width, location.y);
-	rect.setPosition(location.x + textPrefix.getGlobalBounds().width, location.y);
-	rect.setSize(Vector2f(textBody.getGlobalBounds().width, 40));
+	inputRect.setPosition(location.x + textPrefix.getGlobalBounds().width, location.y);
+	inputRect.setSize(Vector2f(textBody.getGlobalBounds().width, 40));
 }
 
 void TextElement::setIntLock(bool lock)
 {
 	intLock = lock;
+}
+
+void TextElement::toggleBackgroundDisplay()
+{
+	displayBackground = !displayBackground;
 }
 
 std::string TextElement::getText()

@@ -134,6 +134,12 @@ void OptionsState::setupTextElements()
 	elementMap["mapSizeX"] = new TextElement();
 	elementMap["mapSizeY"] = new TextElement();
 
+	elementMap["mapSizeX"]->setLocation(Vector2f(50, 0));
+	elementMap["mapSizeX"]->setCharCap(5);
+	elementMap["mapSizeX"]->setIntLock(true);
+	elementMap["mapSizeX"]->setPrefix("Map Size X: ");
+	elementMap["mapSizeX"]->toggleBackgroundDisplay();
+
 	elementMap["mapSizeY"]->setLocation(Vector2f(200, 200));
 	elementMap["mapSizeY"]->setCharCap(5);
 	elementMap["mapSizeY"]->setIntLock(true);

@@ -17,13 +17,14 @@ public:
 	void setPrefix(std::string text);
 	void setLocation(Vector2f loc);
 	void setIntLock(bool lock);
+	void toggleBackgroundDisplay();
 	std::string getText();
 
 private: 
 	Font font;
 	Text textPrefix, textBody;
 	Vector2f location;
-	RectangleShape rect;
+	RectangleShape inputRect, backgroundRect;
 	int charCap;
-	bool isFocused, intLock;
+	bool isFocused, intLock, displayBackground;
 };
