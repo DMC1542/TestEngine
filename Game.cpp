@@ -1,6 +1,5 @@
 #include "Game.h"
 #include "GameState.h"
-#include "SettingsHandler.h"
 #include <iostream>
 
 using namespace sf;
@@ -9,7 +8,6 @@ Game::Game()
 {
 	//Eventually will instantiate to the resolution specified in a config file
 	//Figure out how to do fullscreen windowed / borderless fullscreen
-	SettingsHandler sHandler;
 	sHandler.getSettings();
 	int resX = sHandler.settings["resX"];
 	int resY = sHandler.settings["resY"];
@@ -29,6 +27,9 @@ Game::~Game()
 //Game related functions
 void Game::run()
 {
+	Clock clock;
+	clock.restart();
+
 	while (window.isOpen())
 	{
 		currentState()->handleInput();
@@ -48,6 +49,10 @@ void Game::run()
 		currentState()->draw();
 
 		window.display();
+
+		Time time = clock.getElapsedTime();
+		//std::cout << "Game FPS: " << 1 / time.asSeconds() << std::endl;
+		clock.restart();
 	}
 }
 

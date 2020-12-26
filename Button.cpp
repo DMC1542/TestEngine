@@ -6,17 +6,6 @@ Button::Button(int x, int y, int width, int height, std::string text)
 	shape.setPosition(Vector2f(x, y));
 	shape.setSize(Vector2f(width, height));
 	shape.setFillColor(idleColor);
-	
-	/*
-	buttonFaceSprite.setPosition(Vector2f(x, y));
-	buttonPressedSprite.setPosition(Vector2f(x, y));
-	
-	buttonFaceTexture.loadFromFile("graphics/MainMenu/TestButtonFace.png");
-	buttonPressedTexture.loadFromFile("graphics/MainMenu/TestButtonPressed.png");
-
-	buttonFaceSprite.setTexture(buttonFaceTexture);
-	buttonPressedSprite.setTexture(buttonPressedTexture);
-	*/
 
 	font.loadFromFile("fonts/KOMIKAP_.ttf");
 
@@ -105,4 +94,9 @@ bool Button::checkForClick()
 	{
 		return false;
 	}
+}
+
+Vector2f Button::getLocation()
+{
+	return shape.getPosition();
 }

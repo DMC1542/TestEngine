@@ -6,7 +6,12 @@ using namespace sf;
 class TextElement
 {
 public:
-	TextElement();
+	TextElement(std::string prefix = "Value: ",
+		int charCap = 16,
+		bool intLock = false,
+		bool toggleBackground = true,
+		bool isEditable = true,
+		Vector2f location = Vector2f(0, 0));
 	bool checkForClick(Vector2i mousePos);
 	void addLetter(Uint32 unicodeValue);
 	void removeLetter();
@@ -18,6 +23,7 @@ public:
 	void setLocation(Vector2f loc);
 	void setIntLock(bool lock);
 	void toggleBackgroundDisplay();
+	void setBodyText(std::string bodyText);
 	std::string getText();
 
 private: 
@@ -26,5 +32,7 @@ private:
 	Vector2f location;
 	RectangleShape inputRect, backgroundRect;
 	int charCap;
-	bool isFocused, intLock, displayBackground;
+	bool isFocused, intLock, displayBackground, isEditable;
+
+	void removeNonIntegers();
 };

@@ -1,5 +1,6 @@
 #include "OptionsState.h"
 #include <iostream>
+#include <fstream>
 
 using namespace sf;
 
@@ -9,13 +10,21 @@ OptionsState::OptionsState(Game* g)
 
 	backgroundTexture.loadFromFile("graphics/OptionsMenu/naturePixelated.png");
 	backgroundSprite.setTexture(backgroundTexture);
-	
-	exitButton = new Button(1200, 500, 250, 100, "Exit");
+
+	font.loadFromFile("fonts/KOMIKAP_.ttf");
+
+	// Preparing locations for buttons
+	VideoMode mode = VideoMode::getDesktopMode();
+	Vector2f exitButtonLoc = Vector2f(mode.width - BUTTON_WIDTH, mode.height - BUTTON_HEIGHT);
+	Vector2f saveButtonLoc = Vector2f(mode.width - (BUTTON_WIDTH * 3), mode.height - BUTTON_HEIGHT);
+
+	// Set up buttons
+	exitButton = new Button(exitButtonLoc.x, exitButtonLoc.y, BUTTON_WIDTH, BUTTON_HEIGHT, "Exit");
+	saveButton = new Button(saveButtonLoc.x, saveButtonLoc.y, BUTTON_WIDTH, BUTTON_HEIGHT, "Save");
 
 	setupTextElements();
 
 	focusedTextElement = elementMap["mapSizeX"];
-	textFocused = false;
 }
 
 OptionsState::~OptionsState()
@@ -27,6 +36,7 @@ OptionsState::~OptionsState()
 	}
 
 	delete &exitButton;
+	delete &saveButton;
 }
 
 void OptionsState::handleInput()
@@ -55,6 +65,24 @@ void OptionsState::handleInput()
 
 				game->popState();
 				break;
+			}
+			else if (saveButton->checkForClick())
+			{
+				std::cout << "Saving current settings configuration." << std::endl;
+
+				std::ofstream outputFile;
+				outputFile.open("config.ini");
+
+				std::map<std::string, TextElement*>::iterator it;
+				for (it = elementMap.begin(); it != elementMap.end(); it++)
+				{
+					outputFile << it->first << ":" << it->second->getText() << std::endl;
+				}
+
+				outputFile.close();
+
+				saveSuccessful = true;
+				clock.restart();
 			}
 		
 			std::map<std::string, TextElement*>::iterator it;
@@ -99,8 +127,7 @@ void OptionsState::update()
 {
 	updateMousePositions();
 	exitButton->update(mousePosWindow);
-
-	mapSizeXField.update();
+	saveButton->update(mousePosWindow);
 
 	std::map<std::string, TextElement*>::iterator it;
 	for (it = elementMap.begin(); it != elementMap.end(); it++)
@@ -113,12 +140,27 @@ void OptionsState::draw()
 {
 	game->window.draw(backgroundSprite);
 	exitButton->draw(game->window);
+	saveButton->draw(game->window);
 
 	//Drawing Textfields
 	std::map<std::string, TextElement*>::iterator it;
 	for (it = elementMap.begin(); it != elementMap.end(); it++)
 	{
 		it->second->draw(game->window);
+	}
+
+	game->window.draw(mapLabel);
+	game->window.draw(gameLabel);
+
+	// Draw save successful if appropriate
+	if (saveSuccessful)
+	{
+		if (clock.getElapsedTime().asSeconds() <= 3)
+		{
+			game->window.draw(successfulSaveText);
+		}
+		else
+			saveSuccessful = false;
 	}
 }
 
@@ -130,19 +172,38 @@ void OptionsState::updateMousePositions()
 
 void OptionsState::setupTextElements()
 {
+	mapLabel.setFont(font);
+	mapLabel.setString("Map Settings");
+	mapLabel.setPosition(Vector2f(100, 50));
+	mapLabel.setFillColor(Color::Black);
+
+	gameLabel.setFont(font);
+	gameLabel.setString("Game Settings");
+	gameLabel.setPosition(Vector2f(500, 50));
+	gameLabel.setFillColor(Color::Black);
+
+	Vector2f loc = saveButton->getLocation();
+	successfulSaveText.setFont(font);
+	successfulSaveText.setString("Settings successfully saved.");
+	successfulSaveText.setPosition(Vector2f(loc.x, loc.y - 40));
+	successfulSaveText.setFillColor(Color::Green);
+
 	// Do all text field instantiation here.
-	elementMap["mapSizeX"] = new TextElement();
-	elementMap["mapSizeY"] = new TextElement();
+	elementMap["mapSizeX"] = new TextElement("Map Size X: ", 5, true);
+	elementMap["mapSizeY"] = new TextElement("Map Size Y: ", 5, true);
+	elementMap["resX"] = new TextElement("Resolution Width: ", 4, true);
+	elementMap["resY"] = new TextElement("Resolution Height: ", 4, true);
+	elementMap["fullscreen"] = new TextElement("Fullscreen: ", 1, true);
 
-	elementMap["mapSizeX"]->setLocation(Vector2f(50, 0));
-	elementMap["mapSizeX"]->setCharCap(5);
-	elementMap["mapSizeX"]->setIntLock(true);
-	elementMap["mapSizeX"]->setPrefix("Map Size X: ");
-	elementMap["mapSizeX"]->toggleBackgroundDisplay();
+	elementMap["mapSizeX"]->setLocation(Vector2f(0, 100));
+	elementMap["mapSizeY"]->setLocation(Vector2f(0, 150));
+	elementMap["resX"]->setLocation(Vector2f(450, 100));
+	elementMap["resY"]->setLocation(Vector2f(450, 150));
+	elementMap["fullscreen"]->setLocation(Vector2f(450, 200));
 
-	elementMap["mapSizeY"]->setLocation(Vector2f(200, 200));
-	elementMap["mapSizeY"]->setCharCap(5);
-	elementMap["mapSizeY"]->setIntLock(true);
-	elementMap["mapSizeY"]->setPrefix("Map Size Y: ");
-
+	elementMap["mapSizeX"]->setBodyText(std::to_string(game->sHandler.settings["mapSizeX"]));
+	elementMap["mapSizeY"]->setBodyText(std::to_string(game->sHandler.settings["mapSizeY"]));
+	elementMap["resX"]->setBodyText(std::to_string(game->sHandler.settings["resX"]));
+	elementMap["resY"]->setBodyText(std::to_string(game->sHandler.settings["resY"]));
+	elementMap["fullscreen"]->setBodyText(std::to_string(game->sHandler.settings["fullscreen"]));
 }

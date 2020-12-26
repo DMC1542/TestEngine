@@ -2,30 +2,36 @@
 #include <iostream>
 #include "SFML/Graphics.hpp"
 
-TextElement::TextElement()
+TextElement::TextElement(std::string prefix,
+	int charCap,
+	bool intLock,
+	bool toggleBackground,
+	bool isEditable,
+	Vector2f location)
 {
-	// Set default location
-	location = Vector2f(0, 0);
-
-	// Set default char cap
-	charCap = 15;
-
-	// Set default background
-	displayBackground = false;
-
-	// set default flags
-	isFocused = false;
-	intLock = false;
-
+	// This must be loaded first so that the flags can operate correctly. 
 	font.loadFromFile("fonts/KOMIKAP_.ttf");
 
 	textPrefix.setFont(font);
-	textPrefix.setString("Value: ");
+	textPrefix.setString(prefix);
 	textPrefix.setPosition(location);
 
 	textBody.setFont(font);
 	textBody.setString("Empty.");
 	textBody.setPosition(location.x + textPrefix.getGlobalBounds().width, location.y);
+
+	// Set default location
+	this->location = location;
+
+	// Set char cap
+	setCharCap(charCap);
+
+	// Set default background
+	this->displayBackground = toggleBackground;
+
+	// set default flags
+	isFocused = false;
+	setIntLock(intLock);
 
 	inputRect.setFillColor(Color(0, 0, 0, 128));
 	inputRect.setPosition(location.x + textPrefix.getGlobalBounds().width, location.y);
@@ -113,10 +119,10 @@ void TextElement::draw(RenderWindow& window)
 void TextElement::setCharCap(int num)
 {
 	charCap = num;
-	
+
 	if (charCap <= textBody.getString().getSize())
 	{
-		textBody.setString(textBody.getString().substring(0, 5));
+		textBody.setString(textBody.getString().substring(0, charCap));
 	}
 }
 
@@ -143,6 +149,11 @@ void TextElement::setLocation(Vector2f loc)
 void TextElement::setIntLock(bool lock)
 {
 	intLock = lock;
+
+	if (intLock == true)
+	{
+		removeNonIntegers();
+	}
 }
 
 void TextElement::toggleBackgroundDisplay()
@@ -150,7 +161,41 @@ void TextElement::toggleBackgroundDisplay()
 	displayBackground = !displayBackground;
 }
 
+void TextElement::setBodyText(std::string bodyText)
+{
+	textBody.setString(bodyText);
+
+	if (intLock)
+	{
+		removeNonIntegers();
+	}
+
+	if (charCap <= textBody.getString().getSize())
+	{
+		textBody.setString(textBody.getString().substring(0, charCap));
+	}
+}
+
 std::string TextElement::getText()
 {
 	return textBody.getString();
+}
+
+void TextElement::removeNonIntegers()
+{
+	std::string parsedString = "";
+	std::string rawString = textBody.getString().toAnsiString();
+
+	for (int i = 0; i < rawString.length(); i++)
+	{
+		if (isdigit(rawString.at(i)))
+		{
+			parsedString.push_back(rawString.at(i));
+		}
+	}
+
+	if (parsedString.length() == 0)
+		parsedString.append("0");
+
+	textBody.setString(parsedString);
 }

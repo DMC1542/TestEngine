@@ -2,6 +2,7 @@
 
 #include <stack>
 #include <SFML/Graphics.hpp>
+#include "SettingsHandler.h"
 
 using namespace sf;
 
@@ -12,6 +13,7 @@ class Game
 
 public:
 	RenderWindow window;
+	SettingsHandler sHandler;
 
 	Game();
 	~Game();

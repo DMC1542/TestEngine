@@ -1,2 +1,44 @@
-﻿  OptionsState.cpp
+﻿  MenuState.cpp
+  OptionsState.cpp
+C:\Users\crisc\Desktop\CodeProjects\GameEngine\OptionsState.cpp(18,75): warning C4244: 'argument': conversion from 'unsigned int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\crisc\Desktop\CodeProjects\GameEngine\OptionsState.cpp(18,47): warning C4244: 'argument': conversion from 'unsigned int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\crisc\Desktop\CodeProjects\GameEngine\OptionsState.cpp(19,81): warning C4244: 'argument': conversion from 'unsigned int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\crisc\Desktop\CodeProjects\GameEngine\OptionsState.cpp(19,47): warning C4244: 'argument': conversion from 'unsigned int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\crisc\Desktop\CodeProjects\GameEngine\OptionsState.cpp(22,56): warning C4244: 'argument': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\crisc\Desktop\CodeProjects\GameEngine\OptionsState.cpp(22,39): warning C4244: 'argument': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\crisc\Desktop\CodeProjects\GameEngine\OptionsState.cpp(23,56): warning C4244: 'argument': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\crisc\Desktop\CodeProjects\GameEngine\OptionsState.cpp(23,39): warning C4244: 'argument': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+  Generating Code...
   GameEngine.vcxproj -> C:\Users\crisc\Desktop\CodeProjects\GameEngine\Debug\GameEngine.exe

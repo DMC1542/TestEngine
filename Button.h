@@ -22,4 +22,5 @@ public:
 	void update(Vector2i mousePos);
 	void draw(RenderWindow& window);
 	bool checkForClick();
+	Vector2f getLocation();
 };
