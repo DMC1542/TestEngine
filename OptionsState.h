@@ -17,6 +17,7 @@ public:
 	TextElement mapSizeXField;
 	TextElement* focusedTextElement;
 	Clock clock;
+	Vector2i currentRes, lastAcceptedRes;
 	std::map<std::string, TextElement*> elementMap;
 	const int BUTTON_WIDTH = 250, BUTTON_HEIGHT = 100;
 
@@ -24,7 +25,8 @@ public:
 	Text mapLabel, gameLabel, successfulSaveText;
 	Font font;
 
-	bool textFocused = false, saveSuccessful = false;
+	bool textFocused = false, saveSuccessful = false, clickHandled = false;
+	std::vector<VideoMode> modes;
 
 	OptionsState(Game* g);
 	~OptionsState();
@@ -36,4 +38,5 @@ public:
 private:
 	void setupTextElements();
 	void updateMousePositions();
+	void checkResolutions();
 };

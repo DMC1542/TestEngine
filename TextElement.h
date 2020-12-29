@@ -25,6 +25,7 @@ public:
 	void toggleBackgroundDisplay();
 	void setBodyText(std::string bodyText);
 	std::string getText();
+	bool isCurrentlyFocused();
 
 private: 
 	Font font;

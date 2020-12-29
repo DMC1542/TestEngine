@@ -13,10 +13,12 @@ OptionsState::OptionsState(Game* g)
 
 	font.loadFromFile("fonts/KOMIKAP_.ttf");
 
+
 	// Preparing locations for buttons
 	VideoMode mode = VideoMode::getDesktopMode();
-	Vector2f exitButtonLoc = Vector2f(mode.width - BUTTON_WIDTH, mode.height - BUTTON_HEIGHT);
-	Vector2f saveButtonLoc = Vector2f(mode.width - (BUTTON_WIDTH * 3), mode.height - BUTTON_HEIGHT);
+	currentRes = Vector2i(mode.width, mode.height);
+	Vector2f exitButtonLoc = Vector2f(mode.width / 2, mode.height - BUTTON_HEIGHT);
+	Vector2f saveButtonLoc = Vector2f(mode.width / 2 - BUTTON_WIDTH, mode.height - BUTTON_HEIGHT);
 
 	// Set up buttons
 	exitButton = new Button(exitButtonLoc.x, exitButtonLoc.y, BUTTON_WIDTH, BUTTON_HEIGHT, "Exit");
@@ -25,6 +27,8 @@ OptionsState::OptionsState(Game* g)
 	setupTextElements();
 
 	focusedTextElement = elementMap["mapSizeX"];
+
+	modes = VideoMode::getFullscreenModes();
 }
 
 OptionsState::~OptionsState()
@@ -53,21 +57,37 @@ void OptionsState::handleInput()
 			//While we're at it, unless other set, presume text is not highlighted.
 			textFocused = false;
 
-			//In case there was a previously selected field, reset color
-			focusedTextElement->setFocused(false);
-
 			if (exitButton->checkForClick())
 			{
 				//This is where I will code the button behavior.
+				clickHandled = true;
 
 				std::cout << "Exit Button Pressed" << std::endl;
 				std::cout << "Exiting options menu." << std::endl;
-
+				
 				game->popState();
 				break;
 			}
 			else if (saveButton->checkForClick())
 			{
+				checkResolutions();
+
+				clickHandled = true;
+
+				// Applying settings configuration
+				// See if the resolution changed, and if so, change the screen res
+				if (elementMap["resX"]->getText() !=
+					std::to_string(game->sHandler.settings["resX"])
+					|| elementMap["resY"]->getText() !=
+					std::to_string(game->sHandler.settings["resY"]))
+				{
+					int resX, resY;
+					resX = std::stoi(elementMap["resX"]->getText());
+					resY = std::stoi(elementMap["resY"]->getText());
+
+					game->window.create(VideoMode(resX, resY), "Game", Style::Fullscreen);
+				}
+
 				std::cout << "Saving current settings configuration." << std::endl;
 
 				std::ofstream outputFile;
@@ -84,19 +104,35 @@ void OptionsState::handleInput()
 				saveSuccessful = true;
 				clock.restart();
 			}
-		
-			std::map<std::string, TextElement*>::iterator it;
-			for (it = elementMap.begin(); it != elementMap.end(); it++)
+			else
 			{
-				if (it->second->checkForClick(mousePosWindow))
+				std::map<std::string, TextElement*>::iterator it;
+				for (it = elementMap.begin(); it != elementMap.end(); it++)
 				{
-					textFocused = true;
-					focusedTextElement = it->second;
+					if (it->second->checkForClick(mousePosWindow))
+					{
+						// First disable the textelement in focus
+						focusedTextElement->setFocused(false);
 
-					//Set the color to blue to indicate focus.
-					focusedTextElement->setFocused(true);
+						textFocused = true;
+						focusedTextElement = it->second;
+
+						//Set the color to blue to indicate focus.
+						focusedTextElement->setFocused(true);
+
+						clickHandled = true;
+					}
 				}
 			}
+
+			if (!clickHandled)
+			{
+				//In case there was a previously selected field, reset color
+				checkResolutions();
+				focusedTextElement->setFocused(false);
+			}
+
+			clickHandled = false;
 		}		
 		else if (event.type == sf::Event::TextEntered)
 		{
@@ -106,6 +142,7 @@ void OptionsState::handleInput()
 				if (event.text.unicode == 27 || event.text.unicode == 13)
 				{
 					//Escape key or Enter key pressed.
+					checkResolutions();
 					textFocused = false;
 					focusedTextElement->setFocused(false);
 				}
@@ -151,6 +188,7 @@ void OptionsState::draw()
 
 	game->window.draw(mapLabel);
 	game->window.draw(gameLabel);
+
 
 	// Draw save successful if appropriate
 	if (saveSuccessful)
@@ -201,9 +239,47 @@ void OptionsState::setupTextElements()
 	elementMap["resY"]->setLocation(Vector2f(450, 150));
 	elementMap["fullscreen"]->setLocation(Vector2f(450, 200));
 
+	lastAcceptedRes = Vector2i(game->sHandler.settings["mapSizeX"],
+		game->sHandler.settings["mapSizeY"]);
 	elementMap["mapSizeX"]->setBodyText(std::to_string(game->sHandler.settings["mapSizeX"]));
 	elementMap["mapSizeY"]->setBodyText(std::to_string(game->sHandler.settings["mapSizeY"]));
 	elementMap["resX"]->setBodyText(std::to_string(game->sHandler.settings["resX"]));
 	elementMap["resY"]->setBodyText(std::to_string(game->sHandler.settings["resY"]));
 	elementMap["fullscreen"]->setBodyText(std::to_string(game->sHandler.settings["fullscreen"]));
+}
+
+void OptionsState::checkResolutions()
+{
+	int resX = std::stoi(elementMap["resX"]->getText());
+	int resY = std::stoi(elementMap["resY"]->getText());
+
+	for (int i = 0; i < modes.size(); i++)
+	{
+		if (elementMap["resX"]->isCurrentlyFocused())
+		{
+			if (resX == modes.at(i).width)
+			{
+				//It is legal, change the other coord.
+				elementMap["resY"]->setBodyText(std::to_string(modes.at(i).height));
+				lastAcceptedRes = Vector2i(stoi(elementMap["resX"]->getText()), 
+					stoi(elementMap["resY"]->getText()));
+				return;
+			}
+		}
+		else if (elementMap["resY"]->isCurrentlyFocused())
+		{
+			if (resY == modes.at(i).height)
+			{
+				//It is legal, change the other coord.
+				elementMap["resX"]->setBodyText(std::to_string(modes.at(i).width));
+				lastAcceptedRes = Vector2i(stoi(elementMap["resX"]->getText()),
+					stoi(elementMap["resY"]->getText()));
+				return;
+			}
+		}
+	}
+
+	// Otherwise,
+	elementMap["resX"]->setBodyText(std::to_string(lastAcceptedRes.x));
+	elementMap["resY"]->setBodyText(std::to_string(lastAcceptedRes.y));
 }

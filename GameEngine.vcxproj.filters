@@ -7,20 +7,20 @@
     <ClCompile Include="main.cpp">
       <Filter>Cpps</Filter>
     </ClCompile>
-    <ClCompile Include="MenuState.cpp">
-      <Filter>Cpps</Filter>
-    </ClCompile>
     <ClCompile Include="Button.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
-    <ClCompile Include="OptionsState.cpp">
-      <Filter>Cpps</Filter>
-    </ClCompile>
-    <ClCompile Include="TextElement.cpp">
-      <Filter>Cpps</Filter>
-    </ClCompile>
     <ClCompile Include="SettingsHandler.cpp">
       <Filter>Cpps</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuState.cpp">
+      <Filter>GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="OptionsState.cpp">
+      <Filter>GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="TextElement.cpp">
+      <Filter>Resources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -33,6 +33,9 @@
     <Filter Include="Resources">
       <UniqueIdentifier>{7c139477-2d35-46a3-9029-cd16023c092c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameStates">
+      <UniqueIdentifier>{8db9de52-b222-457f-999c-2c1a0809fde9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -41,20 +44,20 @@
     <ClInclude Include="GameState.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="MenuState.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Button.h">
       <Filter>Resources</Filter>
     </ClInclude>
-    <ClInclude Include="OptionsState.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="TextElement.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="SettingsHandler.h">
       <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuState.h">
+      <Filter>GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="OptionsState.h">
+      <Filter>GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="TextElement.h">
+      <Filter>Resources</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

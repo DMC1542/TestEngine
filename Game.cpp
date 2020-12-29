@@ -12,8 +12,15 @@ Game::Game()
 	int resX = sHandler.settings["resX"];
 	int resY = sHandler.settings["resY"];
 
-	auto fullscreen = sHandler.settings["fullscreen"] == 1 ? Style::Fullscreen : Style::Default;
-	window.create(VideoMode(resX, resY), "Game", fullscreen);
+	window.create(VideoMode(resX, resY), "Game", Style::Fullscreen);
+	
+	std::vector<VideoMode> modes = VideoMode::getFullscreenModes();
+	std::cout << resX << " " << resY << std::endl;
+	for (int i = 0; i < modes.size(); i++)
+	{
+		std::cout << modes[i].width << ", " << modes[i].height << std::endl;
+	}
+	
 }
 
 Game::~Game()

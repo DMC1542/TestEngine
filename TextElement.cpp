@@ -170,7 +170,7 @@ void TextElement::setBodyText(std::string bodyText)
 		removeNonIntegers();
 	}
 
-	if (charCap <= textBody.getString().getSize())
+	if (textBody.getString().getSize() >= charCap)
 	{
 		textBody.setString(textBody.getString().substring(0, charCap));
 	}
@@ -198,4 +198,9 @@ void TextElement::removeNonIntegers()
 		parsedString.append("0");
 
 	textBody.setString(parsedString);
+}
+
+bool TextElement::isCurrentlyFocused()
+{
+	return isFocused;
 }
