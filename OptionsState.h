@@ -17,7 +17,7 @@ public:
 	TextElement mapSizeXField;
 	TextElement* focusedTextElement;
 	Clock clock;
-	Vector2i currentRes, lastAcceptedRes;
+	Vector2i currentRes;
 	std::map<std::string, TextElement*> elementMap;
 	const int BUTTON_WIDTH = 250, BUTTON_HEIGHT = 100;
 

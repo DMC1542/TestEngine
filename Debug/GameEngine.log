@@ -1,10 +1,2 @@
-﻿  MenuState.cpp
-C:\Users\crisc\Desktop\CodeProjects\GameEngine\MenuState.h(17,37): warning C4305: 'initializing': truncation from 'double' to 'const float'
-C:\Users\crisc\Desktop\CodeProjects\GameEngine\MenuState.h(17,63): warning C4305: 'initializing': truncation from 'double' to 'const float'
-C:\Users\crisc\Desktop\CodeProjects\GameEngine\MenuState.cpp(26,23): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\crisc\Desktop\CodeProjects\GameEngine\MenuState.cpp(25,22): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\crisc\Desktop\CodeProjects\GameEngine\MenuState.cpp(23,44): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\crisc\Desktop\CodeProjects\GameEngine\MenuState.cpp(31,23): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\crisc\Desktop\CodeProjects\GameEngine\MenuState.cpp(30,26): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\crisc\Desktop\CodeProjects\GameEngine\MenuState.cpp(28,52): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+﻿  SettingsHandler.cpp
   GameEngine.vcxproj -> C:\Users\crisc\Desktop\CodeProjects\GameEngine\Debug\GameEngine.exe

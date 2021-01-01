@@ -7,29 +7,12 @@ using namespace sf;
 MenuState::MenuState(Game* g)
 {
 	game = g;
-
-	VideoMode mode = VideoMode::getDesktopMode();
-	currentRes = Vector2i(mode.width, mode.height);
 	
-	//Test
 	texture.loadFromFile("graphics/MainMenu/testBackground.png");
 	sprite.setTexture(texture);
 
-	float scaleX = game->sHandler.settings["resX"] / static_cast<float>(1920);
-	float scaleY = game->sHandler.settings["resY"] / static_cast<float>(1080);
-
-	sprite.setScale(Vector2f(scaleX, scaleY));
-
-	startButton = new Button(currentRes.x / 4 - (BUTTON_WIDTH_SCALE / 2), 
-		currentRes.y / 2,
-		BUTTON_WIDTH_SCALE * currentRes.x, 
-		BUTTON_HEIGHT_SCALE * currentRes.y, 
-		"Play");
-	optionsButton = new Button(3 * (currentRes.x / 4) - (BUTTON_WIDTH_SCALE * currentRes.x * 3 / 2), 
-		currentRes.y / 2, 
-		BUTTON_WIDTH_SCALE * 3 * currentRes.x, 
-		BUTTON_HEIGHT_SCALE * currentRes.y, 
-		"Options Menu");
+	startButton = new Button(100, 500, 250, 100, "Play");
+	optionsButton = new Button(100, 100, 250, 100, "Options Menu");
 }
 
 MenuState::~MenuState()

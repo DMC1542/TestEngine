@@ -63,18 +63,7 @@ void Button::update(Vector2i mousePos)
 }
 
 void Button::draw(RenderWindow& window)
-{
-	/*
-	if (buttonState == BTN_PRESSED)
-	{
-		window.draw(buttonPressedSprite);
-	}
-	else
-	{
-		window.draw(buttonFaceSprite);
-	}
-	*/
-	
+{	
 	window.draw(shape);
 	window.draw(text);
 }
