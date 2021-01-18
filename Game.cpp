@@ -9,9 +9,9 @@ Game::Game()
 	//Eventually will instantiate to the resolution specified in a config file
 	//Figure out how to do fullscreen windowed / borderless fullscreen
 	sHandler.getSettings();
-	VideoMode mode;
-	int resX = mode.getFullscreenModes().at(0).width;
-	int resY = mode.getFullscreenModes().at(0).height;
+	VideoMode mode = VideoMode::getDesktopMode();
+	int resX = mode.width;
+	int resY = mode.height;
 	currentRes = Vector2i(resX, resY);
 
 	Image icon;

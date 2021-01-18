@@ -10,12 +10,11 @@ class Button
 public:
 	short buttonState;
 	Font font;
-	Text text;
 	Color idleColor, hoverColor, pressedColor;
 	RectangleShape shape;
 	Texture buttonFaceTexture, buttonPressedTexture;
 	Sprite buttonFaceSprite, buttonPressedSprite;
-
+	static const float DEFAULT_WIDTH_RATIO, DEFAULT_HEIGHT_RATIO;
 
 	Button(int x, int y, int width, int height, std::string text);
 
@@ -23,4 +22,9 @@ public:
 	void draw(RenderWindow& window);
 	bool checkForClick();
 	Vector2f getLocation();
+
+private:
+	Text text;
+
+	void findProperSize();
 };

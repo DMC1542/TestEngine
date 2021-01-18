@@ -7,12 +7,19 @@ using namespace sf;
 MenuState::MenuState(Game* g)
 {
 	game = g;
-	
+	res = game->currentRes;
+
 	texture.loadFromFile("graphics/MainMenu/testBackground.png");
 	sprite.setTexture(texture);
+	sprite.setScale(Vector2f(res.x / sprite.getGlobalBounds().width, res.y / sprite.getGlobalBounds().height));
 
-	startButton = new Button(100, 500, 250, 100, "Play");
-	optionsButton = new Button(100, 100, 250, 100, "Options Menu");
+	float buttonWidth = res.x * Button::DEFAULT_WIDTH_RATIO;
+	float buttonHeight = res.y * Button::DEFAULT_HEIGHT_RATIO;
+
+	startButton = new Button(res.x / 4 - (buttonWidth / 2), res.y / 2,
+		buttonWidth, buttonHeight, "Play");
+	optionsButton = new Button(res.x / 4 * 3 - buttonWidth, res.y / 2, 
+		buttonWidth * 2, buttonHeight, "Options Menu");
 }
 
 MenuState::~MenuState()

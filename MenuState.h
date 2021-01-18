@@ -14,8 +14,6 @@ public:
 	Button* optionsButton;
 	Vector2i currentRes;
 
-	const float BUTTON_WIDTH_SCALE = .1, BUTTON_HEIGHT_SCALE = .1;
-
 	MenuState(Game* g);
 	~MenuState();
 
