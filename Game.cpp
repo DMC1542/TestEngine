@@ -9,18 +9,21 @@ Game::Game()
 	//Eventually will instantiate to the resolution specified in a config file
 	//Figure out how to do fullscreen windowed / borderless fullscreen
 	sHandler.getSettings();
-	int resX = sHandler.settings["resX"];
-	int resY = sHandler.settings["resY"];
+	VideoMode mode = VideoMode::getDesktopMode();
+	int resX = mode.width;
+	int resY = mode.height;
+	currentRes = Vector2i(resX, resY);
+
+	Image icon;
+	icon.loadFromFile("graphics/MainMenu/testIcon.png");
+
+	view.setCenter(resX / 2, resY / 2);
+	view.setSize(resX, resY);
 
 	window.create(VideoMode(resX, resY), "Game", Style::Fullscreen);
-	
-	std::vector<VideoMode> modes = VideoMode::getFullscreenModes();
-	std::cout << resX << " " << resY << std::endl;
-	for (int i = 0; i < modes.size(); i++)
-	{
-		std::cout << modes[i].width << ", " << modes[i].height << std::endl;
-	}
-	
+	window.setIcon(132, 114, icon.getPixelsPtr());
+	window.setFramerateLimit(60);
+	window.setView(view);
 }
 
 Game::~Game()
@@ -34,9 +37,6 @@ Game::~Game()
 //Game related functions
 void Game::run()
 {
-	Clock clock;
-	clock.restart();
-
 	while (window.isOpen())
 	{
 		currentState()->handleInput();
@@ -56,10 +56,6 @@ void Game::run()
 		currentState()->draw();
 
 		window.display();
-
-		Time time = clock.getElapsedTime();
-		//std::cout << "Game FPS: " << 1 / time.asSeconds() << std::endl;
-		clock.restart();
 	}
 }
 

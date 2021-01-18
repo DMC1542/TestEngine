@@ -7,29 +7,19 @@ using namespace sf;
 MenuState::MenuState(Game* g)
 {
 	game = g;
+	res = game->currentRes;
 
-	VideoMode mode = VideoMode::getDesktopMode();
-	currentRes = Vector2i(mode.width, mode.height);
-	
-	//Test
 	texture.loadFromFile("graphics/MainMenu/testBackground.png");
 	sprite.setTexture(texture);
+	sprite.setScale(Vector2f(res.x / sprite.getGlobalBounds().width, res.y / sprite.getGlobalBounds().height));
 
-	float scaleX = game->sHandler.settings["resX"] / static_cast<float>(1920);
-	float scaleY = game->sHandler.settings["resY"] / static_cast<float>(1080);
+	float buttonWidth = res.x * Button::DEFAULT_WIDTH_RATIO;
+	float buttonHeight = res.y * Button::DEFAULT_HEIGHT_RATIO;
 
-	sprite.setScale(Vector2f(scaleX, scaleY));
-
-	startButton = new Button(currentRes.x / 4 - (BUTTON_WIDTH_SCALE / 2), 
-		currentRes.y / 2,
-		BUTTON_WIDTH_SCALE * currentRes.x, 
-		BUTTON_HEIGHT_SCALE * currentRes.y, 
-		"Play");
-	optionsButton = new Button(3 * (currentRes.x / 4) - (BUTTON_WIDTH_SCALE * currentRes.x * 3 / 2), 
-		currentRes.y / 2, 
-		BUTTON_WIDTH_SCALE * 3 * currentRes.x, 
-		BUTTON_HEIGHT_SCALE * currentRes.y, 
-		"Options Menu");
+	startButton = new Button(res.x / 4 - (buttonWidth / 2), res.y / 2,
+		buttonWidth, buttonHeight, "Play");
+	optionsButton = new Button(res.x / 4 * 3 - buttonWidth, res.y / 2, 
+		buttonWidth * 2, buttonHeight, "Options Menu");
 }
 
 MenuState::~MenuState()

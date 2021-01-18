@@ -1,26 +1,26 @@
 #include "Button.h"
 #include <iostream>
 
-Button::Button(int x, int y, int width, int height, std::string text)
+const float Button::DEFAULT_WIDTH_RATIO = 0.1f, Button::DEFAULT_HEIGHT_RATIO = 0.1f;
+
+Button::Button(int x, int y, int width, int height, std::string msg)
 {
 	shape.setPosition(Vector2f(x, y));
 	shape.setSize(Vector2f(width, height));
 	shape.setFillColor(idleColor);
 
 	font.loadFromFile("fonts/KOMIKAP_.ttf");
+	
+	text.setString(msg);
+	text.setFont(font);
+	findProperSize();
+	text.setFillColor(Color::Yellow);
 
-	this->text.setString(text);
-	this->text.setFont(font);
-	this->text.setCharacterSize(30);
-	this->text.setFillColor(Color::Yellow);
-	this->text.setPosition(
-		//This centers the text on the shape.
-		shape.getPosition().x + (shape.getGlobalBounds().width / 2.f) - (this->text.getGlobalBounds().width / 2.f),
-		shape.getPosition().y + (shape.getGlobalBounds().height / 2.f) - (this->text.getGlobalBounds().height / 2.f)
+	//This centers the text on the shape.
+	float weirdOffset = text.getGlobalBounds().top;
+	text.setPosition(shape.getPosition().x + (shape.getGlobalBounds().width / 2.f) - (text.getGlobalBounds().width / 2.f),
+		shape.getPosition().y + ((shape.getGlobalBounds().height - text.getGlobalBounds().height) / 2.f) - weirdOffset
 	);
-
-	std::cout << (shape.getPosition().x / 2.f) << "-" << (this->text.getGlobalBounds().width / 2.f) << std::endl;
-	std::cout << (shape.getPosition().y / 2.f) << "-" << (this->text.getGlobalBounds().height / 2.f) << std::endl;
 
 	idleColor = Color::Blue;
 	hoverColor = Color::Magenta;
@@ -63,18 +63,7 @@ void Button::update(Vector2i mousePos)
 }
 
 void Button::draw(RenderWindow& window)
-{
-	/*
-	if (buttonState == BTN_PRESSED)
-	{
-		window.draw(buttonPressedSprite);
-	}
-	else
-	{
-		window.draw(buttonFaceSprite);
-	}
-	*/
-	
+{	
 	window.draw(shape);
 	window.draw(text);
 }
@@ -99,4 +88,18 @@ bool Button::checkForClick()
 Vector2f Button::getLocation()
 {
 	return shape.getPosition();
+}
+
+void Button::findProperSize()
+{
+	// Set default character size
+	text.setCharacterSize(100);
+
+	// Loop until the size is acceptable. 
+	float target = shape.getGlobalBounds().width - 20;
+
+	for (int size = 100; text.getGlobalBounds().width >= target; size--)
+	{
+		text.setCharacterSize(size);
+	}
 }

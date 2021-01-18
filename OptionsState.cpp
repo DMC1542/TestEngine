@@ -13,16 +13,20 @@ OptionsState::OptionsState(Game* g)
 
 	font.loadFromFile("fonts/KOMIKAP_.ttf");
 
-
 	// Preparing locations for buttons
-	VideoMode mode = VideoMode::getDesktopMode();
-	currentRes = Vector2i(mode.width, mode.height);
-	Vector2f exitButtonLoc = Vector2f(mode.width / 2, mode.height - BUTTON_HEIGHT);
-	Vector2f saveButtonLoc = Vector2f(mode.width / 2 - BUTTON_WIDTH, mode.height - BUTTON_HEIGHT);
+	res = game->currentRes;
+
+	Vector2f saveButtonLoc = Vector2f(res.x / 2 - ((float)res.x * Button::DEFAULT_WIDTH_RATIO),
+		res.y - (res.y * Button::DEFAULT_HEIGHT_RATIO));
+	Vector2f exitButtonLoc = Vector2f(res.x / 2,
+		res.y - (res.y * Button::DEFAULT_HEIGHT_RATIO));
 
 	// Set up buttons
-	exitButton = new Button(exitButtonLoc.x, exitButtonLoc.y, BUTTON_WIDTH, BUTTON_HEIGHT, "Exit");
-	saveButton = new Button(saveButtonLoc.x, saveButtonLoc.y, BUTTON_WIDTH, BUTTON_HEIGHT, "Save");
+	float buttonWidth = res.x * Button::DEFAULT_WIDTH_RATIO;
+	float buttonHeight = res.y * Button::DEFAULT_HEIGHT_RATIO;
+
+	exitButton = new Button(exitButtonLoc.x, exitButtonLoc.y, buttonWidth, buttonHeight, "Exit");
+	saveButton = new Button(saveButtonLoc.x, saveButtonLoc.y, buttonWidth, buttonHeight, "Save");
 
 	setupTextElements();
 
@@ -70,24 +74,9 @@ void OptionsState::handleInput()
 			}
 			else if (saveButton->checkForClick())
 			{
-				checkResolutions();
-
 				clickHandled = true;
 
 				// Applying settings configuration
-				// See if the resolution changed, and if so, change the screen res
-				if (elementMap["resX"]->getText() !=
-					std::to_string(game->sHandler.settings["resX"])
-					|| elementMap["resY"]->getText() !=
-					std::to_string(game->sHandler.settings["resY"]))
-				{
-					int resX, resY;
-					resX = std::stoi(elementMap["resX"]->getText());
-					resY = std::stoi(elementMap["resY"]->getText());
-
-					game->window.create(VideoMode(resX, resY), "Game", Style::Fullscreen);
-				}
-
 				std::cout << "Saving current settings configuration." << std::endl;
 
 				std::ofstream outputFile;
@@ -128,7 +117,6 @@ void OptionsState::handleInput()
 			if (!clickHandled)
 			{
 				//In case there was a previously selected field, reset color
-				checkResolutions();
 				focusedTextElement->setFocused(false);
 			}
 
@@ -142,7 +130,6 @@ void OptionsState::handleInput()
 				if (event.text.unicode == 27 || event.text.unicode == 13)
 				{
 					//Escape key or Enter key pressed.
-					checkResolutions();
 					textFocused = false;
 					focusedTextElement->setFocused(false);
 				}
@@ -229,57 +216,13 @@ void OptionsState::setupTextElements()
 	// Do all text field instantiation here.
 	elementMap["mapSizeX"] = new TextElement("Map Size X: ", 5, true);
 	elementMap["mapSizeY"] = new TextElement("Map Size Y: ", 5, true);
-	elementMap["resX"] = new TextElement("Resolution Width: ", 4, true);
-	elementMap["resY"] = new TextElement("Resolution Height: ", 4, true);
 	elementMap["fullscreen"] = new TextElement("Fullscreen: ", 1, true);
 
 	elementMap["mapSizeX"]->setLocation(Vector2f(0, 100));
 	elementMap["mapSizeY"]->setLocation(Vector2f(0, 150));
-	elementMap["resX"]->setLocation(Vector2f(450, 100));
-	elementMap["resY"]->setLocation(Vector2f(450, 150));
 	elementMap["fullscreen"]->setLocation(Vector2f(450, 200));
 
-	lastAcceptedRes = Vector2i(game->sHandler.settings["mapSizeX"],
-		game->sHandler.settings["mapSizeY"]);
 	elementMap["mapSizeX"]->setBodyText(std::to_string(game->sHandler.settings["mapSizeX"]));
 	elementMap["mapSizeY"]->setBodyText(std::to_string(game->sHandler.settings["mapSizeY"]));
-	elementMap["resX"]->setBodyText(std::to_string(game->sHandler.settings["resX"]));
-	elementMap["resY"]->setBodyText(std::to_string(game->sHandler.settings["resY"]));
 	elementMap["fullscreen"]->setBodyText(std::to_string(game->sHandler.settings["fullscreen"]));
-}
-
-void OptionsState::checkResolutions()
-{
-	int resX = std::stoi(elementMap["resX"]->getText());
-	int resY = std::stoi(elementMap["resY"]->getText());
-
-	for (int i = 0; i < modes.size(); i++)
-	{
-		if (elementMap["resX"]->isCurrentlyFocused())
-		{
-			if (resX == modes.at(i).width)
-			{
-				//It is legal, change the other coord.
-				elementMap["resY"]->setBodyText(std::to_string(modes.at(i).height));
-				lastAcceptedRes = Vector2i(stoi(elementMap["resX"]->getText()), 
-					stoi(elementMap["resY"]->getText()));
-				return;
-			}
-		}
-		else if (elementMap["resY"]->isCurrentlyFocused())
-		{
-			if (resY == modes.at(i).height)
-			{
-				//It is legal, change the other coord.
-				elementMap["resX"]->setBodyText(std::to_string(modes.at(i).width));
-				lastAcceptedRes = Vector2i(stoi(elementMap["resX"]->getText()),
-					stoi(elementMap["resY"]->getText()));
-				return;
-			}
-		}
-	}
-
-	// Otherwise,
-	elementMap["resX"]->setBodyText(std::to_string(lastAcceptedRes.x));
-	elementMap["resY"]->setBodyText(std::to_string(lastAcceptedRes.y));
 }

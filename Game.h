@@ -14,6 +14,8 @@ class Game
 public:
 	RenderWindow window;
 	SettingsHandler sHandler;
+	Vector2i currentRes;
+	View view;
 
 	Game();
 	~Game();
