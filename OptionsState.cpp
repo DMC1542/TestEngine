@@ -7,15 +7,19 @@ using namespace sf;
 OptionsState::OptionsState(Game* g)
 {
 	game = g;
+	
+	// Getting resolution for button placement and image scaling
+	res = game->currentRes;
 
+	// Setting up background image
 	backgroundTexture.loadFromFile("graphics/OptionsMenu/naturePixelated.png");
 	backgroundSprite.setTexture(backgroundTexture);
+	backgroundSprite.setScale(Vector2f(res.x / backgroundSprite.getGlobalBounds().width,
+		res.y / backgroundSprite.getGlobalBounds().height));
 
 	font.loadFromFile("fonts/KOMIKAP_.ttf");
 
 	// Preparing locations for buttons
-	res = game->currentRes;
-
 	Vector2f saveButtonLoc = Vector2f(res.x / 2 - ((float)res.x * Button::DEFAULT_WIDTH_RATIO),
 		res.y - (res.y * Button::DEFAULT_HEIGHT_RATIO));
 	Vector2f exitButtonLoc = Vector2f(res.x / 2,
