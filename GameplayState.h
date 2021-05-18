@@ -13,5 +13,6 @@ public:
 private: 
 	//Map map;
 	//Vector/linked list of entities?
+	// Bruh, linked list of entities. Lmao
 
 };

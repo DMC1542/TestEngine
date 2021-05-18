@@ -8,6 +8,9 @@ GameplayState::GameplayState(Game* g)
 
 	// Getting resolution for button placement and image scaling
 	res = game->currentRes;
+	
+	// TODO load textures
+	// TODO generate map
 }
 
 void GameplayState::update()

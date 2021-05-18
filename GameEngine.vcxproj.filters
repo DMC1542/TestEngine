@@ -10,9 +10,6 @@
     <ClCompile Include="Button.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
-    <ClCompile Include="SettingsHandler.cpp">
-      <Filter>Cpps</Filter>
-    </ClCompile>
     <ClCompile Include="MenuState.cpp">
       <Filter>GameStates</Filter>
     </ClCompile>
@@ -24,6 +21,12 @@
     </ClCompile>
     <ClCompile Include="GameplayState.cpp">
       <Filter>GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingsHandler.cpp">
+      <Filter>Handlers</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureHandler.cpp">
+      <Filter>Handlers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -39,6 +42,9 @@
     <Filter Include="GameStates">
       <UniqueIdentifier>{8db9de52-b222-457f-999c-2c1a0809fde9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Handlers">
+      <UniqueIdentifier>{d2b9db68-9b70-44a4-ade9-a4e96bbb8f0c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -49,9 +55,6 @@
     </ClInclude>
     <ClInclude Include="Button.h">
       <Filter>Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="SettingsHandler.h">
-      <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="MenuState.h">
       <Filter>GameStates</Filter>
@@ -64,6 +67,12 @@
     </ClInclude>
     <ClInclude Include="GameplayState.h">
       <Filter>GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingsHandler.h">
+      <Filter>Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureHandler.h">
+      <Filter>Handlers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

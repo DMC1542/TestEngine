@@ -152,6 +152,7 @@
     <ClCompile Include="OptionsState.cpp" />
     <ClCompile Include="SettingsHandler.cpp" />
     <ClCompile Include="TextElement.cpp" />
+    <ClCompile Include="TextureHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h" />
@@ -162,6 +163,7 @@
     <ClInclude Include="OptionsState.h" />
     <ClInclude Include="SettingsHandler.h" />
     <ClInclude Include="TextElement.h" />
+    <ClInclude Include="TextureHandler.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
