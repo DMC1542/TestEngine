@@ -1,6 +1,7 @@
 #include "MenuState.h"
 #include "OptionsState.h"
 #include <iostream>
+#include "GameplayState.h"
 
 using namespace sf;
 
@@ -62,8 +63,8 @@ void MenuState::handleInput()
 				std::cout << "Start Button Pressed" << std::endl;
 				std::cout << "Pretending to start the game." << std::endl;
 
-				game->popState();
-				//game->pushState(new GameState(&game));
+				//game->popState();
+				game->pushState(new GameplayState(game));
 
 				break;
 			}

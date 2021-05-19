@@ -1,6 +1,8 @@
 #pragma once
 
 #include "GameState.h"
+#include "Map.h"
+#include "ProcGen.h"
 
 class GameplayState : public GameState
 {
@@ -9,6 +11,7 @@ public:
 	void draw();
 	void handleInput();
 	void update();
+	void updateMousePositions();
 
 private: 
 	//Map map;
