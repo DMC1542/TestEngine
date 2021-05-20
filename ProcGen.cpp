@@ -3,16 +3,24 @@
 
 using namespace std;
 
-Map ProcGen::generateMap(int width, int height, int64_t seed)
+// Octaves: Number of iterations to generate finer details (0, inf)
+// Persistence: Controls amplitude (Decreases in amplitude as persistence increases) (0, 1]
+// Lacunarity: Controls frequency (Increases in frequency as lacunarity increases) [1, inf)
+// Scale: Determines the fractional increase for each XY coord. ATLEAST 20 for 1/20 steps.
+Map ProcGen::generateMap(int width, int height, int64_t seed, 
+	int octaves, double scale, double persistence, double lacunarity)
 {
 	cout << "Starting procedural map generation" << endl;
 
 	Noise::Noise noiseGenerator(seed);
 	Map map(width, height);
 
-	// Arbitrary values
-	double x = -.5, y = -.5;
+	double x, y;
 	double minNoise = DBL_MAX, maxNoise = DBL_MIN;
+
+	// Ensure that scale is not <= 0
+	if (scale <= 0)
+		scale = .001;
 
 	for (int height = 0; height < map.height; height++)
 	{
@@ -20,24 +28,32 @@ Map ProcGen::generateMap(int width, int height, int64_t seed)
 
 		for (int width = 0; width < map.width; width++)
 		{
-			x += .05;
+			double frequency = 1, amplitude = 1, noiseHeight = 0, noise;
 
-			double noise = noiseGenerator.eval(x, y);   // Octave 1
-			noise += noiseGenerator.eval(2 * x, 2 * y); // Octave 2
-			noise += noiseGenerator.eval(4 * x, 4 * y); // Octave 3
-			noise += noiseGenerator.eval(8 * x, 8 * y); // Octave 4
+			// Do octaves
+			for (int i = 0; i < octaves; i++)
+			{
+				x = (double)width / scale * frequency;
+				y = (double)height / scale * frequency;
 
-			if (noise < minNoise)
-				minNoise = noise;
-			if (noise > maxNoise)
-				maxNoise = noise;
+				noise = noiseGenerator.eval(x, y); // * 2 - 1, IF it returns values from 0:1 to get -1:1
 
-			row.push_back(noise);
+				// Now using the perlin value, modify amplitude
+				noiseHeight += noise * amplitude;
+
+				amplitude *= persistence;
+				frequency *= lacunarity;
+			}
+
+			if (noiseHeight< minNoise)
+				minNoise = noiseHeight;
+			if (noiseHeight > maxNoise)
+				maxNoise = noiseHeight;
+
+			row.push_back(noiseHeight);
 		}
 
 		map.noiseValues.push_back(row);
-		y += .05;
-		x = -.5;
 	}
 
 	for (int h = 0; h < map.height; h++)

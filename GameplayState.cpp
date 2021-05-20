@@ -12,7 +12,7 @@ GameplayState::GameplayState(Game* g)
 	
 	// TODO load textures
 	// TODO generate map
-	Map map = ProcGen::generateMap(10, 10, 1);
+	Map map = ProcGen::generateMap(10, 10, 1, 4, 20, .5, 1);
 
 	
 	for (int h = 0; h < map.height; h++)
