@@ -12,9 +12,14 @@ GameplayState::GameplayState(Game* g)
 	
 	// TODO load textures
 	// TODO generate map
-	Map map = ProcGen::generateMap(10, 10, 1, 4, 20, .5, 1);
 
-	
+	// My testing lab
+	int w = 1920, h = 1080, octaves = 4;
+	int64_t seed = 1;
+	double scale = 20, persistence = .9, lacunarity = 1.5;
+	map = ProcGen::generateMap(w, h, seed, octaves, scale, persistence, lacunarity);
+
+	/*
 	for (int h = 0; h < map.height; h++)
 	{
 		for (int w = 0; w < map.width; w++)
@@ -22,8 +27,7 @@ GameplayState::GameplayState(Game* g)
 
 		std::cout << std::endl;
 	}
-
-	cout << map.noiseValues[1][1] << endl;
+	*/
 }
 
 void GameplayState::update()
@@ -33,7 +37,18 @@ void GameplayState::update()
 
 void GameplayState::draw()
 {
+	for (int h = 0; h < map.height; h++)
+	{
+		for (int w = 0; w < map.width; w++)
+		{
+			double val = map.noiseValues[h][w] * 255;
 
+			RectangleShape pix(Vector2f(1, 1));
+			pix.setPosition(Vector2f(w, h));
+			pix.setFillColor(Color(val, val, val, 255));
+			game->window.draw(pix);
+		}
+	}
 }
 
 void GameplayState::handleInput()

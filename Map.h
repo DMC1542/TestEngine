@@ -10,5 +10,6 @@ public:
 	int height;
 	vector<vector<double>> noiseValues;
 
+	Map();
 	Map(int width, int height);
 };

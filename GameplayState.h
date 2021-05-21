@@ -14,7 +14,7 @@ public:
 	void updateMousePositions();
 
 private: 
-	//Map map;
+	Map map;
 	//Vector/linked list of entities?
 	// Bruh, linked list of entities. Lmao
 
