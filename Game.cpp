@@ -59,7 +59,7 @@ void Game::run()
 	}
 }
 
-//Gamestate functions
+// Gamestate functions
 
 GameState* Game::currentState()
 {

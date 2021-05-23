@@ -8,10 +8,7 @@
       <Filter>Cpps</Filter>
     </ClCompile>
     <ClCompile Include="Button.cpp">
-      <Filter>Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="SettingsHandler.cpp">
-      <Filter>Cpps</Filter>
+      <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="MenuState.cpp">
       <Filter>GameStates</Filter>
@@ -20,7 +17,25 @@
       <Filter>GameStates</Filter>
     </ClCompile>
     <ClCompile Include="TextElement.cpp">
-      <Filter>Resources</Filter>
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="GameplayState.cpp">
+      <Filter>GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingsHandler.cpp">
+      <Filter>Handlers</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureHandler.cpp">
+      <Filter>Handlers</Filter>
+    </ClCompile>
+    <ClCompile Include="ProcGen.cpp">
+      <Filter>ProcGen</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Cpps</Filter>
+    </ClCompile>
+    <ClCompile Include="Noise.cpp">
+      <Filter>ProcGen</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -30,25 +45,25 @@
     <Filter Include="Cpps">
       <UniqueIdentifier>{9119207c-c38c-472c-ad3e-07a9c5c9ec7a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resources">
-      <UniqueIdentifier>{7c139477-2d35-46a3-9029-cd16023c092c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameStates">
       <UniqueIdentifier>{8db9de52-b222-457f-999c-2c1a0809fde9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Handlers">
+      <UniqueIdentifier>{d2b9db68-9b70-44a4-ade9-a4e96bbb8f0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{7c139477-2d35-46a3-9029-cd16023c092c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ProcGen">
+      <UniqueIdentifier>{ad3372fb-711f-4e54-8dfb-9a506ba4b7e1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="GameState.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Button.h">
-      <Filter>Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="SettingsHandler.h">
-      <Filter>Headers</Filter>
+      <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="MenuState.h">
       <Filter>GameStates</Filter>
@@ -57,7 +72,28 @@
       <Filter>GameStates</Filter>
     </ClInclude>
     <ClInclude Include="TextElement.h">
-      <Filter>Resources</Filter>
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="GameplayState.h">
+      <Filter>GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingsHandler.h">
+      <Filter>Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureHandler.h">
+      <Filter>Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="ProcGen.h">
+      <Filter>ProcGen</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Noise.h">
+      <Filter>ProcGen</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.h">
+      <Filter>GameStates</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

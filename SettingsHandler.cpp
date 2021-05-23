@@ -43,10 +43,10 @@ void SettingsHandler::getSettings()
 
 		ofstream out("config.ini");
 
-		std::map<std::string, int>::iterator it;
+		map<string, int>::iterator it;
 		for (it = settings.begin(); it != settings.end(); it++)
 		{
-			out << it->first << ":" << it->second << std::endl;
+			out << it->first << ":" << it->second << endl;
 		}
 
 		out.close();

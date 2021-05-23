@@ -146,20 +146,30 @@
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameplayState.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Map.cpp" />
     <ClCompile Include="MenuState.cpp" />
+    <ClCompile Include="Noise.cpp" />
     <ClCompile Include="OptionsState.cpp" />
+    <ClCompile Include="ProcGen.cpp" />
     <ClCompile Include="SettingsHandler.cpp" />
     <ClCompile Include="TextElement.cpp" />
+    <ClCompile Include="TextureHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameplayState.h" />
     <ClInclude Include="GameState.h" />
+    <ClInclude Include="Map.h" />
     <ClInclude Include="MenuState.h" />
+    <ClInclude Include="Noise.h" />
     <ClInclude Include="OptionsState.h" />
+    <ClInclude Include="ProcGen.h" />
     <ClInclude Include="SettingsHandler.h" />
     <ClInclude Include="TextElement.h" />
+    <ClInclude Include="TextureHandler.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
