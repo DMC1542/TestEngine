@@ -1,10 +1,10 @@
 ﻿  GameplayState.cpp
-C:\Users\crisc\Desktop\CodeProjects\GameEngine\GameplayState.cpp(47,32): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+C:\Users\crisc\Desktop\CodeProjects\GameEngine\GameplayState.cpp(47,38): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
           with
           [
               T=float
           ]
-C:\Users\crisc\Desktop\CodeProjects\GameEngine\GameplayState.cpp(47,29): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+C:\Users\crisc\Desktop\CodeProjects\GameEngine\GameplayState.cpp(47,31): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
           with
           [
               T=float
@@ -13,7 +13,7 @@ C:\Users\crisc\Desktop\CodeProjects\GameEngine\GameplayState.cpp(48,37): warning
 C:\Users\crisc\Desktop\CodeProjects\GameEngine\GameplayState.cpp(48,32): warning C4244: 'argument': conversion from 'double' to 'sf::Uint8', possible loss of data
 C:\Users\crisc\Desktop\CodeProjects\GameEngine\GameplayState.cpp(48,27): warning C4244: 'argument': conversion from 'double' to 'sf::Uint8', possible loss of data
   Generating code
-  2 of 702 functions ( 0.3%) were compiled, the rest were copied from previous compilation.
+  1 of 702 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
     1 functions had inline decision re-evaluated but remain unchanged
   Finished generating code

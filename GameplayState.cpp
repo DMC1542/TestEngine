@@ -14,9 +14,9 @@ GameplayState::GameplayState(Game* g)
 	// TODO generate map
 
 	// My testing lab
-	int w = 1920, h = 1080, octaves = 4;
+	int w = 1920 / 2, h = 1080 / 2, octaves = 4;
 	int64_t seed = 1;
-	double scale = 20, persistence = .9, lacunarity = 1.5;
+	double scale = 5, persistence = .5, lacunarity = 1.2;
 	map = ProcGen::generateMap(w, h, seed, octaves, scale, persistence, lacunarity);
 
 	/*
@@ -43,8 +43,8 @@ void GameplayState::draw()
 		{
 			double val = map.noiseValues[h][w] * 255;
 
-			RectangleShape pix(Vector2f(1, 1));
-			pix.setPosition(Vector2f(w, h));
+			RectangleShape pix(Vector2f(2, 2));
+			pix.setPosition(Vector2f(w * 2, h * 2));
 			pix.setFillColor(Color(val, val, val, 255));
 			game->window.draw(pix);
 		}
