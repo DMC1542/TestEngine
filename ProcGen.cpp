@@ -1,4 +1,5 @@
 #include "ProcGen.h"
+#include "Tile.h"
 #include <iostream>
 
 using namespace std;
@@ -24,7 +25,7 @@ Map ProcGen::generateMap(int width, int height, int64_t seed,
 
 	for (int height = 0; height < map.height; height++)
 	{
-		vector<double> row; 
+		vector<Tile> row; 
 
 		for (int width = 0; width < map.width; width++)
 		{
@@ -50,17 +51,25 @@ Map ProcGen::generateMap(int width, int height, int64_t seed,
 			if (noiseHeight > maxNoise)
 				maxNoise = noiseHeight;
 
-			row.push_back(noiseHeight);
+
+			Tile currTile;
+			currTile.x = width;
+			currTile.y = height;
+			currTile.noiseVal = noiseHeight;
+
+			currTile.sprite.setPosition(Vector2f(width * 64, height * 64));
+
+			row.push_back(currTile);
 		}
 
-		map.noiseValues.push_back(row);
+		map.board.push_back(row);
 	}
 
 	for (int h = 0; h < map.height; h++)
 	{
 		for (int w = 0; w < map.width; w++)
 		{
-			map.noiseValues[h][w] = invLerp(minNoise, maxNoise, map.noiseValues[h][w]);
+			map.board[h][w].noiseVal = invLerp(minNoise, maxNoise, map.board[h][w].noiseVal);
 		}
 	}
 

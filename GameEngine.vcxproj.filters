@@ -37,6 +37,9 @@
     <ClCompile Include="Noise.cpp">
       <Filter>ProcGen</Filter>
     </ClCompile>
+    <ClCompile Include="Tile.cpp">
+      <Filter>ProcGen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
@@ -94,6 +97,9 @@
     </ClInclude>
     <ClInclude Include="GameState.h">
       <Filter>GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="Tile.h">
+      <Filter>ProcGen</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

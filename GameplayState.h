@@ -3,6 +3,7 @@
 #include "GameState.h"
 #include "Map.h"
 #include "ProcGen.h"
+#include "TextureHandler.h"
 
 class GameplayState : public GameState
 {
@@ -15,6 +16,8 @@ public:
 
 private: 
 	Map map;
+	TextureHandler tHandler;
+	Clock clock;
 	//Vector/linked list of entities?
 	// Bruh, linked list of entities. Lmao
 

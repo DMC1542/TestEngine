@@ -156,6 +156,7 @@
     <ClCompile Include="SettingsHandler.cpp" />
     <ClCompile Include="TextElement.cpp" />
     <ClCompile Include="TextureHandler.cpp" />
+    <ClCompile Include="Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h" />
@@ -170,6 +171,7 @@
     <ClInclude Include="SettingsHandler.h" />
     <ClInclude Include="TextElement.h" />
     <ClInclude Include="TextureHandler.h" />
+    <ClInclude Include="Tile.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
