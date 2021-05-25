@@ -5,6 +5,14 @@
 #include "ProcGen.h"
 #include "TextureHandler.h"
 
+typedef struct ViewBounds
+{
+	int left;
+	int right;
+	int top;
+	int bottom;
+};
+
 class GameplayState : public GameState
 {
 public:
@@ -14,10 +22,16 @@ public:
 	void update();
 	void updateMousePositions();
 
-private: 
+	const int TILE_SIZE = 64;
+
+private:
 	Map map;
 	TextureHandler tHandler;
 	Clock clock;
+	ViewBounds viewBounds;
+
+	int viewWidth, viewHeight;
+	double zoom;
 	//Vector/linked list of entities?
 	// Bruh, linked list of entities. Lmao
 

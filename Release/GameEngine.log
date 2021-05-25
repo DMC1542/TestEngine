@@ -1,13 +1,8 @@
 ﻿  GameplayState.cpp
-  MenuState.cpp
-C:\Users\crisc\Desktop\CodeProjects\GameEngine\MenuState.cpp(21,16): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\crisc\Desktop\CodeProjects\GameEngine\MenuState.cpp(21,3): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\crisc\Desktop\CodeProjects\GameEngine\MenuState.cpp(20,37): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\crisc\Desktop\CodeProjects\GameEngine\MenuState.cpp(23,20): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\crisc\Desktop\CodeProjects\GameEngine\MenuState.cpp(23,15): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\crisc\Desktop\CodeProjects\GameEngine\MenuState.cpp(22,43): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\crisc\Desktop\CodeProjects\GameEngine\Animation.h(12,2): warning C4091: 'typedef ': ignored on left of 'Animation' when no variable is declared
+C:\Users\crisc\Desktop\CodeProjects\GameEngine\GameplayState.h(14,2): warning C4091: 'typedef ': ignored on left of 'ViewBounds' when no variable is declared
   Generating code
-  3 of 721 functions ( 0.4%) were compiled, the rest were copied from previous compilation.
+  2 of 723 functions ( 0.3%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
     1 functions had inline decision re-evaluated but remain unchanged
   Finished generating code

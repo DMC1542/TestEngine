@@ -3,11 +3,17 @@
 Tile::Tile()
 {
 	int x = -1, y = -1;
+	animator.numFrames = 2;
+	animator.fps = 2;
+	animator.frame = IntRect(0, 0, 64, 64);
 }
 
-Tile::Tile(int x, int y, double noise)
+Tile::Tile(int x, int y, double noise, int numFrames)
 {
 	this->x = x;
 	this->y = y;
 	this->noiseVal = noise;
+	animator.numFrames = numFrames;
+	animator.fps = 2;
+	animator.frame = IntRect(0, 0, 64, 64);
 }

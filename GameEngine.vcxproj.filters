@@ -40,6 +40,9 @@
     <ClCompile Include="Tile.cpp">
       <Filter>ProcGen</Filter>
     </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Cpps</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
@@ -100,6 +103,9 @@
     </ClInclude>
     <ClInclude Include="Tile.h">
       <Filter>ProcGen</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
