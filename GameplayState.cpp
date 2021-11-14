@@ -24,9 +24,9 @@ GameplayState::GameplayState(Game* g)
 	int bottomView = (game->window.getSize().y / TILE_SIZE) + 1;
 	viewBounds = { 0, rightView, 0, bottomView};
 
-	for (int h = viewBounds.top; h < viewBounds.bottom; h++)
+	for (int h = 0; h < map.height; h++)
 	{
-		for (int w = viewBounds.left; w < viewBounds.right; w++)
+		for (int w = 0; w < map.width; w++)
 		{
 			Tile currTile = map.board[h][w];
 
@@ -47,24 +47,21 @@ GameplayState::GameplayState(Game* g)
 
 void GameplayState::update()
 {
-	
+	for (int h = viewBounds.top; h < viewBounds.bottom; h++)
+	{
+		for (int w = viewBounds.left; w < viewBounds.right; w++)
+		{
+			map.board[h][w].update(clock.getElapsedTime());
+		}
+	}
 }
 
 void GameplayState::draw()
 {
-	for (int h = 0; h < map.height; h++)
+	for (int h = viewBounds.top; h < viewBounds.bottom; h++)
 	{
-		for (int w = 0; w < map.width; w++)
+		for (int w = viewBounds.left; w < viewBounds.right; w++)
 		{
-			/* draws Noise
-			double val = map.noiseValues[h][w] * 255;
-
-			RectangleShape pix(Vector2f(2, 2));
-			pix.setPosition(Vector2f(w * 2, h * 2));
-			pix.setFillColor(Color(val, val, val, 255));
-			game->window.draw(pix);
-			*/
-
 			game->window.draw(map.board[h][w].sprite);
 		}
 	}

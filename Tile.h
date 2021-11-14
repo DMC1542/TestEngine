@@ -13,4 +13,9 @@ public:
 
 	Tile();
 	Tile(int x, int y, double noise, int numFrames = 1);
+
+	void update(Time deltaTime);
+
+private:
+	Int64 lastTimeUpdated = 0;
 };

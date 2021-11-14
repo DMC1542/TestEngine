@@ -4,9 +4,10 @@
 
 using namespace sf;
 
-typedef struct Animation 
+typedef struct Animation
 {
 	IntRect frame;
+	Texture tex;
 	int numFrames;
 	int fps;
 };
