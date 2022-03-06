@@ -1,2 +1,1 @@
 C:\Users\crisc\Desktop\CodeProjects\GameEngine\Debug\GameEngine.exe
-C:\Users\crisc\Desktop\CodeProjects\GameEngine\Debug\GameEngine.pdb
