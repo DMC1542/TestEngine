@@ -2,12 +2,29 @@
 
 Tile::Tile()
 {
-	int x = -1, y = -1;
+	this->x = -1, this->y = -1;
+	animator.numFrames = 2;
+	animator.fps = 2;
+	animator.frame = IntRect(0, 0, 64, 64);
+	noiseVal = 0;
 }
 
-Tile::Tile(int x, int y, double noise)
+Tile::Tile(int x, int y, double noise, int numFrames)
 {
 	this->x = x;
 	this->y = y;
 	this->noiseVal = noise;
+	animator.numFrames = numFrames;
+	animator.fps = 2;
+	animator.frame = IntRect(0, 0, 64, 64);
+}
+
+void Tile::update(Time deltaTime)
+{
+	lastTimeUpdated += deltaTime.asSeconds();
+
+	if (lastTimeUpdated >= (animator.fps / animator.numFrames))
+	{
+
+	}
 }
