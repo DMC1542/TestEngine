@@ -78,6 +78,7 @@ void GameplayState::handleInput()
 			if (event.key.code == Keyboard::Escape)
 			{
 				game->popState();
+				break;
 			}
 		}
 	}
