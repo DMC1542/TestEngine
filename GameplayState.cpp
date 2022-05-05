@@ -14,7 +14,10 @@ GameplayState::GameplayState(Game* g)
 	int resWidth = 1920 / 2, resHeight = 1080 / 2, octaves = 4;
 	int64_t seed = 1;
 	double scale = 5, persistence = .5, lacunarity = 1.2;
-	map = ProcGen::generateMap(resWidth, resHeight, seed, octaves, scale, persistence, lacunarity);
+	//map = ProcGen::generateMap(resWidth, resHeight, seed, octaves, scale, persistence, lacunarity);
+	map = Map(100, 100);
+	map.generateMap(seed, octaves, scale, persistence, lacunarity);
+	map.createEntity("Test", 0, 0);
 
 	// Defining view width and height
 	zoom = 1;
@@ -23,26 +26,6 @@ GameplayState::GameplayState(Game* g)
 	int rightView = (game->window.getSize().x / TILE_SIZE) + 1; 
 	int bottomView = (game->window.getSize().y / TILE_SIZE) + 1;
 	viewBounds = { 0, rightView, 0, bottomView};
-
-	for (int h = 0; h < map.height; h++)
-	{
-		for (int w = 0; w < map.width; w++)
-		{
-			Tile currTile = map.board[h][w];
-
-			if (currTile.noiseVal < .3)
-				map.board[h][w].sprite.setTexture(tHandler.waterText);
-			else if (map.board[h][w].noiseVal < .35)
-				map.board[h][w].sprite.setTexture(tHandler.sandText);
-			else if (map.board[h][w].noiseVal < .8)
-			{
-				map.board[h][w].sprite.setTexture(tHandler.grassText);
-				map.board[h][w].animator.numFrames = 2;
-			}
-			else
-				map.board[h][w].sprite.setTexture(tHandler.rockText);
-		}
-	}
 }
 
 void GameplayState::update()
@@ -51,19 +34,33 @@ void GameplayState::update()
 	{
 		for (int w = viewBounds.left; w < viewBounds.right; w++)
 		{
+			// This may be modified. Animation may only be applied to entities.
 			map.board[h][w].update(clock.getElapsedTime());
 		}
+	}
+
+	// Update entities
+	for (int i = 0; i < map.entities.size(); i++)
+	{
+		map.entities.at(i).update(clock.getElapsedTime());
 	}
 }
 
 void GameplayState::draw()
 {
+	// Print the board
 	for (int h = viewBounds.top; h < viewBounds.bottom; h++)
 	{
 		for (int w = viewBounds.left; w < viewBounds.right; w++)
 		{
 			game->window.draw(map.board[h][w].sprite);
 		}
+	}
+
+	// Display entities
+	for (int i = 0; i < map.entities.size(); i++)
+	{
+		game->window.draw(map.getEntitySpriteAt(i));
 	}
 }
 

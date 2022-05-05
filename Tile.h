@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "Animation.h"
+#include "Terrain.h"
 
 using namespace sf;
 
@@ -10,6 +11,7 @@ public:
 	Sprite sprite;
 	int x, y;
 	Animation animator;
+	Terrain terrain;
 
 	Tile();
 	Tile(int x, int y, double noise, int numFrames = 1);

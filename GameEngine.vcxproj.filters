@@ -25,7 +25,7 @@
     <ClCompile Include="SettingsHandler.cpp">
       <Filter>Handlers</Filter>
     </ClCompile>
-    <ClCompile Include="TextureHandler.cpp">
+    <ClCompile Include="TilesetHandler.cpp">
       <Filter>Handlers</Filter>
     </ClCompile>
     <ClCompile Include="ProcGen.cpp">
@@ -41,6 +41,9 @@
       <Filter>ProcGen</Filter>
     </ClCompile>
     <ClCompile Include="Animation.cpp">
+      <Filter>Cpps</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
       <Filter>Cpps</Filter>
     </ClCompile>
   </ItemGroup>
@@ -86,7 +89,7 @@
     <ClInclude Include="SettingsHandler.h">
       <Filter>Handlers</Filter>
     </ClInclude>
-    <ClInclude Include="TextureHandler.h">
+    <ClInclude Include="TilesetHandler.h">
       <Filter>Handlers</Filter>
     </ClInclude>
     <ClInclude Include="ProcGen.h">
@@ -105,6 +108,12 @@
       <Filter>ProcGen</Filter>
     </ClInclude>
     <ClInclude Include="Animation.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Terrain.h">
+      <Filter>ProcGen</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>

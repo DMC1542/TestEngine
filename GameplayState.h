@@ -3,7 +3,6 @@
 #include "GameState.h"
 #include "Map.h"
 #include "ProcGen.h"
-#include "TextureHandler.h"
 
 typedef struct ViewBounds
 {
@@ -26,7 +25,6 @@ public:
 
 private:
 	Map map;
-	TextureHandler tHandler;
 	Clock clock;
 	ViewBounds viewBounds;
 
