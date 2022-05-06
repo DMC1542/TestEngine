@@ -10,16 +10,11 @@ Animation::Animation()
 	timeElapsed = -1;
 }
 
-Animation::Animation(std::string fileName, int x, int y, int fps, int numFrames)
+Animation::Animation(Texture* tex, int x, int y, int fps, int numFrames)
 {
-	this->frame.left = x;
-	this->frame.top = y;
-	this->frame.height = TILE_SIZE;
-	this->frame.width = TILE_SIZE;
+	this->frame = IntRect(x, y, TILE_SIZE, TILE_SIZE);
 
-	this->tex.loadFromFile(fileName);
-	this->sprite.setTexture(tex);
-	this->sprite.setTextureRect(frame);
+	this->sprite = Sprite(*tex, frame);
 	this->fps = fps;
 	this->numFrames = numFrames;
 	this->timeElapsed = 0;
@@ -30,25 +25,27 @@ void Animation::update(Time deltaTime)
 {
 	this->timeElapsed += deltaTime.asSeconds();
 	advance();
-
-	return;
 }
 
 void Animation::advance() 
 {
-	if (timeElapsed >= 1 / fps)
-	{
-		// Reduce time to be within [0, 1 / fps)
-		while (timeElapsed >= 1 / fps)
-			timeElapsed -= 1 / fps;
+	// Reduce time to be within [0, 1 / fps)
+	float timeBetweenFrames = 1 / (float)fps;
+
+	if (timeElapsed >= timeBetweenFrames)
+	{	
+		/*
+		while (timeElapsed >= timeBetweenFrames)
+			timeElapsed -= timeBetweenFrames;
+		*/
+		timeElapsed = 0;
 
 		currFrame++;
 
 		if (currFrame >= numFrames)
 			currFrame = 0;
 
-		frame.left = currFrame * 64;
+		frame.left = currFrame * TILE_SIZE;
+		sprite.setTextureRect(frame);
 	}
-
-	return;
 }

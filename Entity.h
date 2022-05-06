@@ -12,8 +12,9 @@ public:
 	Vector2f position;
 	int id;
 
-	Entity(string name, int x, int y);
+	Entity(string name, Texture* tex, int x, int y);
 	void update(Time deltaTime);
+	Sprite getSprite();
 
 private:
 	static int global_id;

@@ -14,17 +14,14 @@ Map::Map(int width, int height)
 	this->height = height;
 }
 
-Map Map::generateMap(int64_t seed, int octaves, double scale, double persistence, double lacunarity)
+void Map::generateMap(int64_t seed, int octaves, double scale, double persistence, double lacunarity)
 {
 	// Genereate the noise map
-	//Map map = ProcGen::generateMap(width, height, seed, octaves, scale, persistence, lacunarity);
-
 	// --------------- Procedural Gen ---------------------------
 
 	std::cout << "Starting procedural map generation" << std::endl;
 
 	Noise::Noise noiseGenerator(seed);
-	Map map(width, height);
 
 	double x, y;
 	double minNoise = DBL_MAX, maxNoise = DBL_MIN;
@@ -33,19 +30,19 @@ Map Map::generateMap(int64_t seed, int octaves, double scale, double persistence
 	if (scale <= 0)
 		scale = .001;
 
-	for (int height = 0; height < map.height; height++)
+	for (int h = 0; h < height; h++)
 	{
 		vector<Tile> row;
 
-		for (int width = 0; width < map.width; width++)
+		for (int w = 0; w < width; w++)
 		{
 			double frequency = 1, amplitude = 1, noiseHeight = 0, noise;
 
 			// Do octaves
 			for (int i = 0; i < octaves; i++)
 			{
-				x = (double)width / scale * frequency;
-				y = (double)height / scale * frequency;
+				x = (double)w / scale * frequency;
+				y = (double)h / scale * frequency;
 
 				noise = noiseGenerator.eval(x, y); // * 2 - 1, IF it returns values from 0:1 to get -1:1
 
@@ -63,92 +60,73 @@ Map Map::generateMap(int64_t seed, int octaves, double scale, double persistence
 
 
 			Tile currTile;
-			currTile.x = width;
-			currTile.y = height;
+			currTile.x = w;
+			currTile.y = h;
 			currTile.noiseVal = noiseHeight;
 
-			currTile.sprite.setPosition(Vector2f(width * 64, height * 64));
+			currTile.sprite.setPosition(Vector2f(w * 64, h * 64));
 
 			row.push_back(currTile);
 		}
 
-		map.board.push_back(row);
+		board.push_back(row);
 	}
 
-	for (int h = 0; h < map.height; h++)
+	std::cout << "Normalizing noise values" << std::endl;
+
+	for (int h = 0; h < height; h++)
 	{
-		for (int w = 0; w < map.width; w++)
+		for (int w = 0; w < width; w++)
 		{
-			map.board[h][w].noiseVal = invLerp(minNoise, maxNoise, map.board[h][w].noiseVal);
+			board[h][w].noiseVal = invLerp(minNoise, maxNoise, board[h][w].noiseVal);
 		}
 	}
 
 	// --------------- End Proc Gen -----------------------------
 
+	std::cout << "Assigning terrain types" << std::endl;
+
 	// Assign terrains
-	for (int h = 0; h < map.height; h++)
+	for (int h = 0; h < height; h++)
 	{
-		for (int w = 0; w < map.width; w++)
+		for (int w = 0; w < width; w++)
 		{
-			Tile currTile = map.board[h][w];
+			Tile currTile = board[h][w];
 
 			if (currTile.noiseVal < .3)
-			{
-				currTile.terrain = WATER;
-				map.board[h][w].sprite.setTexture(tHandler.waterText);
-			}
-			else if (map.board[h][w].noiseVal < .35)
-				map.board[h][w].sprite.setTexture(tHandler.sandText);
-			else if (map.board[h][w].noiseVal < .8)
-			{
-				map.board[h][w].sprite.setTexture(tHandler.grassText);
-				map.board[h][w].animator.numFrames = 2;
-			}
+				board[h][w].sprite.setTexture(tHandler->waterText);
+			else if (board[h][w].noiseVal < .35)
+				board[h][w].sprite.setTexture(tHandler->sandText);
+			else if (board[h][w].noiseVal < .8)
+				board[h][w].sprite.setTexture(tHandler->grassText);
 			else
-				map.board[h][w].sprite.setTexture(tHandler.rockText);
+				board[h][w].sprite.setTexture(tHandler->rockText);
 		}
 	}
 
-	// Assign texture edges
-	// Not elegant. Mostly for experimentation
-	for (int h = 0; h < map.height; h++)
-	{
-		for (int w = 0; w < map.width; w++)
-		{
-			Tile currTile = map.board[h][w];
-
-			// Grass assignment
-			if (currTile.terrain == GRASS)
-			{
-			}
-			else if (currTile.terrain == WATER)
-				currTile.sprite.setTexture(tHandler.waterText);
-			else if (currTile.terrain == SAND)
-			{
-
-			}
-			else if (currTile.terrain == ROCK)
-				currTile.sprite.setTexture(tHandler.rockText);
-		}
-	}
+	std::cout << "Finished terrain generation" << std::endl;
+	return;
 }
 
-void Map::assignGrassSprite(Map& map, int i, int j)
-{
-}
 
-void Map::createEntity(string name, int x, int y)
+void Map::createEntity(string name, Texture* text, int x, int y)
 {
-	this->entities.push_back(Entity(name, x, y));
+	this->entities.push_back(Entity(name, text, x, y));
+	return;
 }
 
 Sprite Map::getEntitySpriteAt(int i) 
 {
-	return entities.at(i).animator.sprite;
+	return entities.at(i).getSprite();
 }
 
 // This normalizes value between the min and max (returns a value between 0 and 1)
-double invLerp(double min, double max, double value)
+double Map::invLerp(double min, double max, double value)
 {
 	return (value - min) / (max - min);
+}
+
+void Map::setTilesetHandler(TilesetHandler* tHandler)
+{
+	this->tHandler = tHandler;
 }

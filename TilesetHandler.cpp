@@ -6,6 +6,7 @@ TilesetHandler::TilesetHandler()
 	waterText.loadFromFile("graphics/Textures/water.png");
 	rockText.loadFromFile("graphics/Textures/mountain.png");
 	sandText.loadFromFile("graphics/Textures/basicSand.png");
+	animationTEST.loadFromFile("graphics/animationTest.png");
 }
 
 void TilesetHandler::loadGrass()

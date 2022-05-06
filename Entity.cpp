@@ -3,7 +3,9 @@
 
 using namespace std;
 
-Entity::Entity(string name, int x, int y) 
+int Entity::global_id = 0;
+
+Entity::Entity(string name, Texture* tex, int x, int y) 
 {
 	this->position = Vector2f(x, y);
 
@@ -11,13 +13,20 @@ Entity::Entity(string name, int x, int y)
 	this->id = getID();
 
 	//TODO : DONT HARDCODE. TESTING ONLY
-	this->animator = Animation("graphics/animationTest.png", 0, 0, 2, 2);
+	this->animator = Animation(tex, 0, 0, 1, 2);
 	this->animator.sprite.setPosition(position);
+
+	return;
 }
 
 void Entity::update(Time deltaTime)
 {
 	this->animator.update(deltaTime);
+}
+
+Sprite Entity::getSprite()
+{
+	return animator.sprite;
 }
 
 // private methods

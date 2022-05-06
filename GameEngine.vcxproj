@@ -155,7 +155,6 @@
     <ClCompile Include="MenuState.cpp" />
     <ClCompile Include="Noise.cpp" />
     <ClCompile Include="OptionsState.cpp" />
-    <ClCompile Include="ProcGen.cpp" />
     <ClCompile Include="SettingsHandler.cpp" />
     <ClCompile Include="TextElement.cpp" />
     <ClCompile Include="TilesetHandler.cpp" />
@@ -172,7 +171,6 @@
     <ClInclude Include="MenuState.h" />
     <ClInclude Include="Noise.h" />
     <ClInclude Include="OptionsState.h" />
-    <ClInclude Include="ProcGen.h" />
     <ClInclude Include="SettingsHandler.h" />
     <ClInclude Include="Terrain.h" />
     <ClInclude Include="TextElement.h" />

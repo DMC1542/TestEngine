@@ -14,10 +14,10 @@ GameplayState::GameplayState(Game* g)
 	int resWidth = 1920 / 2, resHeight = 1080 / 2, octaves = 4;
 	int64_t seed = 1;
 	double scale = 5, persistence = .5, lacunarity = 1.2;
-	//map = ProcGen::generateMap(resWidth, resHeight, seed, octaves, scale, persistence, lacunarity);
 	map = Map(100, 100);
+	map.setTilesetHandler(&tHandler);
 	map.generateMap(seed, octaves, scale, persistence, lacunarity);
-	map.createEntity("Test", 0, 0);
+	map.createEntity("Test", &tHandler.animationTEST, 0, 0);
 
 	// Defining view width and height
 	zoom = 1;
@@ -30,19 +30,21 @@ GameplayState::GameplayState(Game* g)
 
 void GameplayState::update()
 {
+	Time deltaTime = clock.restart();
+
 	for (int h = viewBounds.top; h < viewBounds.bottom; h++)
 	{
 		for (int w = viewBounds.left; w < viewBounds.right; w++)
 		{
 			// This may be modified. Animation may only be applied to entities.
-			map.board[h][w].update(clock.getElapsedTime());
+			map.board[h][w].update(deltaTime);
 		}
 	}
 
 	// Update entities
 	for (int i = 0; i < map.entities.size(); i++)
 	{
-		map.entities.at(i).update(clock.getElapsedTime());
+		map.entities.at(i).update(deltaTime);
 	}
 }
 

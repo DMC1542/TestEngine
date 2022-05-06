@@ -12,7 +12,7 @@ using namespace std;
 class Map
 {
 private:
-	TilesetHandler tHandler;
+	TilesetHandler* tHandler;
 	void assignGrassSprite(Map &map, int i, int j);
 
 public:
@@ -23,7 +23,9 @@ public:
 
 	Map();
 	Map(int width, int height);
-	Map generateMap(int64_t seed, int octaves, double scale, double persistence, double lacunarity);
+	void generateMap(int64_t seed, int octaves, double scale, double persistence, double lacunarity);
 	Sprite getEntitySpriteAt(int i);
-	void createEntity(string name, int x, int y);
+	void createEntity(string name, Texture* tex, int x, int y);
+	double invLerp(double min, double max, double value);
+	void setTilesetHandler(TilesetHandler* tHandler);
 };

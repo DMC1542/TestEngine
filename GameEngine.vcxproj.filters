@@ -28,9 +28,6 @@
     <ClCompile Include="TilesetHandler.cpp">
       <Filter>Handlers</Filter>
     </ClCompile>
-    <ClCompile Include="ProcGen.cpp">
-      <Filter>ProcGen</Filter>
-    </ClCompile>
     <ClCompile Include="Map.cpp">
       <Filter>Cpps</Filter>
     </ClCompile>
@@ -91,9 +88,6 @@
     </ClInclude>
     <ClInclude Include="TilesetHandler.h">
       <Filter>Handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="ProcGen.h">
-      <Filter>ProcGen</Filter>
     </ClInclude>
     <ClInclude Include="Map.h">
       <Filter>Headers</Filter>

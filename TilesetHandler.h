@@ -11,6 +11,7 @@ public:
 	// This might not be the final form!
 	Texture grassText, sandText, waterText, rockText;
 	Texture grassTileSet;
+	Texture animationTEST;
 
 	Sprite grassSandBR, grassSandTR, grassSandTL, grassSandBL,
 		grassSandT, grassSandR, grassSandB, grassSandL;
