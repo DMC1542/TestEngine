@@ -8,8 +8,7 @@ using namespace std;
 // Persistence: Controls amplitude (Decreases in amplitude as persistence increases) (0, 1]
 // Lacunarity: Controls frequency (Increases in frequency as lacunarity increases) [1, inf)
 // Scale: Determines the fractional increase for each XY coord. ATLEAST 20 for 1/20 steps.
-Map ProcGen::generateMap(int width, int height, int64_t seed, 
-	int octaves, double scale, double persistence, double lacunarity)
+Map ProcGen::generateMap(int width, int height, int64_t seed, int octaves, double scale, double persistence, double lacunarity)
 {
 	cout << "Starting procedural map generation" << endl;
 

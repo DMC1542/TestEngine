@@ -2,8 +2,7 @@
 
 #include "GameState.h"
 #include "Map.h"
-#include "ProcGen.h"
-#include "TextureHandler.h"
+#include "TilesetHandler.h"
 
 typedef struct ViewBounds
 {
@@ -21,12 +20,12 @@ public:
 	void handleInput();
 	void update();
 	void updateMousePositions();
-
 	const int TILE_SIZE = 64;
+
+	TilesetHandler tHandler;
 
 private:
 	Map map;
-	TextureHandler tHandler;
 	Clock clock;
 	ViewBounds viewBounds;
 

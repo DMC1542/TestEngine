@@ -4,10 +4,22 @@
 
 using namespace sf;
 
-typedef struct Animation
+class Animation
 {
+public:
+
 	IntRect frame;
-	Texture tex;
+	Sprite sprite;
 	int numFrames;
 	int fps;
+	float timeElapsed;
+	
+	Animation();
+	Animation(Texture* tex, int x, int y);
+	void update(Time deltaTime);
+
+private:
+	int currFrame;
+	void advance();
 };
+
