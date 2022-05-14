@@ -41,7 +41,10 @@
       <Filter>Cpps</Filter>
     </ClCompile>
     <ClCompile Include="Entity.cpp">
-      <Filter>Cpps</Filter>
+      <Filter>EntitySystem</Filter>
+    </ClCompile>
+    <ClCompile Include="TestEntity.cpp">
+      <Filter>EntitySystem\Entities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -62,6 +65,12 @@
     </Filter>
     <Filter Include="ProcGen">
       <UniqueIdentifier>{ad3372fb-711f-4e54-8dfb-9a506ba4b7e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EntitySystem">
+      <UniqueIdentifier>{3f549377-4e57-43be-968f-ce3e9fb65da5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EntitySystem\Entities">
+      <UniqueIdentifier>{54757c1c-ef3e-4e7f-8e34-5dfab282133c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -108,7 +117,13 @@
       <Filter>ProcGen</Filter>
     </ClInclude>
     <ClInclude Include="Entity.h">
-      <Filter>Headers</Filter>
+      <Filter>EntitySystem</Filter>
+    </ClInclude>
+    <ClInclude Include="TestEntity.h">
+      <Filter>EntitySystem\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityBuilder.h">
+      <Filter>EntitySystem</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

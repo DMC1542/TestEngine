@@ -17,7 +17,8 @@ GameplayState::GameplayState(Game* g)
 	map = Map(100, 100);
 	map.setTilesetHandler(&tHandler);
 	map.generateMap(seed, octaves, scale, persistence, lacunarity);
-	map.createEntity("Test", &tHandler.animationTEST, 0, 0);
+	map.createEntity(EntityType::TEST, "Test", 0, 0);
+	map.createEntity(EntityType::TEST, "Test", 64, 64);
 
 	// Defining view width and height
 	zoom = 1;
@@ -44,7 +45,7 @@ void GameplayState::update()
 	// Update entities
 	for (int i = 0; i < map.entities.size(); i++)
 	{
-		map.entities.at(i).update(deltaTime);
+		map.entities.at(i)->update(deltaTime);
 	}
 }
 

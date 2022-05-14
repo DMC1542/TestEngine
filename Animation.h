@@ -15,7 +15,7 @@ public:
 	float timeElapsed;
 	
 	Animation();
-	Animation(Texture* tex, int x, int y, int fps, int numFrames);
+	Animation(Texture* tex, int x, int y);
 	void update(Time deltaTime);
 
 private:

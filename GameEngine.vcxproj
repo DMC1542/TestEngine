@@ -156,6 +156,7 @@
     <ClCompile Include="Noise.cpp" />
     <ClCompile Include="OptionsState.cpp" />
     <ClCompile Include="SettingsHandler.cpp" />
+    <ClCompile Include="TestEntity.cpp" />
     <ClCompile Include="TextElement.cpp" />
     <ClCompile Include="TilesetHandler.cpp" />
     <ClCompile Include="Tile.cpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="EntityBuilder.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameplayState.h" />
     <ClInclude Include="GameState.h" />
@@ -173,6 +175,7 @@
     <ClInclude Include="OptionsState.h" />
     <ClInclude Include="SettingsHandler.h" />
     <ClInclude Include="Terrain.h" />
+    <ClInclude Include="TestEntity.h" />
     <ClInclude Include="TextElement.h" />
     <ClInclude Include="TilesetHandler.h" />
     <ClInclude Include="Tile.h" />

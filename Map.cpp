@@ -109,15 +109,19 @@ void Map::generateMap(int64_t seed, int octaves, double scale, double persistenc
 }
 
 
-void Map::createEntity(string name, Texture* text, int x, int y)
+void Map::createEntity(EntityType type, std::string name, int x, int y)
 {
-	this->entities.push_back(Entity(name, text, x, y));
-	return;
+	if (tHandler != NULL)
+	{
+		Entity* temp = entityBuilder.buildEntity(type, name, x, y);
+		this->board[y][x].entities.push_back(temp);
+		this->entities.push_back(temp);
+	}
 }
 
 Sprite Map::getEntitySpriteAt(int i) 
 {
-	return entities.at(i).getSprite();
+	return entities.at(i)->getSprite();
 }
 
 // This normalizes value between the min and max (returns a value between 0 and 1)
@@ -129,4 +133,5 @@ double Map::invLerp(double min, double max, double value)
 void Map::setTilesetHandler(TilesetHandler* tHandler)
 {
 	this->tHandler = tHandler;
+	this->entityBuilder = EntityBuilder(tHandler);
 }

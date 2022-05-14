@@ -10,7 +10,7 @@ Animation::Animation()
 	timeElapsed = -1;
 }
 
-Animation::Animation(Texture* tex, int x, int y, int fps, int numFrames)
+Animation::Animation(Texture* tex, int x, int y)
 {
 	this->frame = IntRect(x, y, TILE_SIZE, TILE_SIZE);
 
@@ -34,10 +34,6 @@ void Animation::advance()
 
 	if (timeElapsed >= timeBetweenFrames)
 	{	
-		/*
-		while (timeElapsed >= timeBetweenFrames)
-			timeElapsed -= timeBetweenFrames;
-		*/
 		timeElapsed = 0;
 
 		currFrame++;
