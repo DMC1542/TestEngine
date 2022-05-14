@@ -18,7 +18,7 @@ GameplayState::GameplayState(Game* g)
 	map.setTilesetHandler(&tHandler);
 	map.generateMap(seed, octaves, scale, persistence, lacunarity);
 	map.createEntity(EntityType::TEST, "Test", 0, 0);
-	map.createEntity(EntityType::TEST, "Test", 64, 64);
+	map.createEntity(EntityType::TEST, "Test", 1, 1);
 
 	// Defining view width and height
 	zoom = 1;

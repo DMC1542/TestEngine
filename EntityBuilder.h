@@ -16,10 +16,11 @@ public:
 
 	Entity* buildEntity(EntityType type, string name, int x, int y)
 	{
-		Entity* temp;
+		Entity* temp = new Entity(name, x, y);
 
 		if (type == EntityType::TEST)
 		{
+			delete temp;
 			temp = new TestEntity(name, x, y);
 			temp->setAnimationProperties(&tHandler->animationTEST, 0, 0, 1, 2);
 		}
