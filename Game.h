@@ -16,6 +16,7 @@ public:
 	SettingsHandler sHandler;
 	Vector2i currentRes;
 	View view;
+	Mouse mouse;
 
 	Game();
 	~Game();

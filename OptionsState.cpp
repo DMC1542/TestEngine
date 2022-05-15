@@ -196,7 +196,6 @@ void OptionsState::draw()
 void OptionsState::updateMousePositions()
 {
 	mousePosWindow = Mouse::getPosition(game->window);
-	mousePosWindow = Mouse::getPosition();
 }
 
 void OptionsState::setupTextElements()

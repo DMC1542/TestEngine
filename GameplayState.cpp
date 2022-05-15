@@ -24,14 +24,21 @@ GameplayState::GameplayState(Game* g)
 	zoom = 1;
 
 	// Initial view bounds. Gets window's size, gets # of tiles visible + 1 in case of underestimate
-	int rightView = (game->window.getSize().x / TILE_SIZE) + 1; 
+	int rightView = (game->window.getSize().x / TILE_SIZE) + 1;
 	int bottomView = (game->window.getSize().y / TILE_SIZE) + 1;
-	viewBounds = { 0, rightView, 0, bottomView};
+	viewBounds = { 0, rightView, 0, bottomView };
+
+	// Debug mode init
+	debugFont.loadFromFile("fonts/Montserrat-Regular.ttf");
+	mouseTileText.setFont(debugFont);
+	mouseTileText.setFillColor(Color::White);
+	mouseTileText.setOutlineColor(Color::Black);
 }
 
 void GameplayState::update()
 {
 	Time deltaTime = clock.restart();
+	updateMousePositions();
 
 	for (int h = viewBounds.top; h < viewBounds.bottom; h++)
 	{
@@ -46,6 +53,15 @@ void GameplayState::update()
 	for (int i = 0; i < map.entities.size(); i++)
 	{
 		map.entities.at(i)->update(deltaTime);
+	}
+
+	// Debug updates
+	if (debugMode) {
+		mouseTileLocX = (mousePosWindow.x / (TILE_SIZE * zoom)) + viewBounds.left;
+		mouseTileLocY = (mousePosWindow.y / (TILE_SIZE * zoom)) + viewBounds.top;
+		string mouseTileLoc("Tile XY: " + to_string(mouseTileLocX) + ", " + to_string(mouseTileLocY));
+		mouseTileText.setString(mouseTileLoc);
+		mouseTileText.setPosition(Vector2f(mousePosWindow));
 	}
 }
 
@@ -64,6 +80,11 @@ void GameplayState::draw()
 	for (int i = 0; i < map.entities.size(); i++)
 	{
 		game->window.draw(map.getEntitySpriteAt(i));
+	}
+
+	if (debugMode)
+	{
+		game->window.draw(mouseTileText);
 	}
 }
 
@@ -100,9 +121,9 @@ void GameplayState::handleInput()
 					game->view.move(Vector2f(-TILE_SIZE * zoom, 0));
 					game->window.setView(game->view);
 				}
-			}	
+			}
 			else if (event.key.code == Keyboard::W)
-			{	
+			{
 				if (viewBounds.top > 0)
 				{
 					viewBounds.top -= 1;
@@ -121,11 +142,13 @@ void GameplayState::handleInput()
 					game->window.setView(game->view);
 				}
 			}
+			else if (event.key.code == Keyboard::L)
+				debugMode = !debugMode;
 		}
 	}
 }
 
 void GameplayState::updateMousePositions()
 {
-	// stuff!
+	mousePosWindow = Mouse::getPosition(game->window);
 }

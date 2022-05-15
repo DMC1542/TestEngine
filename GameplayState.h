@@ -29,8 +29,14 @@ private:
 	Clock clock;
 	ViewBounds viewBounds;
 
+	// Debug variables
+	sf::Text mouseTileText;
+	int mouseTileLocX, mouseTileLocY;
+	Font debugFont;
+
 	int viewWidth, viewHeight;
 	double zoom;
+	bool debugMode = false;
 	//Vector/linked list of entities?
 	// Bruh, linked list of entities. Lmao
 
