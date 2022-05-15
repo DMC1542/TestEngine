@@ -78,7 +78,48 @@ void GameplayState::handleInput()
 			if (event.key.code == Keyboard::Escape)
 			{
 				game->popState();
-				break;
+				break;				// Critical! Without this break, the loop will continue
+									// executing after pop - leading to null ptr exception.
+			}
+			else if (event.key.code == Keyboard::D)
+			{
+				if (viewBounds.right < map.width)
+				{
+					viewBounds.left += 1;
+					viewBounds.right += 1;
+					game->view.move(Vector2f(TILE_SIZE * zoom, 0));
+					game->window.setView(game->view);
+				}
+			}
+			else if (event.key.code == Keyboard::A)
+			{
+				if (viewBounds.left > 0)
+				{
+					viewBounds.left -= 1;
+					viewBounds.right -= 1;
+					game->view.move(Vector2f(-TILE_SIZE * zoom, 0));
+					game->window.setView(game->view);
+				}
+			}	
+			else if (event.key.code == Keyboard::W)
+			{	
+				if (viewBounds.top > 0)
+				{
+					viewBounds.top -= 1;
+					viewBounds.bottom -= 1;
+					game->view.move(Vector2f(0, -TILE_SIZE * zoom));
+					game->window.setView(game->view);
+				}
+			}
+			else if (event.key.code == Keyboard::S)
+			{
+				if (viewBounds.bottom < map.height)
+				{
+					viewBounds.top += 1;
+					viewBounds.bottom += 1;
+					game->view.move(Vector2f(0, TILE_SIZE * zoom));
+					game->window.setView(game->view);
+				}
 			}
 		}
 	}
