@@ -25,8 +25,8 @@ GameplayState::GameplayState(Game* g)
 	zoom = 1;
 
 	// Initial view bounds. Gets window's size, gets # of tiles visible + 1 in case of underestimate
-	int rightView = (game->window.getSize().x / TILE_SIZE) + 1;
-	int bottomView = (game->window.getSize().y / TILE_SIZE) + 1;
+	int rightView = (int)ceil(game->window.getSize().x / (float)TILE_SIZE);
+	int bottomView = (int)ceil(game->window.getSize().y / (float)TILE_SIZE) ;
 	viewBounds = { 0, rightView, 0, bottomView };
 
 	// Music
@@ -62,14 +62,13 @@ void GameplayState::update()
 
 	// Debug updates
 	if (debugMode) {
-		mouseTileLocX = (mousePosWindow.x / (TILE_SIZE * zoom)) + viewBounds.left;
-		mouseTileLocY = (mousePosWindow.y / (TILE_SIZE * zoom)) + viewBounds.top;
+		mouseTileLocX = mouseGameworldCoords.x / TILE_SIZE;
+		mouseTileLocY = mouseGameworldCoords.y / TILE_SIZE;
+
 		string mouseTileLoc("Tile XY: " + to_string(mouseTileLocX) + ", " + to_string(mouseTileLocY));
 
-		int gameworldMouseCoordsX = mousePosWindow.x + viewBounds.left * TILE_SIZE;
-		int gameworldMouseCoordsY = mousePosWindow.y + viewBounds.top * TILE_SIZE;
 		mouseTileText.setString(mouseTileLoc);
-		mouseTileText.setPosition(Vector2f(gameworldMouseCoordsX, gameworldMouseCoordsY));
+		mouseTileText.setPosition(mouseGameworldCoords);
 	}
 }
 
@@ -108,6 +107,9 @@ void GameplayState::handleInput()
 			{
 				music.stop();
 				music.~Music();
+
+				game->view.zoom(1);
+				game->window.setView(game->view);
 
 				game->view.move(Vector2f(-TILE_SIZE * zoom * viewBounds.left, -TILE_SIZE * zoom * viewBounds.top));
 				game->window.setView(game->view);
@@ -155,7 +157,29 @@ void GameplayState::handleInput()
 					game->window.setView(game->view);
 				}
 			}
-			else if (event.key.code == Keyboard::L)
+			else if (event.key.code == Keyboard::Equal)
+			{
+				if (zoom > .25)
+				{
+					zoom -= .25;
+
+					double scaleFactor = zoom / (zoom + .25);
+					game->view.zoom(scaleFactor);
+					game->window.setView(game->view);
+				}
+			}
+			else if (event.key.code == Keyboard::Dash)
+			{
+				if (zoom < 2)
+				{
+					zoom += .25;
+
+					double scaleFactor = zoom / (zoom - .25);
+					game->view.zoom(scaleFactor);
+					game->window.setView(game->view);
+				}
+			}
+			else if (event.key.code == Keyboard::F1)
 				debugMode = !debugMode;
 		}
 	}
@@ -164,5 +188,5 @@ void GameplayState::handleInput()
 void GameplayState::updateMousePositions()
 {
 	mousePosWindow = Mouse::getPosition(game->window);
-	mousePosScreen = Mouse::getPosition();
+	mouseGameworldCoords = game->window.mapPixelToCoords(Mouse::getPosition());
 }

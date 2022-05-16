@@ -30,7 +30,8 @@ private:
 	Clock clock;
 	ViewBounds viewBounds;
 	Music music;
-	
+	Vector2f mouseGameworldCoords;
+
 	// Debug variables
 	sf::Text mouseTileText;
 	int mouseTileLocX, mouseTileLocY;
