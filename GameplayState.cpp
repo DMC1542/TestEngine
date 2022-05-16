@@ -60,8 +60,11 @@ void GameplayState::update()
 		mouseTileLocX = (mousePosWindow.x / (TILE_SIZE * zoom)) + viewBounds.left;
 		mouseTileLocY = (mousePosWindow.y / (TILE_SIZE * zoom)) + viewBounds.top;
 		string mouseTileLoc("Tile XY: " + to_string(mouseTileLocX) + ", " + to_string(mouseTileLocY));
+
+		int gameworldMouseCoordsX = mousePosWindow.x + viewBounds.left * TILE_SIZE;
+		int gameworldMouseCoordsY = mousePosWindow.y + viewBounds.top * TILE_SIZE;
 		mouseTileText.setString(mouseTileLoc);
-		mouseTileText.setPosition(Vector2f(mousePosWindow));
+		mouseTileText.setPosition(Vector2f(gameworldMouseCoordsX, gameworldMouseCoordsY));
 	}
 }
 
@@ -98,6 +101,8 @@ void GameplayState::handleInput()
 		{
 			if (event.key.code == Keyboard::Escape)
 			{
+				game->view.move(Vector2f(-TILE_SIZE * zoom * viewBounds.left, -TILE_SIZE * zoom * viewBounds.top));
+				game->window.setView(game->view);
 				game->popState();
 				break;				// Critical! Without this break, the loop will continue
 									// executing after pop - leading to null ptr exception.
@@ -151,4 +156,5 @@ void GameplayState::handleInput()
 void GameplayState::updateMousePositions()
 {
 	mousePosWindow = Mouse::getPosition(game->window);
+	mousePosScreen = Mouse::getPosition();
 }
