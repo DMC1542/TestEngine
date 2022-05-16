@@ -7,6 +7,7 @@ TilesetHandler::TilesetHandler()
 	rockText.loadFromFile("graphics/Textures/mountain.png");
 	sandText.loadFromFile("graphics/Textures/basicSand.png");
 	animationTEST.loadFromFile("graphics/animationTest.png");
+	settlerTroopText.loadFromFile("graphics/Entities/settlerTroop.png");
 }
 
 void TilesetHandler::loadGrass()
@@ -23,4 +24,5 @@ void TilesetHandler::loadGrass()
 	grassSandT.setTextureRect(sf::IntRect(64, 128, 64, 64));
 	grassSandTL.setTextureRect(sf::IntRect(128, 128, 64, 64));
 	sand.setTextureRect(sf::IntRect(64, 64, 64, 64));
+	settlerTroop.setTextureRect(sf::IntRect(0, 0, 64, 64));
 }

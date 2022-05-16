@@ -125,5 +125,8 @@
     <ClInclude Include="EntityBuilder.h">
       <Filter>EntitySystem</Filter>
     </ClInclude>
+    <ClInclude Include="SettlerTroop.h">
+      <Filter>EntitySystem\Entities</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -4,7 +4,7 @@
 
 using namespace std;
 
-enum class EntityType { TEST };
+enum class EntityType { TEST, SETTLER };
 
 class Entity 
 {

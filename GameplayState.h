@@ -3,6 +3,7 @@
 #include "GameState.h"
 #include "Map.h"
 #include "TilesetHandler.h"
+#include <SFML/Audio/Music.hpp>
 
 typedef struct ViewBounds
 {
@@ -28,7 +29,8 @@ private:
 	Map map;
 	Clock clock;
 	ViewBounds viewBounds;
-
+	Music music;
+	
 	// Debug variables
 	sf::Text mouseTileText;
 	int mouseTileLocX, mouseTileLocY;
@@ -39,5 +41,4 @@ private:
 	bool debugMode = false;
 	//Vector/linked list of entities?
 	// Bruh, linked list of entities. Lmao
-
 };
