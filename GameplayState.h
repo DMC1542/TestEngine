@@ -40,6 +40,5 @@ private:
 	int viewWidth, viewHeight;
 	double zoom;
 	bool debugMode = false;
-	//Vector/linked list of entities?
-	// Bruh, linked list of entities. Lmao
+	float viewVelocity = 0, transitionSpeed = .5, desiredVelocity = 20;
 };

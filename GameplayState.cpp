@@ -98,6 +98,39 @@ void GameplayState::draw()
 void GameplayState::handleInput()
 {
 	Event event;
+	Time deltaTime = clock.getElapsedTime();
+
+	// Handling movement separately so I can control acceleration of the view
+	bool isMoving = false;
+	Vector2f movementAmount(0, 0);
+
+	// viewVelo = old velocity * (1 - delta_time * transition_speed) + desired_velocity * (delta_time * transition_speed);
+	viewVelocity = viewVelocity * (1 - deltaTime.asSeconds() * transitionSpeed) + desiredVelocity * (deltaTime.asSeconds() * transitionSpeed);
+
+	// This allows for multiple keystrokes at once to movement the view - no longer limited to one movement vector.
+	// All keystrokes influence one overall movement vector that is applied at the end of the update cycle.
+	if (Keyboard::isKeyPressed(Keyboard::Key::D)) {
+		isMoving = true;
+		movementAmount.x += viewVelocity;
+	}
+	if (Keyboard::isKeyPressed(Keyboard::Key::A)) {
+		isMoving = true;
+		movementAmount.x -= viewVelocity;
+	}
+	if (Keyboard::isKeyPressed(Keyboard::Key::W)) {
+		isMoving = true;
+		movementAmount.y -= viewVelocity;
+	}
+	if (Keyboard::isKeyPressed(Keyboard::Key::S)) {
+		isMoving = true;
+		movementAmount.y += viewVelocity;
+	}
+
+	game->view.move(movementAmount);
+	game->window.setView(game->view);
+
+	if (!isMoving)
+		viewVelocity = 0;
 
 	while (game->window.pollEvent(event))
 	{
@@ -117,52 +150,11 @@ void GameplayState::handleInput()
 				break;				// Critical! Without this break, the loop will continue
 									// executing after pop - leading to null ptr exception.
 			}
-			else if (event.key.code == Keyboard::D)
-			{
-				if (viewBounds.right < map.width)
-				{
-					viewBounds.left += 1;
-					viewBounds.right += 1;
-					game->view.move(Vector2f(TILE_SIZE * zoom, 0));
-					game->window.setView(game->view);
-				}
-			}
-			else if (event.key.code == Keyboard::A)
-			{
-				if (viewBounds.left > 0)
-				{
-					viewBounds.left -= 1;
-					viewBounds.right -= 1;
-					game->view.move(Vector2f(-TILE_SIZE * zoom, 0));
-					game->window.setView(game->view);
-				}
-			}
-			else if (event.key.code == Keyboard::W)
-			{
-				if (viewBounds.top > 0)
-				{
-					viewBounds.top -= 1;
-					viewBounds.bottom -= 1;
-					game->view.move(Vector2f(0, -TILE_SIZE * zoom));
-					game->window.setView(game->view);
-				}
-			}
-			else if (event.key.code == Keyboard::S)
-			{
-				if (viewBounds.bottom < map.height)
-				{
-					viewBounds.top += 1;
-					viewBounds.bottom += 1;
-					game->view.move(Vector2f(0, TILE_SIZE * zoom));
-					game->window.setView(game->view);
-				}
-			}
 			else if (event.key.code == Keyboard::Equal)
 			{
 				if (zoom > .25)
 				{
 					zoom -= .25;
-
 					double scaleFactor = zoom / (zoom + .25);
 					game->view.zoom(scaleFactor);
 					game->window.setView(game->view);
@@ -181,6 +173,9 @@ void GameplayState::handleInput()
 			}
 			else if (event.key.code == Keyboard::F1)
 				debugMode = !debugMode;
+		}
+		else if (event.type == Event::KeyReleased) {
+			// ways to detect when we aren't holding a key anymore.
 		}
 	}
 }
