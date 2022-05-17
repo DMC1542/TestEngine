@@ -1,36 +1,38 @@
 ﻿  GameplayState.cpp
 C:\Users\crisc\Desktop\CodeProjects\GameEngine\GameplayState.h(14,2): warning C4091: 'typedef ': ignored on left of 'ViewBounds' when no variable is declared
-C:\Users\crisc\Desktop\CodeProjects\GameEngine\GameplayState.cpp(58,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\crisc\Desktop\CodeProjects\GameEngine\GameplayState.cpp(65,42): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+C:\Users\crisc\Desktop\CodeProjects\GameEngine\GameplayState.cpp(61,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\crisc\Desktop\CodeProjects\GameEngine\GameplayState.cpp(68,42): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
           with
           [
               T=float
           ]
-C:\Users\crisc\Desktop\CodeProjects\GameEngine\GameplayState.cpp(66,42): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+C:\Users\crisc\Desktop\CodeProjects\GameEngine\GameplayState.cpp(69,42): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
           with
           [
               T=float
           ]
-C:\Users\crisc\Desktop\CodeProjects\GameEngine\GameplayState.cpp(87,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\crisc\Desktop\CodeProjects\GameEngine\GameplayState.cpp(147,85): warning C4244: 'argument': conversion from 'double' to 'T', possible loss of data
+C:\Users\crisc\Desktop\CodeProjects\GameEngine\GameplayState.cpp(76,17): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\crisc\Desktop\CodeProjects\GameEngine\GameplayState.cpp(94,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\crisc\Desktop\CodeProjects\GameEngine\GameplayState.cpp(176,19): warning C4244: '=': conversion from 'int' to 'T', possible loss of data
           with
           [
               T=float
           ]
-C:\Users\crisc\Desktop\CodeProjects\GameEngine\GameplayState.cpp(147,48): warning C4244: 'argument': conversion from 'double' to 'T', possible loss of data
+C:\Users\crisc\Desktop\CodeProjects\GameEngine\GameplayState.cpp(181,19): warning C4244: '=': conversion from 'int' to 'T', possible loss of data
           with
           [
               T=float
           ]
-C:\Users\crisc\Desktop\CodeProjects\GameEngine\GameplayState.cpp(159,22): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\crisc\Desktop\CodeProjects\GameEngine\GameplayState.cpp(170,22): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-  MenuState.cpp
-C:\Users\crisc\Desktop\CodeProjects\GameEngine\GameplayState.h(14,2): warning C4091: 'typedef ': ignored on left of 'ViewBounds' when no variable is declared
-C:\Users\crisc\Desktop\CodeProjects\GameEngine\MenuState.cpp(21,16): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\crisc\Desktop\CodeProjects\GameEngine\MenuState.cpp(21,3): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\crisc\Desktop\CodeProjects\GameEngine\MenuState.cpp(20,37): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\crisc\Desktop\CodeProjects\GameEngine\MenuState.cpp(23,20): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\crisc\Desktop\CodeProjects\GameEngine\MenuState.cpp(23,15): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\crisc\Desktop\CodeProjects\GameEngine\MenuState.cpp(22,43): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-  Generating Code...
+C:\Users\crisc\Desktop\CodeProjects\GameEngine\GameplayState.cpp(202,85): warning C4244: 'argument': conversion from 'double' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\crisc\Desktop\CodeProjects\GameEngine\GameplayState.cpp(202,48): warning C4244: 'argument': conversion from 'double' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\crisc\Desktop\CodeProjects\GameEngine\GameplayState.cpp(214,22): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\crisc\Desktop\CodeProjects\GameEngine\GameplayState.cpp(225,22): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
   GameEngine.vcxproj -> C:\Users\crisc\Desktop\CodeProjects\GameEngine\Debug\GameEngine.exe

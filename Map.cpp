@@ -2,6 +2,8 @@
 #include "Entity.h"
 #include <iostream>
 
+int const TILE_SIZE = 64;
+
 Map::Map()
 {
 	this->width = -1;
@@ -12,6 +14,8 @@ Map::Map(int width, int height)
 {
 	this->width = width;
 	this->height = height;
+	this->pixelWidth = width * TILE_SIZE;
+	this->pixelHeight = height * TILE_SIZE;
 }
 
 void Map::generateMap(int64_t seed, int octaves, double scale, double persistence, double lacunarity)

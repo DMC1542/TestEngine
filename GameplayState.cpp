@@ -38,6 +38,9 @@ GameplayState::GameplayState(Game* g)
 	mouseTileText.setFont(debugFont);
 	mouseTileText.setFillColor(Color::White);
 	mouseTileText.setOutlineColor(Color::Black);
+	fpsText.setFont(debugFont);
+	fpsText.setFillColor(Color::White);
+	fpsText.setOutlineColor(Color::Black);
 }
 
 void GameplayState::update()
@@ -68,7 +71,11 @@ void GameplayState::update()
 		string mouseTileLoc("Tile XY: " + to_string(mouseTileLocX) + ", " + to_string(mouseTileLocY));
 
 		mouseTileText.setString(mouseTileLoc);
-		mouseTileText.setPosition(mouseGameworldCoords);
+		mouseTileText.setPosition(mouseGameworldCoords + Vector2f(0, -20));
+
+		actualFPS = 1 / deltaTime.asSeconds();
+		fpsText.setString("FPS: " + to_string(actualFPS));
+		fpsText.setPosition((mouseGameworldCoords + Vector2f(0, -45)));
 	}
 }
 
@@ -92,6 +99,7 @@ void GameplayState::draw()
 	if (debugMode)
 	{
 		game->window.draw(mouseTileText);
+		game->window.draw(fpsText);
 	}
 }
 
@@ -105,32 +113,79 @@ void GameplayState::handleInput()
 	Vector2f movementAmount(0, 0);
 
 	// viewVelo = old velocity * (1 - delta_time * transition_speed) + desired_velocity * (delta_time * transition_speed);
-	viewVelocity = viewVelocity * (1 - deltaTime.asSeconds() * transitionSpeed) + desiredVelocity * (deltaTime.asSeconds() * transitionSpeed);
+	//viewVelocity = viewVelocity * (1 - deltaTime.asSeconds() * transitionSpeed) + desiredVelocity * (deltaTime.asSeconds() * transitionSpeed);
+	
 
 	// This allows for multiple keystrokes at once to movement the view - no longer limited to one movement vector.
 	// All keystrokes influence one overall movement vector that is applied at the end of the update cycle.
 	if (Keyboard::isKeyPressed(Keyboard::Key::D)) {
 		isMoving = true;
+		if (viewVelocity < MAX_VELOCITY)
+			viewVelocity += ACCELERATION * deltaTime.asSeconds();
+
 		movementAmount.x += viewVelocity;
 	}
 	if (Keyboard::isKeyPressed(Keyboard::Key::A)) {
 		isMoving = true;
+		if (viewVelocity < MAX_VELOCITY)
+			viewVelocity += ACCELERATION * deltaTime.asSeconds();
+
 		movementAmount.x -= viewVelocity;
 	}
 	if (Keyboard::isKeyPressed(Keyboard::Key::W)) {
 		isMoving = true;
+		if (viewVelocity < MAX_VELOCITY)
+			viewVelocity += ACCELERATION * deltaTime.asSeconds();
+
 		movementAmount.y -= viewVelocity;
 	}
 	if (Keyboard::isKeyPressed(Keyboard::Key::S)) {
 		isMoving = true;
+		if (viewVelocity < MAX_VELOCITY)
+			viewVelocity += ACCELERATION * deltaTime.asSeconds();
+
 		movementAmount.y += viewVelocity;
 	}
+	
+	// Decelerate
+	if (!isMoving) {
+		viewVelocity -= ACCELERATION * 3 * deltaTime.asSeconds();
 
+		if (viewVelocity > 0)
+		{
+			if (lastMovementVector.x > 0)
+				movementAmount.x += viewVelocity;
+			else if (lastMovementVector.x < 0)
+				movementAmount.x -= viewVelocity;
+			if (lastMovementVector.y > 0)
+				movementAmount.y += viewVelocity;
+			else if (lastMovementVector.y < 0)
+				movementAmount.y -= viewVelocity;
+		}
+		else
+			viewVelocity = 0;
+	}
+
+	if (isMoving)
+	{
+		// Manually update the current view location, apply boundings
+		viewLoc += movementAmount;
+		if (viewLoc.x <= 0)
+			viewLoc.x = 0;
+		else if (viewLoc.x > map.pixelWidth)
+			viewLoc.x = map.pixelWidth;
+
+		if (viewLoc.y <= 0)
+			viewLoc.y = 0;
+		else if (viewLoc.y > map.pixelHeight)
+			viewLoc.y = map.pixelHeight;
+	}
+
+	// Apply bounded movement
+	lastMovementVector = movementAmount;
 	game->view.move(movementAmount);
 	game->window.setView(game->view);
 
-	if (!isMoving)
-		viewVelocity = 0;
 
 	while (game->window.pollEvent(event))
 	{

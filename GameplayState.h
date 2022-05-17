@@ -30,15 +30,17 @@ private:
 	Clock clock;
 	ViewBounds viewBounds;
 	Music music;
-	Vector2f mouseGameworldCoords;
+	Vector2f mouseGameworldCoords, viewLoc, lastMovementVector;
 
 	// Debug variables
-	sf::Text mouseTileText;
+	sf::Text mouseTileText, fpsText;
 	int mouseTileLocX, mouseTileLocY;
 	Font debugFont;
+	int actualFPS = 0;
 
 	int viewWidth, viewHeight;
 	double zoom;
 	bool debugMode = false;
-	float viewVelocity = 0, transitionSpeed = .5, desiredVelocity = 20;
+	int const MAX_VELOCITY = 20, ACCELERATION = 10;
+	float viewVelocity = 0, decelVelocity = 0;
 };

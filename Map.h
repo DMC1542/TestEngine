@@ -12,8 +12,8 @@ using namespace std;
 class Map
 {
 public:
-	int width;
-	int height;
+	int width, pixelWidth;
+	int height, pixelHeight;
 	vector<vector<Tile>> board;
 	vector<Entity*> entities;
 	TilesetHandler* tHandler;
