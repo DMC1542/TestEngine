@@ -34,6 +34,12 @@ GameplayState::GameplayState(Game* g)
 	music.openFromFile("audio/mozart.wav");
 	//music.play();
 
+	// Selected tile init
+	selectedTile.setOutlineColor(Color::Black);
+	selectedTile.setOutlineThickness(3);
+	selectedTile.setFillColor(Color::Transparent);
+	selectedTile.setSize(Vector2f(TILE_SIZE, TILE_SIZE));
+
 	// Debug mode init
 	debugFont.loadFromFile("fonts/Montserrat-Regular.ttf");
 	mouseTileText.setFont(debugFont);
@@ -49,6 +55,12 @@ void GameplayState::update()
 	Time deltaTime = clock.restart();
 	updateMousePositions();
 
+	// Update current tile
+	currentTile.x = mouseGameworldCoords.x / TILE_SIZE;
+	currentTile.y = mouseGameworldCoords.y / TILE_SIZE;
+	selectedTile.setPosition(Vector2f(currentTile.x * TILE_SIZE, currentTile.y * TILE_SIZE));
+
+	// Update all tiles
 	for (int h = viewBounds.top; h < viewBounds.bottom; h++)
 	{
 		for (int w = viewBounds.left; w < viewBounds.right; w++)
@@ -98,6 +110,9 @@ void GameplayState::draw()
 	{
 		game->window.draw(map.getEntitySpriteAt(i));
 	}
+
+	// Draw selected tile
+	game->window.draw(selectedTile);
 
 	if (debugMode)
 	{

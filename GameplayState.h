@@ -31,6 +31,8 @@ private:
 	ViewBounds viewBounds;
 	Music music;
 	Vector2f mouseGameworldCoords, lastMovementVector;
+	Vector2i currentTile;
+	RectangleShape selectedTile;
 
 	// Debug variables
 	sf::Text mouseTileText, fpsText;
