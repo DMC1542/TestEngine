@@ -17,21 +17,22 @@ GameplayState::GameplayState(Game* g)
 	map = Map(100, 100);
 	map.setTilesetHandler(&tHandler);
 	map.generateMap(seed, octaves, scale, persistence, lacunarity);
-	//map.createEntity(EntityType::TEST, "Test", 0, 0);
-	//map.createEntity(EntityType::TEST, "Test", 1, 1);
 	map.createEntity(EntityType::SETTLER, "Player 1 Settler", 2, 2);
 
 	// Defining view width and height
 	zoom = 1;
+	viewLimit.x = TILE_SIZE * map.width;
+	viewLimit.y = TILE_SIZE * map.height;
+	originalCenter = game->view.getCenter();
 
 	// Initial view bounds. Gets window's size, gets # of tiles visible + 1 in case of underestimate
-	int rightView = (int)ceil(game->window.getSize().x / (float)TILE_SIZE);
-	int bottomView = (int)ceil(game->window.getSize().y / (float)TILE_SIZE) ;
+	int rightView = (int)ceil(game->window.getSize().x / (double)TILE_SIZE) + 1;
+	int bottomView = (int)ceil(game->window.getSize().y / (double)TILE_SIZE) + 1;
 	viewBounds = { 0, rightView, 0, bottomView };
 
 	// Music
 	music.openFromFile("audio/mozart.wav");
-	music.play();
+	//music.play();
 
 	// Debug mode init
 	debugFont.loadFromFile("fonts/Montserrat-Regular.ttf");
@@ -74,7 +75,9 @@ void GameplayState::update()
 		mouseTileText.setPosition(mouseGameworldCoords + Vector2f(0, -20));
 
 		actualFPS = 1 / deltaTime.asSeconds();
-		fpsText.setString("FPS: " + to_string(actualFPS));
+		// TEMPORARY
+		fpsText.setString("LR, TB: " + to_string(viewBounds.left) + ", " + to_string(viewBounds.right) + 
+		", " + to_string(viewBounds.top) + ", " + to_string(viewBounds.bottom));
 		fpsText.setPosition((mouseGameworldCoords + Vector2f(0, -45)));
 	}
 }
@@ -110,11 +113,7 @@ void GameplayState::handleInput()
 
 	// Handling movement separately so I can control acceleration of the view
 	bool isMoving = false;
-	Vector2f movementAmount(0, 0);
-
-	// viewVelo = old velocity * (1 - delta_time * transition_speed) + desired_velocity * (delta_time * transition_speed);
-	//viewVelocity = viewVelocity * (1 - deltaTime.asSeconds() * transitionSpeed) + desiredVelocity * (deltaTime.asSeconds() * transitionSpeed);
-	
+	movementAmount = Vector2f(0, 0);
 
 	// This allows for multiple keystrokes at once to movement the view - no longer limited to one movement vector.
 	// All keystrokes influence one overall movement vector that is applied at the end of the update cycle.
@@ -146,7 +145,7 @@ void GameplayState::handleInput()
 
 		movementAmount.y += viewVelocity;
 	}
-	
+
 	// Decelerate
 	if (!isMoving) {
 		viewVelocity -= ACCELERATION * 3 * deltaTime.asSeconds();
@@ -166,26 +165,17 @@ void GameplayState::handleInput()
 			viewVelocity = 0;
 	}
 
-	if (isMoving)
-	{
-		// Manually update the current view location, apply boundings
-		viewLoc += movementAmount;
-		if (viewLoc.x <= 0)
-			viewLoc.x = 0;
-		else if (viewLoc.x > map.pixelWidth)
-			viewLoc.x = map.pixelWidth;
-
-		if (viewLoc.y <= 0)
-			viewLoc.y = 0;
-		else if (viewLoc.y > map.pixelHeight)
-			viewLoc.y = map.pixelHeight;
-	}
+	// Manually update the current view location, apply boundings
+	correctViewBounds();
 
 	// Apply bounded movement
 	lastMovementVector = movementAmount;
 	game->view.move(movementAmount);
 	game->window.setView(game->view);
 
+	// Figure out the new render window
+	calcViewBounds();
+	
 
 	while (game->window.pollEvent(event))
 	{
@@ -210,6 +200,7 @@ void GameplayState::handleInput()
 				if (zoom > .25)
 				{
 					zoom -= .25;
+
 					double scaleFactor = zoom / (zoom + .25);
 					game->view.zoom(scaleFactor);
 					game->window.setView(game->view);
@@ -217,6 +208,7 @@ void GameplayState::handleInput()
 			}
 			else if (event.key.code == Keyboard::Dash)
 			{
+
 				if (zoom < 2)
 				{
 					zoom += .25;
@@ -224,6 +216,8 @@ void GameplayState::handleInput()
 					double scaleFactor = zoom / (zoom - .25);
 					game->view.zoom(scaleFactor);
 					game->window.setView(game->view);
+
+					correctViewBounds();
 				}
 			}
 			else if (event.key.code == Keyboard::F1)
@@ -239,4 +233,46 @@ void GameplayState::updateMousePositions()
 {
 	mousePosWindow = Mouse::getPosition(game->window);
 	mouseGameworldCoords = game->window.mapPixelToCoords(Mouse::getPosition());
+}
+
+void GameplayState::calcViewBounds() {
+	Vector2f center = game->view.getCenter();
+	viewBounds.left = (center.x - (game->view.getSize().x / 2)) / TILE_SIZE;
+	viewBounds.right = (center.x + (game->view.getSize().x / 2)) / TILE_SIZE + 1;
+	viewBounds.top = (center.y - (game->view.getSize().y / 2)) / TILE_SIZE;
+	viewBounds.bottom = (center.y + (game->view.getSize().y / 2)) / TILE_SIZE + 1;
+
+	if (viewBounds.right > map.width)
+		viewBounds.right = map.width;
+	if (viewBounds.bottom > map.height)
+		viewBounds.bottom = map.height;
+}
+
+void GameplayState::correctViewBounds() {
+
+	// just use the outer boxes, not the center.
+	Vector2f currentCenter = game->view.getCenter();
+	double widthOffset = floor(game->view.getSize().x / 2) - 1;  // the - 1 is to prevent the screen from getting stuck outside bounds from floating point errors.
+	double heightOffset = floor(game->view.getSize().y / 2) - 1;
+
+	if (currentCenter.x - widthOffset < 0) {
+		game->view.setCenter(Vector2f(widthOffset, currentCenter.y));
+		movementAmount.x = 0;
+		viewVelocity = 0;
+	}
+	else if (currentCenter.x + widthOffset > viewLimit.x) {
+		game->view.setCenter(Vector2f(viewLimit.x - widthOffset, currentCenter.y));
+		movementAmount.x = 0;
+		viewVelocity = 0;
+	}
+
+	if (currentCenter.y - heightOffset < 0) {
+		game->view.setCenter(Vector2f(currentCenter.x, heightOffset));
+		movementAmount.y = 0;
+		viewVelocity = 0;
+	} else if (currentCenter.y + heightOffset > viewLimit.y) {
+		game->view.setCenter(Vector2f(currentCenter.x, viewLimit.y - heightOffset));
+		movementAmount.y = 0;
+		viewVelocity = 0;
+	}
 }
