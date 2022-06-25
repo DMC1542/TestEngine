@@ -1,4 +1,7 @@
 #include "GameplayState.h"
+#include "FeatureState.h"
+#include "TestFeature.h"
+
 #include <iostream>
 
 using namespace sf;
@@ -121,24 +124,20 @@ void GameplayState::handleInput()
 	// We want to enable features to hijack control schemes.
 	// However, there's an option available to maintain regular controls.
 
-	// if COMPLETE_CONTROL
-	//		Pass the event straight to the feature state for handling.
-	//		All queued events become consumed. (Just trap control flow here)
+	/* if COMPLETE_CONTROL
+	 *		Pass the event straight to the feature state for handling.
+	 *		All queued events become consumed. (Just trap control flow here)
+	 * if SELECTIVE_CONTROL
+	 *		
+	 */
 
 	Event event;
 	Time deltaTime = clock.getElapsedTime();
 
-	// Check for control override by the feature
+	// If there's a feature state, use its bindings first
 	if (!featureStates.empty())
 	{
-		FeatureState* featureState = featureStates.top();
-		if (featureState->control_type & FeatureState::ControlType::TOTAL_CONTROL) {
-			featureState->handleInput(deltaTime);
-			return;
-		}
-		else if (featureState->control_type & FeatureState::ControlType::SELECTIVE_CONTROL) {
-
-		}
+		featureStates.top()->handleInput(deltaTime);
 	}
 	else {
 		// We have no feature states. Handle all controls normally.
@@ -211,6 +210,9 @@ void GameplayState::applyNormalKeybinds(Keyboard::Key key) {
 	}
 	else if (key == Keyboard::F1)
 		debugMode = !debugMode;
+	else if (key == Keyboard::P) {
+		featureStates.push(new TestFeature(this));
+	}
 }
 
 void GameplayState::applyWASDmovement(Time deltaTime) {

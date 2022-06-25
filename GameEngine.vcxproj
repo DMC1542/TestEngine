@@ -157,6 +157,7 @@
     <ClCompile Include="OptionsState.cpp" />
     <ClCompile Include="SettingsHandler.cpp" />
     <ClCompile Include="TestEntity.cpp" />
+    <ClCompile Include="TestFeature.cpp" />
     <ClCompile Include="TextElement.cpp" />
     <ClCompile Include="TilesetHandler.cpp" />
     <ClCompile Include="Tile.cpp" />
@@ -178,6 +179,7 @@
     <ClInclude Include="SettlerTroop.h" />
     <ClInclude Include="Terrain.h" />
     <ClInclude Include="TestEntity.h" />
+    <ClInclude Include="TestFeature.h" />
     <ClInclude Include="TextElement.h" />
     <ClInclude Include="TilesetHandler.h" />
     <ClInclude Include="Tile.h" />

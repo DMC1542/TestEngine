@@ -46,6 +46,9 @@
     <ClCompile Include="TestEntity.cpp">
       <Filter>EntitySystem\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="TestFeature.cpp">
+      <Filter>FeatureStates</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
@@ -132,6 +135,9 @@
       <Filter>EntitySystem\Entities</Filter>
     </ClInclude>
     <ClInclude Include="FeatureState.h">
+      <Filter>FeatureStates</Filter>
+    </ClInclude>
+    <ClInclude Include="TestFeature.h">
       <Filter>FeatureStates</Filter>
     </ClInclude>
   </ItemGroup>

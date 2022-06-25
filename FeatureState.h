@@ -1,27 +1,20 @@
 #pragma once
 
+#include "SFML/System/Time.hpp"
+
 // Forward declaration. Tells compiler this will be defined, just externally.
 class GameplayState;
 
 class FeatureState {
-
-public:
-	enum ControlType {
-		TOTAL_CONTROL = 0x01,
-		SELECTIVE_CONTROL = 0x02,
-		TOTAL_PASSTHROUGH = 0x04
-	};
-
-	unsigned char control_type;
-
-	FeatureState(GameplayState* g) {
-		parent = g;
-	}
-
-	virtual void handleInput(Time deltaTime) = 0;
+public:	
+	/**
+	 * @brief Handles the input for a mechanical feature
+	 * @param deltaTime Time since last frame in seconds
+	 * @return Only relevant ControlType != TOTAL_CONTROL. True: keypress passthrough. False: Trap keypress.
+	*/
+	virtual void handleInput(sf::Time deltaTime) = 0;
 	virtual void draw() = 0;
 	virtual void update() = 0;
 
-private:
-	GameplayState* parent;
+	GameplayState* parent = nullptr;
 };

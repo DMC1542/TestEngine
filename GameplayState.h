@@ -3,8 +3,10 @@
 #include "GameState.h"
 #include "Map.h"
 #include "TilesetHandler.h"
-#include "FeatureState.h"
 #include <SFML/Audio/Music.hpp>
+
+// Forward declaration. Tells compiler this will be defined, just externally.
+class FeatureState;
 
 typedef struct ViewBounds
 {
