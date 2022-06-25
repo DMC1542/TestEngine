@@ -72,6 +72,9 @@
     <Filter Include="EntitySystem\Entities">
       <UniqueIdentifier>{54757c1c-ef3e-4e7f-8e34-5dfab282133c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FeatureStates">
+      <UniqueIdentifier>{dd494087-2733-4896-8fa2-91d2f8549464}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -127,6 +130,9 @@
     </ClInclude>
     <ClInclude Include="SettlerTroop.h">
       <Filter>EntitySystem\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="FeatureState.h">
+      <Filter>FeatureStates</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

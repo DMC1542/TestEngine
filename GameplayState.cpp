@@ -39,15 +39,6 @@ GameplayState::GameplayState(Game* g)
 	selectedTile.setOutlineThickness(3);
 	selectedTile.setFillColor(Color::Transparent);
 	selectedTile.setSize(Vector2f(TILE_SIZE, TILE_SIZE));
-
-	// Debug mode init
-	debugFont.loadFromFile("fonts/Montserrat-Regular.ttf");
-	mouseTileText.setFont(debugFont);
-	mouseTileText.setFillColor(Color::White);
-	mouseTileText.setOutlineColor(Color::Black);
-	fpsText.setFont(debugFont);
-	fpsText.setFillColor(Color::White);
-	fpsText.setOutlineColor(Color::Black);
 }
 
 void GameplayState::update()
@@ -119,13 +110,110 @@ void GameplayState::draw()
 		game->window.draw(mouseTileText);
 		game->window.draw(fpsText);
 	}
+
+	// If feature states, draw their visuals
+	if (!featureStates.empty())
+		featureStates.top()->draw();
 }
 
 void GameplayState::handleInput()
 {
+	// We want to enable features to hijack control schemes.
+	// However, there's an option available to maintain regular controls.
+
+	// if COMPLETE_CONTROL
+	//		Pass the event straight to the feature state for handling.
+	//		All queued events become consumed. (Just trap control flow here)
+
 	Event event;
 	Time deltaTime = clock.getElapsedTime();
 
+	// Check for control override by the feature
+	if (!featureStates.empty())
+	{
+		FeatureState* featureState = featureStates.top();
+		if (featureState->control_type & FeatureState::ControlType::TOTAL_CONTROL) {
+			featureState->handleInput(deltaTime);
+			return;
+		}
+		else if (featureState->control_type & FeatureState::ControlType::SELECTIVE_CONTROL) {
+
+		}
+	}
+	else {
+		// We have no feature states. Handle all controls normally.
+		// First, allow movement
+		applyWASDmovement(deltaTime);
+
+		// Handle non-key related events
+		while (game->window.pollEvent(event))
+		{
+			if (event.type == Event::KeyPressed)
+			{
+				/* This is the only key - related event that must be outside the applyNormalKeybinds()
+				* method because it directly influences the control flow of the event queue polling loop.
+				* All other key press events can be removed into the normal keybind method.
+				*/
+				if (event.key.code == Keyboard::Escape)
+				{
+					music.stop();
+					music.~Music();
+
+					game->view.zoom(1);
+					game->window.setView(game->view);
+
+					game->view.move(Vector2f(-TILE_SIZE * zoom * viewBounds.left, -TILE_SIZE * zoom * viewBounds.top));
+					game->window.setView(game->view);
+					game->popState();
+					break;				// Critical! Without this break, the loop will continue
+										// executing after pop - leading to null ptr exception.
+				}
+				else {
+					applyNormalKeybinds(event.key.code);
+				}
+			}
+			else if (event.type == Event::Closed) {
+				// Catches window closure, can elegantly close the application here. 
+			}
+		}
+	}
+}
+
+void GameplayState::updateMousePositions() {
+	mousePosWindow = Mouse::getPosition(game->window);
+	mouseGameworldCoords = game->window.mapPixelToCoords(Mouse::getPosition());
+}
+
+void GameplayState::applyNormalKeybinds(Keyboard::Key key) {
+	if (key == Keyboard::Equal)
+	{
+		if (zoom > .25)
+		{
+			zoom -= .25;
+
+			double scaleFactor = zoom / (zoom + .25);
+			game->view.zoom(scaleFactor);
+			game->window.setView(game->view);
+		}
+	}
+	else if (key == Keyboard::Dash)
+	{
+		if (zoom < 2)
+		{
+			zoom += .25;
+
+			double scaleFactor = zoom / (zoom - .25);
+			game->view.zoom(scaleFactor);
+			game->window.setView(game->view);
+
+			correctViewBounds();
+		}
+	}
+	else if (key == Keyboard::F1)
+		debugMode = !debugMode;
+}
+
+void GameplayState::applyWASDmovement(Time deltaTime) {
 	// Handling movement separately so I can control acceleration of the view
 	bool isMoving = false;
 	movementAmount = Vector2f(0, 0);
@@ -190,64 +278,6 @@ void GameplayState::handleInput()
 
 	// Figure out the new render window
 	calcViewBounds();
-	
-
-	while (game->window.pollEvent(event))
-	{
-		if (event.type == Event::KeyPressed)
-		{
-			if (event.key.code == Keyboard::Escape)
-			{
-				music.stop();
-				music.~Music();
-
-				game->view.zoom(1);
-				game->window.setView(game->view);
-
-				game->view.move(Vector2f(-TILE_SIZE * zoom * viewBounds.left, -TILE_SIZE * zoom * viewBounds.top));
-				game->window.setView(game->view);
-				game->popState();
-				break;				// Critical! Without this break, the loop will continue
-									// executing after pop - leading to null ptr exception.
-			}
-			else if (event.key.code == Keyboard::Equal)
-			{
-				if (zoom > .25)
-				{
-					zoom -= .25;
-
-					double scaleFactor = zoom / (zoom + .25);
-					game->view.zoom(scaleFactor);
-					game->window.setView(game->view);
-				}
-			}
-			else if (event.key.code == Keyboard::Dash)
-			{
-
-				if (zoom < 2)
-				{
-					zoom += .25;
-
-					double scaleFactor = zoom / (zoom - .25);
-					game->view.zoom(scaleFactor);
-					game->window.setView(game->view);
-
-					correctViewBounds();
-				}
-			}
-			else if (event.key.code == Keyboard::F1)
-				debugMode = !debugMode;
-		}
-		else if (event.type == Event::KeyReleased) {
-			// ways to detect when we aren't holding a key anymore.
-		}
-	}
-}
-
-void GameplayState::updateMousePositions()
-{
-	mousePosWindow = Mouse::getPosition(game->window);
-	mouseGameworldCoords = game->window.mapPixelToCoords(Mouse::getPosition());
 }
 
 void GameplayState::calcViewBounds() {
@@ -290,4 +320,15 @@ void GameplayState::correctViewBounds() {
 		movementAmount.y = 0;
 		viewVelocity = 0;
 	}
+}
+
+void GameplayState::initDebugMode() {
+	// Debug mode init
+	debugFont.loadFromFile("fonts/Montserrat-Regular.ttf");
+	mouseTileText.setFont(debugFont);
+	mouseTileText.setFillColor(Color::White);
+	mouseTileText.setOutlineColor(Color::Black);
+	fpsText.setFont(debugFont);
+	fpsText.setFillColor(Color::White);
+	fpsText.setOutlineColor(Color::Black);
 }

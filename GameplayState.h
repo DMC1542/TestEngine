@@ -3,6 +3,7 @@
 #include "GameState.h"
 #include "Map.h"
 #include "TilesetHandler.h"
+#include "FeatureState.h"
 #include <SFML/Audio/Music.hpp>
 
 typedef struct ViewBounds
@@ -24,6 +25,10 @@ public:
 	const int TILE_SIZE = 64;
 
 	TilesetHandler tHandler;
+	std::stack<FeatureState*> featureStates;
+	
+	void applyWASDmovement(Time deltaTime);
+	void applyNormalKeybinds(Keyboard::Key key);
 
 private:
 	Map map;
@@ -49,4 +54,5 @@ private:
 
 	void calcViewBounds();
 	void correctViewBounds();
+	void initDebugMode();
 };

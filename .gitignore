@@ -1,1 +1,7 @@
-.vs/GameEngine/v16/Browse.VC.opendb
+
+# VS files
+.vs/
+
+# Debug/Release binaries
+Debug/
+Release/
