@@ -15,6 +15,9 @@ public:
 	int width, pixelWidth;
 	int height, pixelHeight;
 	vector<vector<Tile>> board;
+
+	// Note to self. Map.entities is a redundant list that enables me to easily iterate over all existing
+	// entities, without having to iterate through all tiles on the map.
 	vector<Entity*> entities;
 	TilesetHandler* tHandler;
 	EntityBuilder entityBuilder;
@@ -25,5 +28,7 @@ public:
 	Sprite getEntitySpriteAt(int i);
 	double invLerp(double min, double max, double value);
 	void setTilesetHandler(TilesetHandler* tHandler);
+	
 	void createEntity(EntityType type, string name, int x, int y);
+	void deleteEntity(int id);
 };

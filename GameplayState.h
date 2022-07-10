@@ -7,6 +7,7 @@
 
 // Forward declaration. Tells compiler this will be defined, just externally.
 class FeatureState;
+class Entity;
 
 typedef struct ViewBounds
 {
@@ -31,6 +32,9 @@ public:
 	
 	void applyWASDmovement(Time deltaTime);
 	void applyNormalKeybinds(Keyboard::Key key);
+	Tile* getTile(int x, int y);
+	void createEntity(EntityType type, std::string name, int x, int y);
+	void deleteEntity(int id);
 
 private:
 	Map map;

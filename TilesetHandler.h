@@ -12,12 +12,11 @@ public:
 	Texture grassText, sandText, waterText, rockText;
 	Texture grassTileSet;
 	Texture animationTEST;
-	Texture settlerTroopText;
+	Texture settlerTroopTexture, settlementTexture;
 
 	Sprite grassSandBR, grassSandTR, grassSandTL, grassSandBL,
 		grassSandT, grassSandR, grassSandB, grassSandL;
 	Sprite sand;
-	Sprite settlerTroop;
 
 	TilesetHandler();
 	void loadGrass();

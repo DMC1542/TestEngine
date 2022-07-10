@@ -156,6 +156,7 @@
     <ClCompile Include="Noise.cpp" />
     <ClCompile Include="OptionsState.cpp" />
     <ClCompile Include="SettingsHandler.cpp" />
+    <ClCompile Include="SettlerTroop.cpp" />
     <ClCompile Include="TestEntity.cpp" />
     <ClCompile Include="TestFeature.cpp" />
     <ClCompile Include="TextElement.cpp" />
@@ -176,6 +177,7 @@
     <ClInclude Include="Noise.h" />
     <ClInclude Include="OptionsState.h" />
     <ClInclude Include="SettingsHandler.h" />
+    <ClInclude Include="PrimitiveSettlement.h" />
     <ClInclude Include="SettlerTroop.h" />
     <ClInclude Include="Terrain.h" />
     <ClInclude Include="TestEntity.h" />

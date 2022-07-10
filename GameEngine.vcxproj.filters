@@ -49,6 +49,9 @@
     <ClCompile Include="TestFeature.cpp">
       <Filter>FeatureStates</Filter>
     </ClCompile>
+    <ClCompile Include="SettlerTroop.cpp">
+      <Filter>EntitySystem\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
@@ -139,6 +142,9 @@
     </ClInclude>
     <ClInclude Include="TestFeature.h">
       <Filter>FeatureStates</Filter>
+    </ClInclude>
+    <ClInclude Include="PrimitiveSettlement.h">
+      <Filter>EntitySystem\Entities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

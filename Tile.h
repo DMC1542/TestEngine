@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <map>
 
 #include "Animation.h"
 #include "Terrain.h"
@@ -15,7 +16,8 @@ public:
 	int x, y;
 	Animation animator;
 	Terrain terrain;
-	std::vector<Entity*> entities;
+	//std::vector<Entity*> entities;
+	std::map<int, Entity*> entities;
 
 	Tile();
 	Tile(int x, int y, double noise, int numFrames = 1);

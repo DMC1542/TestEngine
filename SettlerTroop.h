@@ -7,4 +7,7 @@ public:
 	SettlerTroop(string name, int x, int y) : Entity(name, x, y) {
 		// Nothing now
 	}
+
+	void placeSettlement(GameplayState*);
+private: 
 };

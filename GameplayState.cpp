@@ -210,8 +210,10 @@ void GameplayState::applyNormalKeybinds(Keyboard::Key key) {
 	}
 	else if (key == Keyboard::F1)
 		debugMode = !debugMode;
-	else if (key == Keyboard::P) {
-		featureStates.push(new TestFeature(this));
+	else if (key == Keyboard::P) { /* My Debugging key */
+		//featureStates.push(new TestFeature(this));
+		SettlerTroop* test = static_cast<SettlerTroop*>((*getTile(2, 2)->entities.begin()).second);
+		test->placeSettlement(this);
 	}
 }
 
@@ -333,4 +335,16 @@ void GameplayState::initDebugMode() {
 	fpsText.setFont(debugFont);
 	fpsText.setFillColor(Color::White);
 	fpsText.setOutlineColor(Color::Black);
+}
+
+Tile* GameplayState::getTile(int x, int y) {
+	return &map.board[y][x];
+}
+
+void GameplayState::createEntity(EntityType type, std::string name, int x, int y) {
+	map.createEntity(type, name, x, y);
+}
+
+void GameplayState::deleteEntity(int id) {
+	map.deleteEntity(id);
 }

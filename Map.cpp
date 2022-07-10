@@ -112,17 +112,6 @@ void Map::generateMap(int64_t seed, int octaves, double scale, double persistenc
 	return;
 }
 
-
-void Map::createEntity(EntityType type, std::string name, int x, int y)
-{
-	if (tHandler != NULL)
-	{
-		Entity* temp = entityBuilder.buildEntity(type, name, x, y);
-		this->board[y][x].entities.push_back(temp);
-		this->entities.push_back(temp);
-	}
-}
-
 Sprite Map::getEntitySpriteAt(int i) 
 {
 	return entities.at(i)->getSprite();
@@ -138,4 +127,29 @@ void Map::setTilesetHandler(TilesetHandler* tHandler)
 {
 	this->tHandler = tHandler;
 	this->entityBuilder = EntityBuilder(tHandler);
+}
+
+void Map::createEntity(EntityType type, std::string name, int x, int y)
+{
+	if (tHandler != NULL)
+	{
+		Entity* temp = entityBuilder.buildEntity(type, name, x, y);
+		std::pair<int, Entity*> entityPair = std::pair<int, Entity*>(temp->id, temp);
+		this->board[y][x].entities.insert(entityPair);
+		this->entities.push_back(temp);
+	}
+}
+
+void Map::deleteEntity(int id) {
+	// Get the entity from master list, then remove it from the tile
+	for (auto it = entities.begin(); it != entities.end(); it++) {
+		if ((*it)->id == id) {
+			Entity* deletedEntity = (*it);
+			entities.erase(it);
+
+			board[deletedEntity->y][deletedEntity->x].entities.erase(deletedEntity->id);
+			delete deletedEntity;
+			break;
+		}
+	}
 }

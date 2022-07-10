@@ -4,6 +4,7 @@
 #include "TilesetHandler.h"
 #include "TestEntity.h"
 #include "SettlerTroop.h"
+#include "PrimitiveSettlement.h"
 
 class EntityBuilder {
 public:
@@ -29,7 +30,13 @@ public:
 		{
 			delete temp;
 			temp = new SettlerTroop(name, x, y);
-			temp->setAnimationProperties(&tHandler->settlerTroopText, 0, 0, 2, 3);
+			temp->setAnimationProperties(&tHandler->settlerTroopTexture, 0, 0, 2, 3);
+		} 
+		else if (type == EntityType::SETTLEMENT) {
+			delete temp;
+			temp = new PrimitiveSettlement(name, x, y);
+			temp->setAnimationProperties(&tHandler->settlementTexture , 0, 0, 1, 1);
+			temp->isAnimated = false;
 		}
 
 		return temp;

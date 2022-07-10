@@ -1,10 +1,14 @@
 #pragma once
 
 #include "Animation.h"
+#include <map>
+
+// Forward declaration. Tells compiler this will be defined, just externally.
+class GameplayState;
 
 using namespace std;
 
-enum class EntityType { TEST, SETTLER };
+enum class EntityType { TEST, SETTLER, SETTLEMENT };
 
 class Entity 
 {
@@ -12,7 +16,10 @@ public:
 	Animation animator;
 	string name;
 	Vector2f position;
+	map< string, void(*)(GameplayState*)> actionList;
+
 	int id;
+	int x, y;
 	bool isAnimated = false;
 
 	Entity();

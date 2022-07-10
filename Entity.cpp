@@ -13,6 +13,9 @@ Entity::Entity(string name, int x, int y) {
 
 	this->name = name;
 	this->id = getID();
+
+	this->x = x;
+	this->y = y;
 }
 
 Sprite Entity::getSprite() {
