@@ -145,6 +145,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ActionMenu.cpp" />
+    <ClCompile Include="ActionSelection.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Entity.cpp" />
@@ -164,6 +166,8 @@
     <ClCompile Include="Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ActionMenu.h" />
+    <ClInclude Include="ActionSelection.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Entity.h" />

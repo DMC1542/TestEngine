@@ -7,6 +7,7 @@
 
 // Forward declaration. Tells compiler this will be defined, just externally.
 class FeatureState;
+class ActionSelection;
 class Entity;
 
 typedef struct ViewBounds
@@ -29,6 +30,7 @@ public:
 
 	TilesetHandler tHandler;
 	std::stack<FeatureState*> featureStates;
+	Vector2i currentTile;
 	
 	void applyWASDmovement(Time deltaTime);
 	void applyNormalKeybinds(Keyboard::Key key);
@@ -42,7 +44,6 @@ private:
 	ViewBounds viewBounds;
 	Music music;
 	Vector2f mouseGameworldCoords, lastMovementVector;
-	Vector2i currentTile;
 	RectangleShape selectedTile;
 
 	// Debug variables

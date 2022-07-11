@@ -11,10 +11,11 @@ Button::Button(int x, int y, int width, int height, std::string msg)
 
 	font.loadFromFile("fonts/KOMIKAP_.ttf");
 	
+	// Text size is declared elsewhere.
 	text.setString(msg);
 	text.setFont(font);
-	findProperSize();
 	text.setFillColor(Color::Yellow);
+	findProperSize();
 
 	//This centers the text on the shape.
 	float weirdOffset = text.getGlobalBounds().top;
@@ -77,10 +78,13 @@ bool Button::checkForClick()
 	*/
 	if(buttonState == BTN_PRESSED)
 	{
+		if (callback != nullptr) {
+			callback();
+		}
+
 		return true;
 	}
-	else
-	{
+	else {
 		return false;
 	}
 }

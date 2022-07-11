@@ -1,6 +1,7 @@
 #include "GameplayState.h"
 #include "FeatureState.h"
 #include "TestFeature.h"
+#include "ActionSelection.h"
 
 #include <iostream>
 
@@ -170,6 +171,9 @@ void GameplayState::handleInput()
 				else {
 					applyNormalKeybinds(event.key.code);
 				}
+			}
+			else if (event.type == Event::MouseButtonReleased) {
+				if (event.mouseButton.)
 			}
 			else if (event.type == Event::Closed) {
 				// Catches window closure, can elegantly close the application here. 

@@ -16,6 +16,8 @@ public:
 	Sprite buttonFaceSprite, buttonPressedSprite;
 	static const float DEFAULT_WIDTH_RATIO, DEFAULT_HEIGHT_RATIO;
 
+	void* (*callback)() = nullptr;
+
 	Button(int x, int y, int width, int height, std::string text);
 
 	void update(Vector2i mousePos);
