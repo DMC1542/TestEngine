@@ -16,17 +16,17 @@ public:
 	Sprite buttonFaceSprite, buttonPressedSprite;
 	static const float DEFAULT_WIDTH_RATIO, DEFAULT_HEIGHT_RATIO;
 
-	void* (*callback)() = nullptr;
-
 	Button(int x, int y, int width, int height, std::string text);
 
 	void update(Vector2i mousePos);
 	void draw(RenderWindow& window);
 	bool checkForClick();
 	Vector2f getLocation();
+	void setCallback(void* (*callback)());
 
 private:
 	Text text;
+	void* (*callback)() = nullptr;
 
 	void findProperSize();
 };

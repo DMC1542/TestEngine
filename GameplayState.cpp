@@ -173,7 +173,9 @@ void GameplayState::handleInput()
 				}
 			}
 			else if (event.type == Event::MouseButtonReleased) {
-				if (event.mouseButton.)
+				if (event.mouseButton.button == Mouse::Left) {
+					featureStates.push(new ActionSelection(this));
+				}
 			}
 			else if (event.type == Event::Closed) {
 				// Catches window closure, can elegantly close the application here. 

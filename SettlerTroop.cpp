@@ -6,5 +6,4 @@ void SettlerTroop::placeSettlement(GameplayState* gameplayState) {
 	Tile* currentTile = gameplayState->getTile(x, y);
 	gameplayState->createEntity(EntityType::SETTLEMENT, "Settlement", x, y);
 	gameplayState->deleteEntity(id);
-	
 }

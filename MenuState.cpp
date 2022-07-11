@@ -100,6 +100,8 @@ void MenuState::update()
 
 void MenuState::updateMousePositions()
 {
+	// I found this like it. I'm adding another feature so I don't want to change this.
+	// TODO delete first statement?
 	mousePosWindow = Mouse::getPosition(game->window);
 	mousePosWindow = Mouse::getPosition();
 }
