@@ -19,10 +19,10 @@ ActionMenu::ActionMenu(int x, int y) {
 	this->y = y;
 }
 
-void ActionMenu::addItem(std::string actionName, void* (*callback)())
+void ActionMenu::addItem(std::string actionName, Actionable* target)
 {
 	// The width/height are TEMPORARY.
-	Button* newButton = &Button(x, y + (actionButtons.size() * BUTTON_HEIGHT),
+	Button* newButton = new Button(x, y + (actionButtons.size() * BUTTON_HEIGHT),
 		200, BUTTON_HEIGHT, actionName);
 	actionButtons.push_back(newButton);
 
@@ -32,8 +32,10 @@ void ActionMenu::addItem(std::string actionName, void* (*callback)())
 }
 
 void ActionMenu::deleteItems() {
-	for (auto it = actionButtons.begin(); it != actionButtons.end(); it++) {
-		actionButtons.erase(it);
+	auto it = actionButtons.begin();
+	while (it != actionButtons.end()) {
+		delete(*it);
+		it = actionButtons.erase(it);
 	}
 
 	menuBox.setSize(Vector2f(0, 0));

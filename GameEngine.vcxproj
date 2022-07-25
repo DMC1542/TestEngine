@@ -145,6 +145,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Actionable.hpp" />
     <ClCompile Include="ActionMenu.cpp" />
     <ClCompile Include="ActionSelection.cpp" />
     <ClCompile Include="Animation.cpp" />

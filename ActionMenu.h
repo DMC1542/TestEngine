@@ -2,12 +2,13 @@
 
 #include <SFML/Graphics.hpp>
 #include "Button.h"
+#include "Actionable.hpp"
 
 class ActionMenu {
 public:
 	ActionMenu();
 	ActionMenu(int x, int y);
-	void addItem(std::string actionName, void* (*callback)());
+	void addItem(std::string actionName, Actionable* target);
 	void deleteItems();
 	void draw(RenderWindow& window);
 	void update(Vector2i mousePos);

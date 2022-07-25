@@ -129,11 +129,11 @@ void Map::setTilesetHandler(TilesetHandler* tHandler)
 	this->entityBuilder = EntityBuilder(tHandler);
 }
 
-void Map::createEntity(EntityType type, std::string name, int x, int y)
+void Map::createEntity(EntityType type, std::string name, int x, int y, GameplayState* gameplayState)
 {
 	if (tHandler != NULL)
 	{
-		Entity* temp = entityBuilder.buildEntity(type, name, x, y);
+		Entity* temp = entityBuilder.buildEntity(type, name, x, y, gameplayState);
 		std::pair<int, Entity*> entityPair = std::pair<int, Entity*>(temp->id, temp);
 		this->board[y][x].entities.insert(entityPair);
 		this->entities.push_back(temp);
@@ -152,4 +152,8 @@ void Map::deleteEntity(int id) {
 			break;
 		}
 	}
+}
+
+void Map::provideGameplayContext(GameplayState* gameplayState) {
+	this->gameplayState = gameplayState;
 }

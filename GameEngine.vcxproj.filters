@@ -58,6 +58,9 @@
     <ClCompile Include="ActionSelection.cpp">
       <Filter>FeatureStates</Filter>
     </ClCompile>
+    <ClCompile Include="Actionable.hpp">
+      <Filter>UI\Interfaces</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
@@ -86,6 +89,9 @@
     </Filter>
     <Filter Include="FeatureStates">
       <UniqueIdentifier>{dd494087-2733-4896-8fa2-91d2f8549464}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Interfaces">
+      <UniqueIdentifier>{510945d7-e74b-4c77-a2a2-23485795a832}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

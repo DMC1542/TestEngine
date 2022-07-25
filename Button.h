@@ -1,5 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "Actionable.hpp"
+#include <iostream>
 
 using namespace sf;
 
@@ -22,11 +24,12 @@ public:
 	void draw(RenderWindow& window);
 	bool checkForClick();
 	Vector2f getLocation();
-	void setCallback(void* (*callback)());
+	void setAction(std::string action);
 
 private:
 	Text text;
-	void* (*callback)() = nullptr;
+	std::string actionString;
+	Actionable* actionable = nullptr;
 
 	void findProperSize();
 };

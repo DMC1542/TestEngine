@@ -6,10 +6,21 @@ ActionSelection::ActionSelection(GameplayState* parent) {
 
 	// Initialize the Menu box
 	Vector2i currTile = parent->currentTile;
+	auto entities = parent->getTile(currTile.x, currTile.y)->entities;
 	actionMenu = ActionMenu((currTile.x + 1) * parent->TILE_SIZE, currTile.y * parent->TILE_SIZE);
 
 	// Populate actions
-	for (Entity entity )
+	// rip
+	for (auto it = entities.begin(); it != entities.end(); it++) {
+		std::vector<std::string> actions = it->second->actions;
+		
+
+		if (actions.size() != 0) {
+			for (int i = 0; i < actions.size(); i++) {
+				actionMenu.addItem(actions.at(i), it->second);
+			}
+		}
+	}
 }
 
 void ActionSelection::handleInput(sf::Time deltaTime) {
@@ -24,6 +35,15 @@ void ActionSelection::handleInput(sf::Time deltaTime) {
 			for (Button* button : actionMenu.actionButtons) {
 				button->checkForClick();
 			}
+		}
+		else if (event.type == Event::KeyPressed) {
+			if (event.key.code == Keyboard::Escape) {
+				actionMenu.deleteItems();
+				parent->featureStates.pop();
+				break;
+			}
+			else
+				parent->applyNormalKeybinds(event.key.code);
 		}
 	}
 }

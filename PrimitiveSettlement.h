@@ -4,7 +4,7 @@
 
 class PrimitiveSettlement : public Entity {
 public:
-	PrimitiveSettlement(string name, int x, int y) : Entity(name, x, y) {
+	PrimitiveSettlement(string name, int x, int y, GameplayState* parent) : Entity(name, x, y, parent) {
 		// Nothing yet
 	}
 };

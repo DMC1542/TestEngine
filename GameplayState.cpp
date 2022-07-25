@@ -19,9 +19,10 @@ GameplayState::GameplayState(Game* g)
 	int64_t seed = 1;
 	double scale = 5, persistence = .5, lacunarity = 1.2;
 	map = Map(100, 100);
+	map.provideGameplayContext(this);
 	map.setTilesetHandler(&tHandler);
 	map.generateMap(seed, octaves, scale, persistence, lacunarity);
-	map.createEntity(EntityType::SETTLER, "Player 1 Settler", 2, 2);
+	map.createEntity(EntityType::SETTLER, "Player 1 Settler", 2, 2, this);
 
 	// Defining view width and height
 	zoom = 1;
@@ -219,7 +220,7 @@ void GameplayState::applyNormalKeybinds(Keyboard::Key key) {
 	else if (key == Keyboard::P) { /* My Debugging key */
 		//featureStates.push(new TestFeature(this));
 		SettlerTroop* test = static_cast<SettlerTroop*>((*getTile(2, 2)->entities.begin()).second);
-		test->placeSettlement(this);
+		test->placeSettlement();
 	}
 }
 
@@ -348,7 +349,7 @@ Tile* GameplayState::getTile(int x, int y) {
 }
 
 void GameplayState::createEntity(EntityType type, std::string name, int x, int y) {
-	map.createEntity(type, name, x, y);
+	map.createEntity(type, name, x, y, this);
 }
 
 void GameplayState::deleteEntity(int id) {

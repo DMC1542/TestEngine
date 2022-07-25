@@ -21,6 +21,7 @@ public:
 	vector<Entity*> entities;
 	TilesetHandler* tHandler;
 	EntityBuilder entityBuilder;
+	GameplayState* gameplayState;
 
 	Map();
 	Map(int width, int height);
@@ -28,7 +29,8 @@ public:
 	Sprite getEntitySpriteAt(int i);
 	double invLerp(double min, double max, double value);
 	void setTilesetHandler(TilesetHandler* tHandler);
+	void provideGameplayContext(GameplayState* gameplayState);
 	
-	void createEntity(EntityType type, string name, int x, int y);
+	void createEntity(EntityType type, string name, int x, int y, GameplayState* gameplayState);
 	void deleteEntity(int id);
 };

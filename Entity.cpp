@@ -2,12 +2,13 @@
 
 using namespace std;
 
+GameplayState* Entity::parent = nullptr;
 int Entity::global_id = 0;
 const int TILE_SIZE = 64;
 
-Entity::Entity() : Entity("UNASSIGNED", 0, 0) {}
+Entity::Entity() : Entity("UNASSIGNED", 0, 0, nullptr) {}
 
-Entity::Entity(string name, int x, int y) {
+Entity::Entity(string name, int x, int y, GameplayState* parent) {
 	this->position = Vector2f(x * TILE_SIZE, y * TILE_SIZE);
 	this->animator.sprite.setPosition(position);
 
@@ -16,6 +17,8 @@ Entity::Entity(string name, int x, int y) {
 
 	this->x = x;
 	this->y = y;
+
+	this->parent = parent;
 }
 
 Sprite Entity::getSprite() {
@@ -34,6 +37,10 @@ void Entity::setAnimationProperties(Texture* tex, int texX, int texY, int fps, i
 	this->animator.fps = fps;
 	this->animator.numFrames = numFrames;
 	this->animator.sprite.setPosition(position);
+}
+
+void Entity::doAction(std::string action) {
+	// Nothing.
 }
 
 // private methods

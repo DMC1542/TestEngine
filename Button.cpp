@@ -1,5 +1,4 @@
 #include "Button.h"
-#include <iostream>
 
 const float Button::DEFAULT_WIDTH_RATIO = 0.1f, Button::DEFAULT_HEIGHT_RATIO = 0.1f;
 
@@ -78,8 +77,8 @@ bool Button::checkForClick()
 	*/
 	if(buttonState == BTN_PRESSED)
 	{
-		if (callback != nullptr) {
-			callback();
+		if (actionable != nullptr) {
+			actionable->doAction(actionString);
 		}
 
 		return true;
@@ -106,4 +105,8 @@ void Button::findProperSize()
 	{
 		text.setCharacterSize(size);
 	}
+}
+
+void Button::setAction(std::string action) {
+	this->actionString = action;
 }
