@@ -93,6 +93,9 @@
     <Filter Include="UI\Interfaces">
       <UniqueIdentifier>{510945d7-e74b-4c77-a2a2-23485795a832}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ProcGen\Borders">
+      <UniqueIdentifier>{20f9a8f0-1121-4395-b581-f7197970035d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -163,6 +166,9 @@
     </ClInclude>
     <ClInclude Include="ActionSelection.h">
       <Filter>FeatureStates</Filter>
+    </ClInclude>
+    <ClInclude Include="BorderNode.h">
+      <Filter>ProcGen\Borders</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

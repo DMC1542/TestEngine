@@ -10,7 +10,6 @@ ActionSelection::ActionSelection(GameplayState* parent) {
 	actionMenu = ActionMenu((currTile.x + 1) * parent->TILE_SIZE, currTile.y * parent->TILE_SIZE);
 
 	// Populate actions
-	// rip
 	for (auto it = entities.begin(); it != entities.end(); it++) {
 		std::vector<std::string> actions = it->second->actions;
 		

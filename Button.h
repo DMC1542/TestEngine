@@ -25,6 +25,7 @@ public:
 	bool checkForClick();
 	Vector2f getLocation();
 	void setAction(std::string action);
+	void setActionTarget(Actionable* actionable);
 
 private:
 	Text text;

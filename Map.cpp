@@ -1,8 +1,7 @@
 #include "Map.h"
 #include "Entity.h"
 #include <iostream>
-
-int const TILE_SIZE = 64;
+#include "BorderNode.h"
 
 Map::Map()
 {
@@ -68,7 +67,7 @@ void Map::generateMap(int64_t seed, int octaves, double scale, double persistenc
 			currTile.y = h;
 			currTile.noiseVal = noiseHeight;
 
-			currTile.sprite.setPosition(Vector2f(w * 64, h * 64));
+			currTile.sprite.setPosition(Vector2f(w * TILE_SIZE, h * TILE_SIZE));
 
 			row.push_back(currTile);
 		}
@@ -98,13 +97,36 @@ void Map::generateMap(int64_t seed, int octaves, double scale, double persistenc
 			Tile currTile = board[h][w];
 
 			if (currTile.noiseVal < .3)
-				board[h][w].sprite.setTexture(tHandler->waterText);
+				board[h][w].setTerrain(Terrain::WATER, tHandler->waterText);
 			else if (board[h][w].noiseVal < .35)
-				board[h][w].sprite.setTexture(tHandler->sandText);
+				board[h][w].setTerrain(Terrain::SAND, tHandler->sandText);
 			else if (board[h][w].noiseVal < .8)
-				board[h][w].sprite.setTexture(tHandler->grassText);
+				board[h][w].setTerrain(Terrain::GRASS, tHandler->grassText);
 			else
-				board[h][w].sprite.setTexture(tHandler->rockText);
+				board[h][w].setTerrain(Terrain::ROCK, tHandler->rockText);
+		}
+	}
+
+	// Iterate over map (again <sad>) to add BorderNodes
+	for (int h = 1; h < height - 1; h++)
+	{
+		for (int w = 1; w < width - 1; w++)
+		{
+			Tile currTile = board[h][w];
+			Tile neighborTile;
+
+			// Check north
+			neighborTile = board[h - 1][w];
+
+
+			// check south
+			neighborTile = board[h + 1][w];
+
+			// check east
+			neighborTile = board[h][w + 1];
+
+			// check west
+			neighborTile = board[h][w - 1];
 		}
 	}
 
@@ -156,4 +178,44 @@ void Map::deleteEntity(int id) {
 
 void Map::provideGameplayContext(GameplayState* gameplayState) {
 	this->gameplayState = gameplayState;
+}
+
+// Helpers
+void checkBorderPlacement(Tile primaryTile, Tile secondaryTile) {
+	bool isVertical = false, isEastOrSouth = false;
+	
+
+	// Naive way to place border.
+	if (primaryTile.terrain != secondaryTile.terrain) {
+		if (primaryTile.x < secondaryTile.x) {			// Is East Tile?
+			isVertical = true;
+			isEastOrSouth = true;
+		} else if (primaryTile.x > secondaryTile.x) {	// Is West Tile?
+			isVertical = true;
+		}
+		else if (primaryTile.y < secondaryTile.y) {		// Is South Tile?
+			isEastOrSouth = true;
+		}
+		
+		// Make the node
+		BorderNode node(primaryTile.x, primaryTile.y, BorderType::REGULAR, isEastOrSouth, isVertical);
+
+		// Assign the node
+		if (primaryTile.x < secondaryTile.x) {			// Is East Tile?
+			primaryTile.setEastBorder(&node);
+			secondaryTile.setEastBorder(&node);
+		}
+		else if (primaryTile.x > secondaryTile.x) {		// Is West Tile?
+			primaryTile.setWestBorder(&node);
+			secondaryTile.setWestBorder(&node);
+		}
+		else if (primaryTile.y < secondaryTile.y) {		// Is South Tile?
+			primaryTile.setSouthBorder(&node);
+			secondaryTile.setSouthBorder(&node);
+		}
+		else {											// North tile
+			primaryTile.setNorthBorder(&node);
+			secondaryTile.setNorthBorder(&node);
+		}
+	}
 }

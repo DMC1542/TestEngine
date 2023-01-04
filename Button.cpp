@@ -20,7 +20,7 @@ Button::Button(int x, int y, int width, int height, std::string msg)
 	float weirdOffset = text.getGlobalBounds().top;
 	text.setPosition(shape.getPosition().x + (shape.getGlobalBounds().width / 2.f) - (text.getGlobalBounds().width / 2.f),
 		shape.getPosition().y + ((shape.getGlobalBounds().height - text.getGlobalBounds().height) / 2.f) - weirdOffset
-	);
+	);	
 
 	idleColor = Color::Blue;
 	hoverColor = Color::Magenta;
@@ -109,4 +109,8 @@ void Button::findProperSize()
 
 void Button::setAction(std::string action) {
 	this->actionString = action;
+}
+
+void Button::setActionTarget(Actionable* actionable) {
+	this->actionable = actionable;
 }

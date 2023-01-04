@@ -2,6 +2,7 @@
 #include "FeatureState.h"
 #include "TestFeature.h"
 #include "ActionSelection.h"
+#include "BorderNode.h"
 
 #include <iostream>
 
@@ -23,6 +24,7 @@ GameplayState::GameplayState(Game* g)
 	map.setTilesetHandler(&tHandler);
 	map.generateMap(seed, octaves, scale, persistence, lacunarity);
 	map.createEntity(EntityType::SETTLER, "Player 1 Settler", 2, 2, this);
+	throw std::runtime_error(":(");
 
 	// Defining view width and height
 	zoom = 1;
@@ -44,6 +46,9 @@ GameplayState::GameplayState(Game* g)
 	selectedTile.setOutlineThickness(3);
 	selectedTile.setFillColor(Color::Transparent);
 	selectedTile.setSize(Vector2f(TILE_SIZE, TILE_SIZE));
+
+	// Setup borders
+	BorderNode::init();
 }
 
 void GameplayState::update()
@@ -51,42 +56,46 @@ void GameplayState::update()
 	Time deltaTime = clock.restart();
 	updateMousePositions();
 
-	// Update current tile
-	currentTile.x = mouseGameworldCoords.x / TILE_SIZE;
-	currentTile.y = mouseGameworldCoords.y / TILE_SIZE;
-	selectedTile.setPosition(Vector2f(currentTile.x * TILE_SIZE, currentTile.y * TILE_SIZE));
+	if (!featureStates.empty()) {
+		featureStates.top()->update();
+	} else {
+		// Update current tile
+		currentTile.x = mouseGameworldCoords.x / TILE_SIZE;
+		currentTile.y = mouseGameworldCoords.y / TILE_SIZE;
+		selectedTile.setPosition(Vector2f(currentTile.x * TILE_SIZE, currentTile.y * TILE_SIZE));
 
-	// Update all tiles
-	for (int h = viewBounds.top; h < viewBounds.bottom; h++)
-	{
-		for (int w = viewBounds.left; w < viewBounds.right; w++)
+		// Update all tiles
+		for (int h = viewBounds.top; h < viewBounds.bottom; h++)
 		{
-			// This may be modified. Animation may only be applied to entities.
-			map.board[h][w].update(deltaTime);
+			for (int w = viewBounds.left; w < viewBounds.right; w++)
+			{
+				// This may be modified. Animation may only be applied to entities.
+				map.board[h][w].update(deltaTime);
+			}
 		}
-	}
 
-	// Update entities
-	for (int i = 0; i < map.entities.size(); i++)
-	{
-		map.entities.at(i)->update(deltaTime);
-	}
+		// Update entities
+		for (int i = 0; i < map.entities.size(); i++)
+		{
+			map.entities.at(i)->update(deltaTime);
+		}
 
-	// Debug updates
-	if (debugMode) {
-		mouseTileLocX = mouseGameworldCoords.x / TILE_SIZE;
-		mouseTileLocY = mouseGameworldCoords.y / TILE_SIZE;
+		// Debug updates
+		if (debugMode) {
+			mouseTileLocX = mouseGameworldCoords.x / TILE_SIZE;
+			mouseTileLocY = mouseGameworldCoords.y / TILE_SIZE;
 
-		string mouseTileLoc("Tile XY: " + to_string(mouseTileLocX) + ", " + to_string(mouseTileLocY));
+			string mouseTileLoc("Tile XY: " + to_string(mouseTileLocX) + ", " + to_string(mouseTileLocY));
 
-		mouseTileText.setString(mouseTileLoc);
-		mouseTileText.setPosition(mouseGameworldCoords + Vector2f(0, -20));
+			mouseTileText.setString(mouseTileLoc);
+			mouseTileText.setPosition(mouseGameworldCoords + Vector2f(0, -20));
 
-		actualFPS = 1 / deltaTime.asSeconds();
-		// TEMPORARY
-		fpsText.setString("LR, TB: " + to_string(viewBounds.left) + ", " + to_string(viewBounds.right) + 
-		", " + to_string(viewBounds.top) + ", " + to_string(viewBounds.bottom));
-		fpsText.setPosition((mouseGameworldCoords + Vector2f(0, -45)));
+			actualFPS = 1 / deltaTime.asSeconds();
+			// TEMPORARY
+			fpsText.setString("LR, TB: " + to_string(viewBounds.left) + ", " + to_string(viewBounds.right) +
+				", " + to_string(viewBounds.top) + ", " + to_string(viewBounds.bottom));
+			fpsText.setPosition((mouseGameworldCoords + Vector2f(0, -45)));
+		} 
 	}
 }
 
@@ -98,6 +107,29 @@ void GameplayState::draw()
 		for (int w = viewBounds.left; w < viewBounds.right; w++)
 		{
 			game->window.draw(map.board[h][w].sprite);
+		}
+	}
+
+	// Draw borders here
+	for (int h = viewBounds.top; h < viewBounds.bottom; h++)
+	{
+		for (int w = viewBounds.left; w < viewBounds.right; w++)
+		{
+			if (map.board[h][w].getNorthBorder() != nullptr) {
+				map.board[h][w].getNorthBorder()->draw(&game->window);
+			}
+
+			if (map.board[h][w].getEastBorder() != nullptr) {
+				map.board[h][w].getEastBorder()->draw(&game->window);
+			}
+
+			if (map.board[h][w].getWestBorder() != nullptr) {
+				map.board[h][w].getWestBorder()->draw(&game->window);
+			}
+
+			if (map.board[h][w].getSouthBorder() != nullptr) {
+				map.board[h][w].getSouthBorder()->draw(&game->window);
+			}
 		}
 	}
 

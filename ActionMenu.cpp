@@ -24,6 +24,9 @@ void ActionMenu::addItem(std::string actionName, Actionable* target)
 	// The width/height are TEMPORARY.
 	Button* newButton = new Button(x, y + (actionButtons.size() * BUTTON_HEIGHT),
 		200, BUTTON_HEIGHT, actionName);
+	newButton->setAction(actionName);
+	newButton->setActionTarget(target);
+
 	actionButtons.push_back(newButton);
 
 	// Update size of the bounding box
