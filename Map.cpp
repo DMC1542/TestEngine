@@ -67,7 +67,7 @@ void Map::generateMap(int64_t seed, int octaves, double scale, double persistenc
 			currTile.y = h;
 			currTile.noiseVal = noiseHeight;
 
-			currTile.sprite.setPosition(Vector2f(w * TILE_SIZE, h * TILE_SIZE));
+			currTile.getSprite().setPosition(Vector2f(w * TILE_SIZE, h * TILE_SIZE));
 
 			row.push_back(currTile);
 		}
@@ -94,16 +94,16 @@ void Map::generateMap(int64_t seed, int octaves, double scale, double persistenc
 	{
 		for (int w = 0; w < width; w++)
 		{
-			Tile currTile = board[h][w];
+			Tile* currTile = &board[h][w];
 
-			if (currTile.noiseVal < .3)
-				board[h][w].setTerrain(Terrain::WATER, tHandler->waterText);
-			else if (board[h][w].noiseVal < .35)
-				board[h][w].setTerrain(Terrain::SAND, tHandler->sandText);
-			else if (board[h][w].noiseVal < .8)
-				board[h][w].setTerrain(Terrain::GRASS, tHandler->grassText);
+			if (currTile->noiseVal < .3)
+				currTile->setTerrain(Terrain::WATER, rManager->get("graphics/Textures/water.png"));
+			else if (currTile->noiseVal < .35)
+				currTile->setTerrain(Terrain::SAND, rManager->get("graphics/Textures/basicSand.png"));
+			else if (currTile->noiseVal < .8)
+				currTile->setTerrain(Terrain::GRASS, rManager->get("graphics/Textures/grassSheet.png"));
 			else
-				board[h][w].setTerrain(Terrain::ROCK, tHandler->rockText);
+				currTile->setTerrain(Terrain::ROCK, rManager->get("graphics/Textures/mountain.png"));
 		}
 	}
 
@@ -117,16 +117,19 @@ void Map::generateMap(int64_t seed, int octaves, double scale, double persistenc
 
 			// Check north
 			neighborTile = board[h - 1][w];
-
+			checkBorderPlacement(currTile, neighborTile, rManager);
 
 			// check south
 			neighborTile = board[h + 1][w];
+			checkBorderPlacement(currTile, neighborTile, rManager);
 
 			// check east
 			neighborTile = board[h][w + 1];
+			checkBorderPlacement(currTile, neighborTile, rManager);
 
 			// check west
 			neighborTile = board[h][w - 1];
+			checkBorderPlacement(currTile, neighborTile, rManager);
 		}
 	}
 
@@ -145,19 +148,19 @@ double Map::invLerp(double min, double max, double value)
 	return (value - min) / (max - min);
 }
 
-void Map::setTilesetHandler(TilesetHandler* tHandler)
+void Map::setResourceManager(ResourceManager<Texture>* rManager)
 {
-	this->tHandler = tHandler;
-	this->entityBuilder = EntityBuilder(tHandler);
+	this->rManager = rManager;
+	this->entityBuilder = EntityBuilder(rManager);
 }
 
 void Map::createEntity(EntityType type, std::string name, int x, int y, GameplayState* gameplayState)
 {
-	if (tHandler != NULL)
+	if (rManager != NULL)
 	{
 		Entity* temp = entityBuilder.buildEntity(type, name, x, y, gameplayState);
 		std::pair<int, Entity*> entityPair = std::pair<int, Entity*>(temp->id, temp);
-		this->board[y][x].entities.insert(entityPair);
+		this->board[y][x].getEntities().insert(entityPair);
 		this->entities.push_back(temp);
 	}
 }
@@ -169,7 +172,7 @@ void Map::deleteEntity(int id) {
 			Entity* deletedEntity = (*it);
 			entities.erase(it);
 
-			board[deletedEntity->y][deletedEntity->x].entities.erase(deletedEntity->id);
+			board[deletedEntity->y][deletedEntity->x].getEntities().erase(deletedEntity->id);
 			delete deletedEntity;
 			break;
 		}
@@ -181,9 +184,8 @@ void Map::provideGameplayContext(GameplayState* gameplayState) {
 }
 
 // Helpers
-void checkBorderPlacement(Tile primaryTile, Tile secondaryTile) {
+void Map::checkBorderPlacement(Tile primaryTile, Tile secondaryTile, ResourceManager<Texture>* rManager) {
 	bool isVertical = false, isEastOrSouth = false;
-	
 
 	// Naive way to place border.
 	if (primaryTile.terrain != secondaryTile.terrain) {
@@ -198,7 +200,7 @@ void checkBorderPlacement(Tile primaryTile, Tile secondaryTile) {
 		}
 		
 		// Make the node
-		BorderNode node(primaryTile.x, primaryTile.y, BorderType::REGULAR, isEastOrSouth, isVertical);
+		BorderNode node(primaryTile.x, primaryTile.y, BorderType::REGULAR, rManager, isEastOrSouth, isVertical);
 
 		// Assign the node
 		if (primaryTile.x < secondaryTile.x) {			// Is East Tile?

@@ -163,7 +163,6 @@
     <ClCompile Include="TestEntity.cpp" />
     <ClCompile Include="TestFeature.cpp" />
     <ClCompile Include="TextElement.cpp" />
-    <ClCompile Include="TilesetHandler.cpp" />
     <ClCompile Include="Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -189,7 +188,7 @@
     <ClInclude Include="TestEntity.h" />
     <ClInclude Include="TestFeature.h" />
     <ClInclude Include="TextElement.h" />
-    <ClInclude Include="TilesetHandler.h" />
+    <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Tile.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -6,7 +6,7 @@ void SettlerTroop::placeSettlement() {
 	// First, create the settlement, then remove the settler. Order matters - we need x,y from settler
 	Tile* currentTile = parent->getTile(x, y);
 	parent->createEntity(EntityType::SETTLEMENT, "Settlement", x, y);
-	parent->deleteEntity(id);
+	parent->deleteEntity(this->id);
 }
 
 void SettlerTroop::doAction(std::string action) {

@@ -19,18 +19,18 @@ Tile::Tile(int x, int y, double noise, int numFrames)
 	animator.frame = IntRect(0, 0, 64, 64);
 }
 
-void Tile::setTerrain(Terrain terrain, Texture texture)
+void Tile::setTerrain(Terrain terrain,Texture& texture)
 {
 	this->terrain = terrain;
 	sprite.setTexture(texture);
+	animator.sprite.setTexture(texture);
 }
 
 void Tile::update(Time deltaTime)
 {
 	lastTimeUpdated += deltaTime.asSeconds();
+}
 
-	if (lastTimeUpdated >= (animator.fps / animator.numFrames))
-	{
-
-	}
+Sprite& Tile::getSprite() {
+	return sprite;
 }

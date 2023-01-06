@@ -15,22 +15,21 @@ public:
 	double noiseVal;
 	Sprite sprite;
 	int x, y;
-	Animation animator;
 	Terrain terrain;
-	//std::vector<Entity*> entities;
-	std::map<int, Entity*> entities;
 
 	Tile();
 	Tile(int x, int y, double noise, int numFrames = 1);
 
-	void setTerrain(Terrain terrain, Texture texture);
+	void setTerrain(Terrain terrain, Texture& texture);
 	void update(Time deltaTime);
+	Sprite& getSprite();
 
 	// Borders 
-	BorderNode* getNorthBorder()	{ return northBorder; }
-	BorderNode* getSouthBorder()	{ return southBorder; }
-	BorderNode* getEastBorder()		{ return eastBorder; }
-	BorderNode* getWestBorder()		{ return westBorder; }
+	BorderNode* getNorthBorder()			{ return northBorder; }
+	BorderNode* getSouthBorder()			{ return southBorder; }
+	BorderNode* getEastBorder()				{ return eastBorder; }
+	BorderNode* getWestBorder()				{ return westBorder; }
+	std::map<int, Entity*>* getEntities()	{ return &entities; };
 
 	void setNorthBorder(BorderNode* node)	{ this->northBorder = node; }
 	void setSouthBorder(BorderNode* node)	{ this->southBorder = node; }
@@ -40,5 +39,8 @@ public:
 private:
 	Int64 lastTimeUpdated = 0;
 	BorderNode *northBorder = nullptr, *southBorder = nullptr, *eastBorder = nullptr, *westBorder = nullptr;
+	Animation animator;
+	bool isAnimated = false;
 
+	std::map<int, Entity*> entities;
 };

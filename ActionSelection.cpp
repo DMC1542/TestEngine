@@ -6,7 +6,7 @@ ActionSelection::ActionSelection(GameplayState* parent) {
 
 	// Initialize the Menu box
 	Vector2i currTile = parent->currentTile;
-	auto entities = parent->getTile(currTile.x, currTile.y)->entities;
+	auto entities = parent->getTile(currTile.x, currTile.y)->getEntities();
 	actionMenu = ActionMenu((currTile.x + 1) * parent->TILE_SIZE, currTile.y * parent->TILE_SIZE);
 
 	// Populate actions

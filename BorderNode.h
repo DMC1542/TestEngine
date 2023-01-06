@@ -1,7 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#include "TilesetHandler.h"
+#include "ResourceManager.h"
 
 // Constants
 int const TILE_SIZE = 64;
@@ -25,12 +25,12 @@ public:
 	* @param borderType An enum that indicates which border style to use. This determines
 	*					which global sprite to pull and render.
 	*/
-	BorderNode(int x, int y, BorderType borderType, bool isEastOrSouth, bool isVertical = false) {
+	BorderNode(int x, int y, BorderType borderType, ResourceManager<Texture>* rManager, bool isEastOrSouth, bool isVertical = false) {
 		this->borderType = borderType;
 
 		switch (borderType) {
 			case REGULAR:
-				this->sprite = sf::Sprite(regularBorderTexture);
+				this->sprite = sf::Sprite(rManager->get("graphics/Textures/borders/regularBorder.png"));
 				break;
 			// Assign more border type 
 		}
@@ -48,16 +48,6 @@ public:
 		if (isVertical) {
 			this->sprite.setRotation(90);
 		}
-	}
-
-	void static init() {
-		// Assign each of the sprites
-		if (!regularBorderTexture.loadFromFile("graphics/Textures/borders/regularBorder.png")) {
-			// Loading failed.
-			std::cout << "Failed to load regularBorder.png" << std::endl;
-		}
-
-		// Bandaid - For now, if additional borders are added, duplicate the above code :(
 	}
 
 	void draw(sf::RenderWindow* target) {

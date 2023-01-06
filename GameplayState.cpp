@@ -21,10 +21,9 @@ GameplayState::GameplayState(Game* g)
 	double scale = 5, persistence = .5, lacunarity = 1.2;
 	map = Map(100, 100);
 	map.provideGameplayContext(this);
-	map.setTilesetHandler(&tHandler);
+	map.setResourceManager(&rManager);
 	map.generateMap(seed, octaves, scale, persistence, lacunarity);
 	map.createEntity(EntityType::SETTLER, "Player 1 Settler", 2, 2, this);
-	throw std::runtime_error(":(");
 
 	// Defining view width and height
 	zoom = 1;
@@ -46,9 +45,6 @@ GameplayState::GameplayState(Game* g)
 	selectedTile.setOutlineThickness(3);
 	selectedTile.setFillColor(Color::Transparent);
 	selectedTile.setSize(Vector2f(TILE_SIZE, TILE_SIZE));
-
-	// Setup borders
-	BorderNode::init();
 }
 
 void GameplayState::update()
@@ -106,7 +102,7 @@ void GameplayState::draw()
 	{
 		for (int w = viewBounds.left; w < viewBounds.right; w++)
 		{
-			game->window.draw(map.board[h][w].sprite);
+			game->window.draw(map.board[h][w].getSprite());
 		}
 	}
 
@@ -192,7 +188,7 @@ void GameplayState::handleInput()
 					music.stop();
 					music.~Music();
 
-					game->view.zoom(1);
+					game->view.zoom(1);	// TODO fix this. 1 keeps view the same.
 					game->window.setView(game->view);
 
 					game->view.move(Vector2f(-TILE_SIZE * zoom * viewBounds.left, -TILE_SIZE * zoom * viewBounds.top));
@@ -250,8 +246,7 @@ void GameplayState::applyNormalKeybinds(Keyboard::Key key) {
 	else if (key == Keyboard::F1)
 		debugMode = !debugMode;
 	else if (key == Keyboard::P) { /* My Debugging key */
-		//featureStates.push(new TestFeature(this));
-		SettlerTroop* test = static_cast<SettlerTroop*>((*getTile(2, 2)->entities.begin()).second);
+		SettlerTroop* test = static_cast<SettlerTroop*>((*getTile(2, 2)->getEntities().begin()).second);
 		test->placeSettlement();
 	}
 }

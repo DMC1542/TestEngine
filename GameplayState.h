@@ -2,7 +2,7 @@
 
 #include "GameState.h"
 #include "Map.h"
-#include "TilesetHandler.h"
+#include "ResourceManager.h"
 #include <SFML/Audio/Music.hpp>
 
 // Forward declaration. Tells compiler this will be defined, just externally.
@@ -28,7 +28,7 @@ public:
 	void updateMousePositions();
 	const int TILE_SIZE = 64;
 
-	TilesetHandler tHandler;
+	ResourceManager<Texture> rManager;
 	std::stack<FeatureState*> featureStates;
 	Vector2i currentTile;
 	

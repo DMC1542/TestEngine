@@ -25,9 +25,6 @@
     <ClCompile Include="SettingsHandler.cpp">
       <Filter>Handlers</Filter>
     </ClCompile>
-    <ClCompile Include="TilesetHandler.cpp">
-      <Filter>Handlers</Filter>
-    </ClCompile>
     <ClCompile Include="Map.cpp">
       <Filter>Cpps</Filter>
     </ClCompile>
@@ -119,7 +116,7 @@
     <ClInclude Include="SettingsHandler.h">
       <Filter>Handlers</Filter>
     </ClInclude>
-    <ClInclude Include="TilesetHandler.h">
+    <ClInclude Include="ResourceManager.h">
       <Filter>Handlers</Filter>
     </ClInclude>
     <ClInclude Include="Map.h">
