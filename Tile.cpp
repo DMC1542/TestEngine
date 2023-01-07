@@ -19,6 +19,20 @@ Tile::Tile(int x, int y, double noise, int numFrames)
 	animator.frame = IntRect(0, 0, 64, 64);
 }
 
+Tile::~Tile() {
+	if (eastBorder != nullptr)
+		delete eastBorder;
+	
+	if (westBorder != nullptr)
+		delete westBorder;
+	
+	if (northBorder != nullptr)
+		delete northBorder;
+	
+	if (southBorder != nullptr)
+		delete southBorder;
+}
+
 void Tile::setTerrain(Terrain terrain,Texture& texture)
 {
 	this->terrain = terrain;

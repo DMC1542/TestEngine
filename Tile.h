@@ -19,6 +19,7 @@ public:
 
 	Tile();
 	Tile(int x, int y, double noise, int numFrames = 1);
+	~Tile();
 
 	void setTerrain(Terrain terrain, Texture& texture);
 	void update(Time deltaTime);
@@ -27,9 +28,9 @@ public:
 	// Borders 
 	BorderNode* getNorthBorder()			{ return northBorder; }
 	BorderNode* getSouthBorder()			{ return southBorder; }
-	BorderNode* getEastBorder()				{ return eastBorder; }
-	BorderNode* getWestBorder()				{ return westBorder; }
-	std::map<int, Entity*>* getEntities()	{ return &entities; };
+	BorderNode* getEastBorder()				{ return eastBorder;  }
+	BorderNode* getWestBorder()				{ return westBorder;  }
+	std::map<int, Entity*>* getEntities()	{ return &entities;   }
 
 	void setNorthBorder(BorderNode* node)	{ this->northBorder = node; }
 	void setSouthBorder(BorderNode* node)	{ this->southBorder = node; }

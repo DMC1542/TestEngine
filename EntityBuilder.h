@@ -18,24 +18,21 @@ public:
 
 	Entity* buildEntity(EntityType type, string name, int x, int y, GameplayState* gameplayState)
 	{
-		Entity* temp = new Entity(name, x, y, gameplayState);
+		Entity* temp = nullptr;
 
 		if (type == EntityType::TEST)
 		{
-			delete temp;
 			temp = new TestEntity(name, x, y, gameplayState);
 			temp->setAnimationProperties(&rManager->get("graphics/animationTest.png"), 0, 0, 1, 2);
 		}
 		else if (type == EntityType::SETTLER)
 		{
-			delete temp;
 			temp = new SettlerTroop(name, x, y, gameplayState);
 			temp->setAnimationProperties(&rManager->get("graphics/Entities/settlerTroop.png"), 0, 0, 2, 3);
 		} 
 		else if (type == EntityType::SETTLEMENT) {
-			delete temp;
 			temp = new PrimitiveSettlement(name, x, y, gameplayState);
-			temp->setAnimationProperties(&rManager->get("graphics/Entities/settlerTroop.png"), 0, 0, 1, 1);
+			temp->setAnimationProperties(&rManager->get("graphics/Entities/settlement.png"), 0, 0, 1, 1);
 			temp->isAnimated = false;
 		}
 

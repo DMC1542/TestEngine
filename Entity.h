@@ -15,7 +15,6 @@ class Entity : public Actionable
 {
 public:
 	static GameplayState* parent;
-
 	Animation animator;
 	string name;
 	Vector2f position;

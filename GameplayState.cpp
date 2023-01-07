@@ -112,19 +112,19 @@ void GameplayState::draw()
 		for (int w = viewBounds.left; w < viewBounds.right; w++)
 		{
 			if (map.board[h][w].getNorthBorder() != nullptr) {
-				map.board[h][w].getNorthBorder()->draw(&game->window);
+				game->window.draw(map.board[h][w].getNorthBorder()->getSprite());
 			}
 
 			if (map.board[h][w].getEastBorder() != nullptr) {
-				map.board[h][w].getEastBorder()->draw(&game->window);
+				game->window.draw(map.board[h][w].getEastBorder()->getSprite());
 			}
 
 			if (map.board[h][w].getWestBorder() != nullptr) {
-				map.board[h][w].getWestBorder()->draw(&game->window);
+				game->window.draw(map.board[h][w].getWestBorder()->getSprite());
 			}
 
 			if (map.board[h][w].getSouthBorder() != nullptr) {
-				map.board[h][w].getSouthBorder()->draw(&game->window);
+				game->window.draw(map.board[h][w].getSouthBorder()->getSprite());
 			}
 		}
 	}
@@ -246,7 +246,7 @@ void GameplayState::applyNormalKeybinds(Keyboard::Key key) {
 	else if (key == Keyboard::F1)
 		debugMode = !debugMode;
 	else if (key == Keyboard::P) { /* My Debugging key */
-		SettlerTroop* test = static_cast<SettlerTroop*>((*getTile(2, 2)->getEntities().begin()).second);
+		SettlerTroop* test = static_cast<SettlerTroop*>((getTile(2, 2)->getEntities()->begin())->second);
 		test->placeSettlement();
 	}
 }

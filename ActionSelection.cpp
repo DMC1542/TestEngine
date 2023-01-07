@@ -10,7 +10,7 @@ ActionSelection::ActionSelection(GameplayState* parent) {
 	actionMenu = ActionMenu((currTile.x + 1) * parent->TILE_SIZE, currTile.y * parent->TILE_SIZE);
 
 	// Populate actions
-	for (auto it = entities.begin(); it != entities.end(); it++) {
+	for (auto it = entities->begin(); it != entities->end(); it++) {
 		std::vector<std::string> actions = it->second->actions;
 		
 
@@ -31,14 +31,22 @@ void ActionSelection::handleInput(sf::Time deltaTime) {
 	while (parent->game->window.pollEvent(event)) {
 		if (event.type == Event::MouseButtonReleased) {
 			if (event.mouseButton.button == Mouse::Left)
-			for (Button* button : actionMenu.actionButtons) {
-				button->checkForClick();
+			{
+				bool clicked = false;
+
+				for (Button* button : actionMenu.actionButtons) {
+					clicked = button->checkForClick();
+				}
+
+				if (clicked) {
+					destroy();
+					break;
+				}
 			}
 		}
 		else if (event.type == Event::KeyPressed) {
 			if (event.key.code == Keyboard::Escape) {
-				actionMenu.deleteItems();
-				parent->featureStates.pop();
+				destroy();
 				break;
 			}
 			else
@@ -53,4 +61,9 @@ void ActionSelection::draw() {
 
 void ActionSelection::update() {
 	actionMenu.update(parent->mousePosWindow);
+}
+
+void ActionSelection::destroy() {
+	actionMenu.deleteItems();
+	parent->featureStates.pop();
 }

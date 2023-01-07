@@ -112,23 +112,23 @@ void Map::generateMap(int64_t seed, int octaves, double scale, double persistenc
 	{
 		for (int w = 1; w < width - 1; w++)
 		{
-			Tile currTile = board[h][w];
-			Tile neighborTile;
+			Tile* currTile = &board[h][w];
+			Tile* neighborTile;
 
 			// Check north
-			neighborTile = board[h - 1][w];
+			neighborTile = &board[h - 1][w];
 			checkBorderPlacement(currTile, neighborTile, rManager);
 
 			// check south
-			neighborTile = board[h + 1][w];
+			neighborTile = &board[h + 1][w];
 			checkBorderPlacement(currTile, neighborTile, rManager);
 
 			// check east
-			neighborTile = board[h][w + 1];
+			neighborTile = &board[h][w + 1];
 			checkBorderPlacement(currTile, neighborTile, rManager);
 
 			// check west
-			neighborTile = board[h][w - 1];
+			neighborTile = &board[h][w - 1];
 			checkBorderPlacement(currTile, neighborTile, rManager);
 		}
 	}
@@ -160,7 +160,7 @@ void Map::createEntity(EntityType type, std::string name, int x, int y, Gameplay
 	{
 		Entity* temp = entityBuilder.buildEntity(type, name, x, y, gameplayState);
 		std::pair<int, Entity*> entityPair = std::pair<int, Entity*>(temp->id, temp);
-		this->board[y][x].getEntities().insert(entityPair);
+		this->board[y][x].getEntities()->insert(entityPair);
 		this->entities.push_back(temp);
 	}
 }
@@ -170,9 +170,9 @@ void Map::deleteEntity(int id) {
 	for (auto it = entities.begin(); it != entities.end(); it++) {
 		if ((*it)->id == id) {
 			Entity* deletedEntity = (*it);
-			entities.erase(it);
 
-			board[deletedEntity->y][deletedEntity->x].getEntities().erase(deletedEntity->id);
+			board[deletedEntity->y][deletedEntity->x].getEntities()->erase(deletedEntity->id);
+			this->entities.erase(it);
 			delete deletedEntity;
 			break;
 		}
@@ -184,40 +184,40 @@ void Map::provideGameplayContext(GameplayState* gameplayState) {
 }
 
 // Helpers
-void Map::checkBorderPlacement(Tile primaryTile, Tile secondaryTile, ResourceManager<Texture>* rManager) {
+void Map::checkBorderPlacement(Tile* primaryTile, Tile* secondaryTile, ResourceManager<Texture>* rManager) {
 	bool isVertical = false, isEastOrSouth = false;
 
 	// Naive way to place border.
-	if (primaryTile.terrain != secondaryTile.terrain) {
-		if (primaryTile.x < secondaryTile.x) {			// Is East Tile?
+	if (primaryTile->terrain != secondaryTile->terrain) {
+		if (primaryTile->x < secondaryTile->x) {			// Is East Tile?
 			isVertical = true;
 			isEastOrSouth = true;
-		} else if (primaryTile.x > secondaryTile.x) {	// Is West Tile?
+		} else if (primaryTile->x > secondaryTile->x) {	// Is West Tile?
 			isVertical = true;
 		}
-		else if (primaryTile.y < secondaryTile.y) {		// Is South Tile?
+		else if (primaryTile->y < secondaryTile->y) {		// Is South Tile?
 			isEastOrSouth = true;
 		}
 		
 		// Make the node
-		BorderNode node(primaryTile.x, primaryTile.y, BorderType::REGULAR, rManager, isEastOrSouth, isVertical);
+		BorderNode* node = new BorderNode(primaryTile->x, primaryTile->y, BorderType::REGULAR, rManager, isEastOrSouth, isVertical);
 
 		// Assign the node
-		if (primaryTile.x < secondaryTile.x) {			// Is East Tile?
-			primaryTile.setEastBorder(&node);
-			secondaryTile.setEastBorder(&node);
+		if (primaryTile->x < secondaryTile->x && primaryTile->getEastBorder() == nullptr) {			// Is East Tile?
+			primaryTile->setEastBorder(node);
+			secondaryTile->setWestBorder(node);
 		}
-		else if (primaryTile.x > secondaryTile.x) {		// Is West Tile?
-			primaryTile.setWestBorder(&node);
-			secondaryTile.setWestBorder(&node);
+		else if (primaryTile->x > secondaryTile->x && primaryTile->getWestBorder() == nullptr) {		// Is West Tile?
+			primaryTile->setWestBorder(node);
+			secondaryTile->setEastBorder(node);
 		}
-		else if (primaryTile.y < secondaryTile.y) {		// Is South Tile?
-			primaryTile.setSouthBorder(&node);
-			secondaryTile.setSouthBorder(&node);
+		else if (primaryTile->y < secondaryTile->y && primaryTile->getSouthBorder() == nullptr) {		// Is South Tile?
+			primaryTile->setSouthBorder(node);
+			secondaryTile->setNorthBorder(node);
 		}
-		else {											// North tile
-			primaryTile.setNorthBorder(&node);
-			secondaryTile.setNorthBorder(&node);
+		else if (primaryTile->getNorthBorder() == nullptr) {											// North tile
+			primaryTile->setNorthBorder(node);
+			secondaryTile->setSouthBorder(node);
 		}
 	}
 }

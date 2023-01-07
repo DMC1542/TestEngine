@@ -16,10 +16,6 @@ enum BorderType {
 class BorderNode {
 public:
 	/**
-	* Creates a border node for a tile that holds the border type and location data only.
-	* All references to the border sprites themselves are shared amongst all objects in
-	* global variables.
-	* 
 	* @pre init() has been called - assets ready for use.
 	* 
 	* @param borderType An enum that indicates which border style to use. This determines
@@ -30,7 +26,7 @@ public:
 
 		switch (borderType) {
 			case REGULAR:
-				this->sprite = sf::Sprite(rManager->get("graphics/Textures/borders/regularBorder.png"));
+				this->sprite.setTexture(rManager->get("graphics/Textures/borders/regularBorder.png"));
 				break;
 			// Assign more border type 
 		}
@@ -50,8 +46,8 @@ public:
 		}
 	}
 
-	void draw(sf::RenderWindow* target) {
-		target->draw(sprite);
+	Sprite getSprite() {
+		return sprite;
 	}
 
 private:

@@ -26,6 +26,7 @@ public:
 
 	Map();
 	Map(int width, int height);
+
 	void generateMap(int64_t seed, int octaves, double scale, double persistence, double lacunarity);
 	Sprite getEntitySpriteAt(int i);
 	double invLerp(double min, double max, double value);
@@ -36,5 +37,5 @@ public:
 	void deleteEntity(int id);
 
 private: 
-	void checkBorderPlacement(Tile primaryTile, Tile secondaryTile, ResourceManager<Texture>* rManager);
+	void checkBorderPlacement(Tile* primaryTile, Tile* secondaryTile, ResourceManager<Texture>* rManager);
 };

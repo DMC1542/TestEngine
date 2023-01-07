@@ -13,6 +13,7 @@ public:
 	void handleInput(sf::Time deltaTime);
 	void draw();
 	void update();
+	void destroy();
 
 private:
 	ActionMenu actionMenu;
