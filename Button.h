@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "Actionable.hpp"
+#include "ResourceManager.h"
 #include <iostream>
 
 using namespace sf;
@@ -28,6 +29,8 @@ public:
 	void setActionTarget(Actionable* actionable);
 
 private:
+	static ResourceManager<Font> fontManager;
+
 	Text text;
 	std::string actionString;
 	Actionable* actionable = nullptr;

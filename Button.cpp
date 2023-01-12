@@ -2,19 +2,34 @@
 
 const float Button::DEFAULT_WIDTH_RATIO = 0.1f, Button::DEFAULT_HEIGHT_RATIO = 0.1f;
 
+ResourceManager<sf::Font> Button::fontManager;
+
 Button::Button(int x, int y, int width, int height, std::string msg)
 {
+	sf::Clock clock;
+	clock.restart();
+
 	shape.setPosition(Vector2f(x, y));
 	shape.setSize(Vector2f(width, height));
 	shape.setFillColor(idleColor);
 
-	font.loadFromFile("fonts/KOMIKAP_.ttf");
+	std::cout << "TIME FOR BUTTON_1: " << clock.getElapsedTime().asSeconds() << std::endl;
+
+	font = fontManager.get("fonts/KOMIKAP_.ttf");
+
+	std::cout << "TIME FOR BUTTON_2: " << clock.getElapsedTime().asSeconds() << std::endl;
 	
 	// Text size is declared elsewhere.
 	text.setString(msg);
 	text.setFont(font);
 	text.setFillColor(Color::Yellow);
+
+	std::cout << "TIME FOR BUTTON_2.2: " << clock.getElapsedTime().asSeconds() << std::endl;
+
+
 	findProperSize();
+
+	std::cout << "TIME FOR BUTTON_3: " << clock.getElapsedTime().asSeconds() << std::endl;
 
 	//This centers the text on the shape.
 	float weirdOffset = text.getGlobalBounds().top;
@@ -25,6 +40,8 @@ Button::Button(int x, int y, int width, int height, std::string msg)
 	idleColor = Color::Blue;
 	hoverColor = Color::Magenta;
 	pressedColor = Color::Green;
+
+	std::cout << "TIME FOR BUTTON_4: " << clock.getElapsedTime().asSeconds() << std::endl;
 }
 
 void Button::update(Vector2i mousePos)
@@ -96,12 +113,12 @@ Vector2f Button::getLocation()
 void Button::findProperSize()
 {
 	// Set default character size
-	text.setCharacterSize(100);
+	text.setCharacterSize(75);
 
 	// Loop until the size is acceptable. 
 	float target = shape.getGlobalBounds().width - 20;
 
-	for (int size = 100; text.getGlobalBounds().width >= target; size--)
+	for (int size = 74; text.getGlobalBounds().width >= target; size -= 2)
 	{
 		text.setCharacterSize(size);
 	}
